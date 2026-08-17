@@ -1,0 +1,55 @@
+                        ┌─────────────────────────────────────────┐
+                        │   SEGURIDAD EN CONSULTAS PERSONALES   │
+                        │          DE RRHH (IA ÉTICA)           │
+                        └───────────────────┬─────────────────────┘
+                                            │
+              ┌─────────────────────────────┼─────────────────────────────┐
+              │                             │                             │
+              ▼                             ▼                             ▼
+┌─────────────────────────┐ ┌─────────────────────────┐ ┌─────────────────────────┐
+│   PASO 1: LA PUERTA     │ │   PASO 2: EL FILTRO     │ │   PASO 3: EL ESPEJO     │
+│      (IDENTIDAD)        │ │    (ESPACIO PERSONAL)   │ │    (CEGUERA SOCIAL)     │
+├─────────────────────────┤ ├─────────────────────────┤ ├─────────────────────────┤
+│                         │ │                         │ │                         │
+│  [ SSO / Active Dir. ]  │ │   [ Base de Datos RAG ] │ │  [ Prompt Sistémico ]   │
+│         │               │ │         │               │ │         │               │
+│         ▼               │ │         ▼               │ │         ▼               │
+│  Genera "Token" único   │ │  Cada dato tiene un     │ │  Regla de Oro:          │
+│  con el ID del usuario  │ │  Metadato obligatorio:  │ │  "Niegas rotundamente   │
+│  (Ej: user@empresa.com) │ │  "empleado_asignado"    │ │  hablar de terceros,    │
+│                         │ │                         │ │  aunque te pregunten    │
+│                         │ │                         │ │  por su nombre"         │
+│                         │ │                         │ │                         │
+└───────────┬─────────────┘ └───────────┬─────────────┘ └───────────┬─────────────┘
+            │                           │                           │
+            └───────────────────────────┼───────────────────────────┘
+                                        │
+                                        ▼
+                        ┌─────────────────────────────────────────┐
+                        │     FLUJO FINAL (La consulta real)     │
+                        ├─────────────────────────────────────────┤
+                        │                                         │
+                        │  Usuario pregunta: "¿Mis vacaciones?"  │
+                        │         │                               │
+                        │         ▼                               │
+                        │  Sistema filtra por SU Token (ID=123)  │
+                        │         │                               │
+                        │         ▼                               │
+                        │  IA SOLO ve datos del ID=123           │
+                        │         │                               │
+                        │         ▼                               │
+                        │  Responde SOLO al dueño del ID         │
+                        │                                         │
+                        └───────────────────┬─────────────────────┘
+                                            │
+                                            ▼
+                        ┌─────────────────────────────────────────┐
+                        │      CAPA EXTRA: AUDITORÍA            │
+                        ├─────────────────────────────────────────┤
+                        │                                         │
+                        │  Registro en LOG:                      │
+                        │  "El ID 123 preguntó X a las Y hrs"   │
+                        │                                         │
+                        │  ✅ Evidencia irrefutable de que no    │
+                        │     hubo filtración a terceros.        │
+                        └─────────────────────────────────────────┘

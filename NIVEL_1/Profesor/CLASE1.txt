@@ -1,0 +1,162 @@
+---
+
+# Módulo 1: Fundamentos, Ética y Regulación
+
+## 1. Teoría: La Evolución de la Inteligencia Artificial
+
+### Historia: De la Lógica a la Generación
+
+* **El Test de Turing (1950):** El punto de partida. Alan Turing planteó si una máquina podía exhibir un comportamiento inteligente indistinguible del humano.
+* **La Era de los Datos y el Deep Learning:** Evolucionamos de sistemas basados en reglas (si pasa A, haz B) a sistemas que aprenden patrones de vastos volúmenes de datos.
+* **El Hito LLM (2022-2026):** Los Modelos de Lenguaje Extensos no "piensan", sino que **predicen la probabilidad estadística de la siguiente unidad de texto** (token).
+* **Claude 3.5/4:** Enfoque en razonamiento avanzado y tono humano natural.
+* **Gemini 2.0:** Multimodalidad nativa (entiende audio, imagen y texto simultáneamente) y conexión a la web en tiempo real.
+* **GPT-4o:** Eficiencia y versatilidad en la interacción conversacional.
+
+
+
+### La Importancia de los Datos, Sesgos y Errores
+
+* **Datos como ADN:** Un modelo es tan bueno como la calidad, diversidad y limpieza de los datos con los que fue entrenado.
+* **Sesgos (Bias):** Si los datos históricos contienen prejuicios culturales, de género o sociales, la IA los replicará. **La IA no es objetiva, es un espejo de sus datos.**
+* **Alucinaciones:** Son fallos de confianza donde el modelo genera información falsa con una estructura gramatical perfecta. La validación humana es innegociable.
+
+### Marco Ético y Regulación 2026
+
+* **AI Act de la UE:** Es la primera ley integral del mundo. Clasifica la IA por **niveles de riesgo** (desde "riesgo inaceptable" hasta "bajo riesgo"). Como profesionales, debemos saber qué herramientas estamos usando y bajo qué nivel de cumplimiento están.
+* **GDPR:** Aplicado a la IA, esto implica que las empresas no deben entrenar modelos con datos privados de usuarios sin consentimiento, y los usuarios tienen derecho a saber cuándo interactúan con una máquina.
+
+---
+
+## 2. Práctica: El Laboratorio de Reflexión Crítica
+
+El objetivo es que el estudiante pase de "consumidor pasivo" a "usuario crítico".
+
+### Ejercicio 1: El "Cazador de Alucinaciones"
+
+* **Instrucción:** Elige un tema técnico que domines profundamente.
+* **Prompt a Claude o cualquier otra IA:** *"Actúa como un experto en [tu área]. Explícame [concepto complejo] y dame tres referencias bibliográficas o hitos históricos clave para fundamentar tu explicación."*
+* **Análisis:** Verifica manualmente:
+1. ¿La explicación es precisa?
+2. ¿Las referencias bibliográficas existen realmente? (Muchas veces la IA "alucina" libros o artículos que suenan reales pero no existen).
+3. **Resultado:** Crea una lista de "Verdades vs. Alucinaciones" detectadas.
+
+### Ejercicio 2: Auditoría de Sesgos
+
+* **Instrucción:** Pide a Claude o Gemini que genere un perfil o una historia sobre "un ejecutivo exitoso" y, en otra sesión, sobre "un trabajador de servicios".
+* **Análisis:**
+1. ¿Qué adjetivos utiliza para cada uno?
+2. ¿Existen estereotipos implícitos (género, origen, vestimenta)?
+3. **Resultado:** Escribe un breve párrafo de 100 palabras sobre cómo el modelo tiende a categorizar a las personas basándose en estereotipos presentes en sus datos de entrenamiento.
+
+
+
+### Ejercicio 3: Mapa de Riesgos (AI Act)
+
+* **Instrucción:** Elige una tarea que realizas habitualmente en tu trabajo (ej. selección de personal, redacción de presupuestos, atención al cliente).
+* **Tarea:** Clasifica esa tarea según el nivel de riesgo de la *AI Act de la UE*:
+* **Bajo:** Uso creativo o de productividad.
+* **Alto:** Decisiones que impactan legalmente o financieramente a personas.
+* **Inaceptable:** Manipulación conductual o vigilancia masiva.
+
+
+* **Resultado:** Define una regla de seguridad personal para el uso de IA en tu trabajo (ej: "Nunca subiré nombres reales de clientes a la IA").
+
+---
+
+
+NIVEL 1
+
+Inicio 13/07/2026 - Fin 24/07/2026
+
+Lunes - Miércoles - Viernes
+
+7:00 pm - 9:30 pm 
+
+
+Al final de cada clase, se comparte un directorio de Google Drive
+con la grabacióm y otro de GITHUB con las practicas, soportes
+utilizados en clase.
+
+Artículo de interés:
+
+https://dolarhoy.com/empresas/jensen-huang-ceo-de-nvidia-afirmo-que-el-65-del-pbi-mundial-sera-aumentado-por-la-ia-202510171240
+
+Sitio en la web con modelos Y datasets (conjuntos de datos) de IA de acceso libre
+https://huggingface.co/
+
+Sitio en la web con conjuntos de datos para el entrenamiento de modelos de IA
+https://www.kaggle.com/datasets
+
+
+VPN: Virtual Private Network
+
+Dirección IP: 
+#.#.#.#
+
+Debe realizar la instalación de una VPN.
+Por ejemplo Proton.
+
+PROMPT: Incitador de comandos.
+Regla o mejor practica al solicitar un resultado.
+
+Enunciado:
+ROL + TAREA + CONTEXTO + FORMATO
+
+ROL: Asume el rol de experto en Inteligencia Artificial 
+TAREA: Describe qué es el entrenamiento de un Modelo de IA
+CONTEXTO: Estoy explicando tal definición en una clase de primaria
+FORMATO: Dame ilustraciones que me ayuden con la explicación.
+
+Asume el rol de experto en Inteligencia Artificial, describe qué es el entrenamiento de un Modelo de IA, estoy explicando tal definición en una clase de primaria, dame ilustraciones que me ayuden con la explicación.
+
+¡Qué excelente iniciativa! Explicar conceptos de Inteligencia Artificial a niños de primaria es una oportunidad maravillosa para despertar su curiosidad. La clave es llevar conceptos complejos al mundo de lo cotidiano y lo tangible.
+
+Aquí tienes una propuesta de cómo explicar el **entrenamiento de un modelo de IA**, usando analogías sencillas y ejemplos visuales.
+
+---
+
+### ¿Cómo explicar el "Entrenamiento" de una IA?
+
+Puedes decirles esto:
+
+> "Imaginen que tienen un perrito nuevo en casa y quieren enseñarle trucos. Al principio, el perrito no sabe qué significa 'sentado' o 'dame la pata'. Para que aprenda, ustedes tienen que mostrarle muchas veces qué hacer, darle premios cuando lo hace bien y corregirlo cuando se confunde.
+> **Entrenar a una IA es casi igual.** La IA es como un estudiante que no sabe nada al principio. Nosotros le enseñamos mostrándole miles de ejemplos. Al final, después de ver tantos ejemplos, la IA empieza a reconocer patrones y ya sabe qué hacer solita. ¡A eso le llamamos entrenamiento!"
+
+---
+
+### Ilustraciones sugeridas para tu clase
+
+Para que los niños lo visualicen mejor, usa estas tres comparaciones:
+
+#### 1. La caja de las frutas (Clasificación)
+
+* **La situación:** Queremos que la IA sepa diferenciar una manzana de un plátano.
+* **El entrenamiento:** Le mostramos a la IA 1,000 fotos de manzanas y 1,000 fotos de plátanos. A cada foto le ponemos una etiqueta que dice "esto es una manzana" o "esto es un plátano".
+* **El resultado:** Después de ver tantas, la IA nota que las manzanas son redondas y rojas, y los plátanos son largos y amarillos. Si le muestras una foto nueva, ¡ya sabrá cuál es cuál!
+
+#### 2. El libro de recetas (Aprendizaje de patrones)
+
+* **La situación:** Queremos que la IA aprenda a escribir cuentos.
+* **El entrenamiento:** Le damos a leer miles de libros de cuentos infantiles.
+* **El resultado:** La IA no memoriza los cuentos, sino que aprende cómo empiezan, cómo se hablan los personajes y qué palabras suelen ir juntas. Cuando le pides que invente uno nuevo, usa todo lo que "leyó" para crear una historia original.
+
+#### 3. El juego de "Caliente o Frío" (Ajuste de precisión)
+
+* **La situación:** La IA está tratando de resolver un problema matemático.
+* **El entrenamiento:** Cuando la IA da una respuesta, nosotros le decimos: "¡Frío, estás lejos!" o "¡Caliente, vas bien!". La IA ajusta sus cálculos internos para acercarse cada vez más a la respuesta correcta.
+* **El resultado:** Tras repetir esto millones de veces, la IA se vuelve una experta en dar la respuesta correcta.
+
+---
+
+### Consejos para el aula
+
+* **Usa accesorios:** Si tienes una pizarra, dibuja caras felices (premios) y flechas hacia abajo (correcciones) junto a los ejemplos.
+* **Hazlos participar:** Pregúntales: *"Si quisieras entrenar a una IA para que sepa si un día va a llover o no, ¿qué información le darías?"* (Eso los hará pensar en los datos de entrada, como la temperatura, las nubes o la humedad).
+
+¿Te gustaría que diseñara una pequeña actividad práctica o un ejercicio sencillo para que tus alumnos pongan en práctica esta idea en el salón?
+
+
+
+
+

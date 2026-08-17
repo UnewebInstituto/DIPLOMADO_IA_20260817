@@ -1,0 +1,3 @@
+Asume el rol de experto en Inteligencia Artificial, cómo puedo restringir el acceso a consultas en materia de RRHH, cuando se quiere que estas sean personales, describe de forma sencilla un procedimiento practico para tales efectos.
+
+Genera la imagen de un mapa mental que describa el planteamiento anterior.
