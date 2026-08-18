@@ -1,0 +1,6 @@
+## 1. Teoría: La Anatomía del Prompt Perfecto
+## 2. Teoría: Metodologías de Prompting
+
+***Zero-Shot
+
+Actúa como un analista financiero senior, Estamos evaluando el presupuesto trimestral de una empresa de software, Resume las desviaciones presupuestarias más críticas,genera una Tabla comparativa con columnas: Categoría, Desviación, Acción sugerida,Mantén el tono formal, no excedas las 200 palabras, usa español de negocios.

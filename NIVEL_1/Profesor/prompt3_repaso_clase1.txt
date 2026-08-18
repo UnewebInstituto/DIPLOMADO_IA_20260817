@@ -1,0 +1,38 @@
+Asume el rol de especialista en Selección de Personal, describe cuál nivel de riesgo según lo establecido en la AI Act de la UE, se estaría infringiendo si se descalifican aspirantes por motivos de sexo, raza o condición social.
+
+
+## Nivel de riesgo: Alto Riesgo (High-Risk AI System)
+
+Como especialista en Selección de Personal, es fundamental que comprendas que el Reglamento de IA de la UE (AI Act) clasifica los sistemas de IA utilizados en procesos de reclutamiento y selección de personal dentro de la categoría de **"Alto Riesgo"**, específicamente en el **Anexo III, punto 4** del Reglamento.
+
+### ¿Por qué esta clasificación?
+
+El Anexo III incluye expresamente los sistemas de IA destinados a:
+- Publicar ofertas de empleo dirigidas o filtrar candidaturas
+- **Analizar y filtrar solicitudes de empleo**
+- Evaluar a los candidatos mediante pruebas o exámenes
+- Tomar decisiones que afecten las condiciones de las relaciones laborales, promoción o terminación de contratos
+
+### El agravante: discriminación por sexo, raza o condición social
+
+Aquí es donde tu pregunta tiene una capa adicional de complejidad importante:
+
+1. **Como sistema de Alto Riesgo (Art. 6 y Anexo III)**: Si una empresa usa IA para descalificar candidatos, debe cumplir obligaciones estrictas: evaluación de conformidad, gestión de sesgos en los datos de entrenamiento, supervisión humana, documentación técnica, y transparencia con los candidatos.
+
+2. **Posible escalamiento a "Riesgo Inaceptable" (Art. 5)**: Si el sistema se diseña o utiliza deliberadamente para explotar características de grupos vulnerables o realizar **categorización biométrica basada en raza** para inferir características protegidas, podría caer en las prácticas **prohibidas** del Artículo 5 — la categoría más grave, con sanciones de hasta 35 millones de euros o el 7% de la facturación global anual.
+
+3. **Vínculo con la Carta de Derechos Fundamentales de la UE**: La discriminación por sexo, raza o condición social vulnera además el Art. 21 de la Carta, lo que el AI Act refuerza exigiendo que los sistemas de alto riesgo minimicen sesgos discriminatorios en los datos y algoritmos (Art. 10).
+
+### Implicaciones prácticas para tu rol
+
+| Obligación | Descripción |
+|---|---|
+| Evaluación de sesgos | Auditar datasets de entrenamiento para detectar correlaciones discriminatorias |
+| Supervisión humana | Un reclutador humano debe poder revisar y anular decisiones automatizadas |
+| Transparencia | Informar a los candidatos que están siendo evaluados por IA |
+| Documentación | Mantener registros técnicos y de conformidad |
+| No discriminación | Art. 10(2)(f) exige medidas específicas contra sesgos por características protegidas |
+
+**En resumen**: el uso de IA para descalificar candidatos por sexo, raza o condición social se enmarca como mínimo en **Alto Riesgo** (obligaciones estrictas de cumplimiento), y si la intención o el efecto práctico constituye una vulneración deliberada de derechos fundamentales, podría acercarse a las **prácticas prohibidas** del régimen de riesgo inaceptable.
+
+¿Quieres que profundice en las obligaciones específicas de conformidad (Art. 9-15) que tu equipo de RR.HH. tendría que implementar si usan una herramienta de este tipo?

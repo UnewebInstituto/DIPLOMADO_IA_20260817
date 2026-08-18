@@ -1,0 +1,3 @@
+Actua como un Analista Financiero senior, estamos evaluando el presupuesto trimestral de una empresa de software, resume las desviaciones presupuestarias mas criticas, genera una tabla comparativa con las columnas "categoria", "desviación", y "accion sugerida", manten un tono formal no exceda las 200 palabras usa español de negocios
+
+

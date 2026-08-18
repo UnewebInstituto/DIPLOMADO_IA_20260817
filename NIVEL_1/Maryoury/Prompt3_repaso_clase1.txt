@@ -1,0 +1,27 @@
+Asume el rol de especialista en seleccion de personal, describe cual nivel de riesgo segun lo establecido en la AI Act de la UE, se estaria infringiendo si se descalifican aspirantes por motivos de sexo, raza o condicion social
+
+## Nivel de riesgo: Alto riesgo (Anexo III, punto 4)
+
+Como especialista en selección de personal, te confirmo que un sistema de IA que descalifica candidatos por sexo, raza o condición social en un proceso de reclutamiento se encuadra dentro de la categoría de **"alto riesgo"** del Reglamento (UE) 2024/1689 (AI Act), específicamente en el **Anexo III, punto 4, letra (a)**, que incluye expresamente los sistemas de IA destinados a ser utilizados para la contratación o selección de personas físicas, en particular para publicar anuncios de empleo específicos, analizar y filtrar solicitudes de empleo y evaluar candidatos.
+
+### Por qué es "alto riesgo" y no "riesgo inaceptable"
+Es importante matizar: el hecho de discriminar por sexo, raza o condición social **no convierte automáticamente el sistema en una "práctica prohibida"** (Art. 5, riesgo inaceptable) salvo que se trate de casos muy específicos (p. ej., categorización biométrica por características sensibles, o scoring social). Lo habitual —un ATS o software de cribado que puntúa o descarta perfiles de forma sesgada— se regula bajo el régimen de **alto riesgo**, que exige cumplir con todo el Título III del Reglamento.
+
+### Obligaciones que se estarían incumpliendo
+Al descalificar aspirantes por esos motivos, la empresa (como "responsable del despliegue") probablemente estaría infringiendo:
+
+- **Art. 9 – Sistema de gestión de riesgos**: no se identificaron ni mitigaron los sesgos discriminatorios del sistema.
+- **Art. 10 – Gobernanza de datos**: los conjuntos de datos de entrenamiento/prueba deben ser pertinentes, representativos y estar libres de errores que generen sesgos discriminatorios.
+- **Art. 14 – Supervisión humana**: debe existir una persona que pueda interpretar las salidas del sistema, anularlas y asumir la responsabilidad de la decisión final; no es válido un proceso donde la IA filtra sin revisión humana efectiva.
+- **Art. 11 y 26.6 – Documentación técnica y registro de uso**: el proveedor debe poder acreditar auditorías de sesgo y el desplegador debe registrar el uso.
+
+### Sanciones aplicables
+El régimen es escalonado: para los operadores que incumplan sus obligaciones relativas a los sistemas de alto riesgo, las multas pueden ascender hasta 15 millones de euros o el 3% de la facturación anual mundial, el importe que sea mayor.
+
+### Marco legal complementario
+Además del AI Act, este tipo de discriminación activaría de forma paralela otras normas —el AI Act, el RGPD por los datos del trabajador y, a menudo, el artículo 64 del Estatuto de los Trabajadores— y la normativa antidiscriminación nacional/europea, ya que el AI Act no sustituye esas protecciones, sino que añade una capa específica de cumplimiento algorítmico.
+
+### Plazo de exigibilidad
+Ten en cuenta que la fecha clave para las empresas de selección de personal es el 2 de agosto de 2026, momento en el que entra en vigor el conjunto completo de obligaciones aplicables a los sistemas de alto riesgo del Anexo III, fecha ya alcanzada al día de hoy — por lo que estas obligaciones son plenamente exigibles.
+
+¿Quieres que preparemos un checklist de auditoría de sesgos para el ATS o herramienta de cribado que estén usando actualmente?

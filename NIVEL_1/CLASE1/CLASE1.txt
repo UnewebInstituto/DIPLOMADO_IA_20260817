@@ -1,0 +1,67 @@
+---
+
+# Módulo 1: Fundamentos, Ética y Regulación
+
+## 1. Teoría: La Evolución de la Inteligencia Artificial
+
+### Historia: De la Lógica a la Generación
+
+* **El Test de Turing (1950):** El punto de partida. Alan Turing planteó si una máquina podía exhibir un comportamiento inteligente indistinguible del humano.
+* **La Era de los Datos y el Deep Learning:** Evolucionamos de sistemas basados en reglas (si pasa A, haz B) a sistemas que aprenden patrones de vastos volúmenes de datos.
+* **El Hito LLM (2022-2026):** Los Modelos de Lenguaje Extensos no "piensan", sino que **predicen la probabilidad estadística de la siguiente unidad de texto** (token).
+* **Claude 3.5/4:** Enfoque en razonamiento avanzado y tono humano natural.
+* **Gemini 2.0:** Multimodalidad nativa (entiende audio, imagen y texto simultáneamente) y conexión a la web en tiempo real.
+* **GPT-4o:** Eficiencia y versatilidad en la interacción conversacional.
+
+
+
+### La Importancia de los Datos, Sesgos y Errores
+
+* **Datos como ADN:** Un modelo es tan bueno como la calidad, diversidad y limpieza de los datos con los que fue entrenado.
+* **Sesgos (Bias):** Si los datos históricos contienen prejuicios culturales, de género o sociales, la IA los replicará. **La IA no es objetiva, es un espejo de sus datos.**
+* **Alucinaciones:** Son fallos de confianza donde el modelo genera información falsa con una estructura gramatical perfecta. La validación humana es innegociable.
+
+### Marco Ético y Regulación 2026
+
+* **AI Act de la UE:** Es la primera ley integral del mundo. Clasifica la IA por **niveles de riesgo** (desde "riesgo inaceptable" hasta "bajo riesgo"). Como profesionales, debemos saber qué herramientas estamos usando y bajo qué nivel de cumplimiento están.
+* **GDPR:** Aplicado a la IA, esto implica que las empresas no deben entrenar modelos con datos privados de usuarios sin consentimiento, y los usuarios tienen derecho a saber cuándo interactúan con una máquina.
+
+---
+
+## 2. Práctica: El Laboratorio de Reflexión Crítica
+
+El objetivo es que el estudiante pase de "consumidor pasivo" a "usuario crítico".
+
+### Ejercicio 1: El "Cazador de Alucinaciones"
+
+* **Instrucción:** Elige un tema técnico que domines profundamente.
+* **Prompt a Claude o cualquier otra IA:** *"Actúa como un experto en [tu área]. Explícame [concepto complejo] y dame tres referencias bibliográficas o hitos históricos clave para fundamentar tu explicación."*
+* **Análisis:** Verifica manualmente:
+1. ¿La explicación es precisa?
+2. ¿Las referencias bibliográficas existen realmente? (Muchas veces la IA "alucina" libros o artículos que suenan reales pero no existen).
+3. **Resultado:** Crea una lista de "Verdades vs. Alucinaciones" detectadas.
+
+### Ejercicio 2: Auditoría de Sesgos
+
+* **Instrucción:** Pide a Claude o Gemini que genere un perfil o una historia sobre "un ejecutivo exitoso" y, en otra sesión, sobre "un trabajador de servicios".
+* **Análisis:**
+1. ¿Qué adjetivos utiliza para cada uno?
+2. ¿Existen estereotipos implícitos (género, origen, vestimenta)?
+3. **Resultado:** Escribe un breve párrafo de 100 palabras sobre cómo el modelo tiende a categorizar a las personas basándose en estereotipos presentes en sus datos de entrenamiento.
+
+
+
+### Ejercicio 3: Mapa de Riesgos (AI Act)
+
+* **Instrucción:** Elige una tarea que realizas habitualmente en tu trabajo (ej. selección de personal, redacción de presupuestos, atención al cliente).
+* **Tarea:** Clasifica esa tarea según el nivel de riesgo de la *AI Act de la UE*:
+* **Bajo:** Uso creativo o de productividad.
+* **Alto:** Decisiones que impactan legalmente o financieramente a personas.
+* **Inaceptable:** Manipulación conductual o vigilancia masiva.
+
+
+* **Resultado:** Define una regla de seguridad personal para el uso de IA en tu trabajo (ej: "Nunca subiré nombres reales de clientes a la IA").
+
+---
+
+

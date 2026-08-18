@@ -1,0 +1,6 @@
+## 1. Teoría: La Anatomía del Prompt Perfecto
+## 2. Teoría: Metodologías de Prompting
+
+***Few-Shot
+
+Actúa como asistente administrativo. Aquí te presento un ejemplo de cómo redacto mis reportes (ver archivo anexo). Ahora, redacta un nuevo reporte sobre estimación de gastos administrativos para una empresa de logistica, siguiendo estrictamente el mismo tono, estructura y estilo de mi ejemplo.

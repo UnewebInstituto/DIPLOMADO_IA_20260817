@@ -1,0 +1,44 @@
+
+---
+
+# Clase 2: Ingeniería de Prompts para la Productividad
+
+## 1. Teoría: La Anatomía del Prompt Perfecto
+
+El prompt no es una pregunta, es una **instrucción de programación en lenguaje natural**. Para resultados consistentes, usamos la estructura **R-C-T-F-R**:
+
+* **ROL:** Define la personalidad y el nivel de experiencia (ej: "Actúa como un analista financiero senior").
+* **CONTEXTO:** Provee el marco necesario (ej: "Estamos evaluando el presupuesto trimestral de una empresa de software").
+* **TAREA:** La acción concreta y medible (ej: "Resume las desviaciones presupuestarias más críticas").
+* **FORMATO:** Cómo quieres la salida (ej: "Tabla comparativa con columnas: Categoría, Desviación, Acción sugerida").
+* **RESTRICCIONES:** Qué evitar o qué límites respetar (ej: "Mantén el tono formal, no excedas las 200 palabras, usa español de negocios").
+
+---
+
+## 2. Teoría: Metodologías de Prompting
+
+Para tareas complejas, debemos guiar el proceso cognitivo del modelo:
+
+* **Zero-Shot:** Instrucción simple sin ejemplos. Útil para tareas rápidas y directas.
+* **Few-Shot:** Proveer uno o varios ejemplos de la entrada y la salida deseada. Es la mejor forma de "imitar" un estilo corporativo o un formato de archivo específico.
+* **Chain-of-Thought (CoT):** Instrucción explícita: "Piensa paso a paso". Obliga al modelo a desglosar el razonamiento antes de concluir, reduciendo errores lógicos.
+* **Extended Thinking:** Aprovechamiento de modelos que razonan antes de responder (como Claude 3.5 Sonnet en modos avanzados), permitiendo que la IA evalúe alternativas antes de presentar la respuesta final.
+
+---
+
+## 3. Teoría: Optimización del Flujo (Sinergia)
+
+* **Claude (La Mente Analítica):** Con una ventana de 200k tokens, es ideal para "cargar" manuales completos, históricos de correos o bases de datos y analizarlos en conjunto.
+* **Gemini (El Conector Web):** Su capacidad de navegación en tiempo real lo hace imbatible para verificar noticias, datos de mercado o tendencias actuales que no están en el entrenamiento base.
+
+---
+
+## 4. Práctica: Laboratorio de Diseño de Prompts
+
+### Ejercicio 1: El Prompt de Estilo (Few-Shot)
+
+* **Objetivo:** Lograr que la IA escriba un informe igual a uno que ya tienes.
+* **Instrucción:**
+1. Copia un texto profesional previo tuyo (Ejemplo 1).
+2. Pega en Claude: *"Actúa como asistente administrativo. Aquí te presento un ejemplo de cómo redacto mis reportes [Pega Ejemplo]. Ahora, redacta un nuevo reporte sobre [nuevo tema], siguiendo estrictamente el mismo tono, estructura y estilo de mi ejemplo."*
+

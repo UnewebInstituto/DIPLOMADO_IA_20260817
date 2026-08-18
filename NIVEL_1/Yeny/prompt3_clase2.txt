@@ -1,0 +1,73 @@
+Asume el rol de Analista de Procesos del Negocio define el proceso para un agente de IA que facilite a los colaboradores de una entidad financiera la gestión de beneficios y servicios contractuales. piensa paso a paso.
+# Definición del proceso: Agente de IA para gestión de beneficios y servicios contractuales
+
+## 1. Objetivo del proceso
+
+Permitir que los colaboradores de la entidad financiera consulten, gestionen y den seguimiento a sus beneficios y servicios contractuales (créditos preferenciales, seguros, fondo de empleados, capacitación, licencias, bonos, etc.) a través de un agente de IA conversacional, reduciendo tiempos de respuesta, liberando carga operativa de RRHH y garantizando trazabilidad y cumplimiento normativo.
+
+## 2. Alcance
+
+**Incluye:** consulta de elegibilidad, simulación de beneficios, generación de solicitudes, seguimiento de estado, notificaciones y resolución de dudas frecuentes.
+
+**Excluye (requiere intervención humana):** negociaciones salariales, casos disciplinarios, reclamaciones legales, beneficios no parametrizados en el catálogo.
+
+## 3. Actores involucrados
+
+| Actor | Rol |
+|---|---|
+| Colaborador | Solicita/consulta el beneficio |
+| Agente de IA | Orquesta la interacción, valida elegibilidad, ejecuta o deriva |
+| Sistema de RRHH (HRIS) | Fuente de verdad de datos laborales y contractuales |
+| Core bancario / sistemas de crédito | Ejecuta beneficios financieros (créditos, tasas preferenciales) |
+| Analista de RRHH / Compensaciones | Aprueba o resuelve excepciones |
+| Oficial de cumplimiento | Supervisa casos sensibles o límites regulatorios |
+
+---
+
+## 4. Flujo del proceso, paso a paso
+
+Voy a construir un diagrama del flujo completo y luego detallar cada fase.## 5. Detalle de cada fase
+
+**1. Autenticación e identificación**
+El colaborador se identifica mediante SSO corporativo (integrado con AD/HRIS). El agente recupera automáticamente su perfil contractual: cargo, antigüedad, tipo de contrato, ubicación, banda salarial. No se debe solicitar información que ya exista en los sistemas de la entidad.
+
+**2. Detección de intención**
+El motor de NLU clasifica la consulta: información general, simulación de beneficio, solicitud formal, seguimiento de un caso abierto, o queja/reclamo. Esta clasificación determina la ruta del flujo.
+
+**3. Consulta de elegibilidad**
+El agente cruza el perfil del colaborador contra las reglas de negocio del catálogo de beneficios (créditos preferenciales, seguro de vida/salud complementario, fondo de empleados, auxilios de estudio, días adicionales de descanso, bonos por antigüedad). Si no es elegible, explica el motivo (ej. tiempo mínimo de vinculación) y ofrece alternativas.
+
+**4. Simulación y generación de solicitud**
+Para beneficios financieros (créditos, tasas preferenciales), el agente simula condiciones (monto, plazo, tasa, cuota) usando el motor de crédito del core, sin comprometer al colaborador hasta su confirmación explícita.
+
+**5. Validación y cumplimiento**
+Verificación contra políticas internas, topes normativos (Superintendencia Financiera u órgano regulador aplicable), límites de endeudamiento y reglas de conflicto de interés. Esta capa es crítica en una entidad financiera regulada.
+
+**6. Punto de decisión — escalamiento**
+Casos estándar se resuelven de forma autónoma. Se escala a un analista humano cuando: el monto supera un umbral, hay excepciones a política, el colaborador es directivo (mayor exposición regulatoria), o existe una queja/inconformidad.
+
+**7. Ejecución e integración**
+El agente orquesta la ejecución vía APIs: creación del beneficio en el core bancario, actualización en HRIS, generación de documentos contractuales (otrosí, pagaré, autorización de descuento por nómina).
+
+**8. Confirmación y notificación**
+Envío de confirmación por los canales oficiales (correo corporativo, app), con el detalle del beneficio, cronograma y contacto de soporte para dudas posteriores.
+
+**9. Retroalimentación y mejora continua**
+Encuesta corta post-interacción y registro de intents no resueltos para reentrenar al agente y ampliar el catálogo de respuestas automatizadas.
+
+## 6. Consideraciones críticas para entidad financiera
+
+- **Trazabilidad total**: cada interacción y decisión del agente debe quedar auditada (quién, qué, cuándo, con qué datos) — requisito típico de superintendencias financieras.
+- **Segregación de funciones**: el agente puede simular y tramitar, pero la aprobación final de beneficios con impacto crediticio/patrimonial relevante debe pasar por un humano autorizado.
+- **Protección de datos**: cifrado de datos personales y financieros del colaborador, cumplimiento de normativa de protección de datos aplicable.
+- **Transparencia**: el colaborador debe saber en todo momento que interactúa con un agente de IA y tener siempre una vía de escalamiento a un humano.
+
+## 7. KPIs sugeridos
+
+- % de consultas resueltas sin intervención humana
+- Tiempo promedio de resolución por tipo de beneficio
+- Tasa de errores/reprocesos en integraciones con el core
+- Satisfacción del colaborador (CSAT) post-interacción
+- % de casos escalados y tiempo de resolución del analista humano
+
+¿Quieres que profundice en algún módulo específico (por ejemplo, el motor de reglas de elegibilidad, la arquitectura de integración técnica, o el diseño conversacional para casos sensibles como quejas)?

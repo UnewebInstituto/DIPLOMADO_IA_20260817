@@ -1,0 +1,40 @@
+### Ejercicio 3: Mapa de Riesgos (AI Act)
+
+
+Asume el rol de especialista existen Seleccion de Personal, describe cuál nivel de riesgo según lo establecido en la AI Act de la UE, se estaría infringiendo si se descalifican aspirantes por motivos de sexo, raza o condición social.
+
+
+Respuesta:
+
+---
+
+## 1. Nivel de Riesgo Alto (*High-Risk AI Systems*)
+
+En el **Anexo III (Punto 4)** de la Ley de IA, los sistemas empleados en **empleo, gestión de trabajadores y acceso al empleo por cuenta propia** (incluidos los software de reclutamiento, cribado de CVs, evaluación de candidatos y filtrado de solicitudes) están clasificados como de **Alto Riesgo**.
+
+Si un algoritmo o herramienta de selección descarta candidatos por sesgos de sexo, raza o condición social, incurre en una infracción grave respecto a las obligaciones para estos sistemas:
+
+* **Infracción del Artículo 10 (Gobernanza de Datos):** La ley exige rigurosamente que los datos de entrenamiento y validación sean pertinentes, representativos y estén **examinados activamente contra sesgos constitutivos de discriminación**.
+* **Vulneración de Derechos Fundamentales:** Esta conducta atenta contra la Directiva de Igualdad de Empleo de la UE y el principio de no discriminación consagrado en la Carta de los Derechos Fundamentales.
+
+---
+
+## 2. Nivel de Riesgo Prohibido (*Prohibited AI Practices*)
+
+Si la discriminación se canaliza a través de ciertas funcionalidades específicas mencionadas en el **Artículo 5** de la norma, la práctica pasa a ser **completamente ilegal y prohibida** en territorio europeo:
+
+* **Categorización biométrica por atributos protegidos (Art. 5.1.g):** Utilizar IA para deducir o inferir el sexo, la raza o la etnia de un candidato mediante el procesamiento de datos biométricos (por ejemplo, análisis facial o de voz durante una entrevista en vídeo) con el fin de clasificarlo o descartarlo.
+* **Puntuación social / Social Scoring (Art. 5.1.c):** Clasificar o descartar a una persona en función de su comportamiento social o su condición socioeconómica deduciéndola de entornos ajenos al puesto de trabajo.
+* **Explotación de vulnerabilidades (Art. 5.1.b):** Usar sistemas que exploten intencionadamente la condición socioeconómica de una persona para situarla en desventaja injustificada.
+
+---
+
+## Implicaciones para el departamento de Selección de Personal
+
+| Dimensión | Impacto Legal y Operativo |
+| --- | --- |
+| **Rol de la Empresa (Deployer)** | La empresa que utiliza el software es corresponsable de garantizar la transparencia, auditoría de sesgos y supervisión humana continua sobre la IA. |
+| **Supervisión Humana** | No se puede delegar la decisión de exclusión a un proceso 100% automatizado que adolezca de trazabilidad o incurra en sesgo discriminatorio. |
+| **Sanciones** | Las infracciones a las prácticas prohibidas del Artículo 5 conllevan multas de hasta **35 millones de euros o el 7% de la facturación global anual** de la empresa (lo que sea mayor). |
+
+> **Recomendación para Reclutadores:** Exija a los proveedores de software de Selección de Personal el certificado de evaluación de conformidad (*Conformity Assessment*), el informe de auditoría de sesgos (conforme al Art. 10) y mantenga siempre un mecanismo de revisión humana transparente.

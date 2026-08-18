@@ -1,0 +1,56 @@
+El cálculo de las prestaciones sociales y la estructuración de la compensación en Venezuela responden a un entorno normativo riguroso y a una dinámica económica hiperinflacionaria/bimonetaria que ha transformado la gestión del talento humano en los últimos años.
+
+---
+
+### 1. Cálculo de las Prestaciones Sociales (Régimen LOTTT)
+
+El marco legal vigente en Venezuela es la **Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras (LOTTT, 2012)**. El cálculo se rige bajo el **Artículo 142**, el cual contempla un sistema dual de garantía y retroactividad, debiéndose pagar al trabajador el monto que resulte mayor entre ambos:
+
+#### A. Régimen de Garantía (Depósitos Trimestrales y Días Adicionales)
+
+* **Garantía Trimestral:** Cada tres meses, el patrono debe acreditar en la cuenta de prestaciones de cada trabajador el equivalente a **15 días de salario integral**, calculados con base en el último salario devengado al cierre del trimestre.
+* **Días Adicionales:** A partir del segundo año de servicio, se acumulan **2 días adicionales** de salario por cada año laborado (acumulativos hasta un máximo de 30 días).
+
+#### B. Régimen Retroactivo (Cálculo al Finalizar la Relación Laboral)
+
+* Al terminar la relación laboral (por cualquier causa), se calcula la indemnización multiplicando **30 días de salario integral** por cada año de servicio o fracción superior a 6 meses, considerando el **último salario integral devengado**.
+
+#### C. Comparación Definitiva y Liquidación
+
+Al finalizar la relación laboral:
+
+1. Se compara el acumulado del **Fondo de Garantía + Días Adicionales** frente al **Cálculo Retroactivo**.
+2. Se paga el saldo que resulte **más favorable al trabajador**.
+3. **Base de Cálculo (Salario Integral):** Incluye el salario normal mensual más las alícuotas correspondientes de bono vacacional y utilidades anuales, según lo estipulado en el Artículo 122 de la LOTTT.
+
+---
+
+### 2. Bonificaciones Compensatorias y Retención del Personal
+
+Debido a la pérdida de poder adquisitivo del salario mínimo y la devaluación constante, las empresas en Venezuela han adoptado estrategias de compensación complementaria (no salarial) para garantizar la competitividad salarial y frenar la fuga de talento.
+
+#### Principales Tipos de Bonificaciones
+
+* **Bonos de Alimentación / Cesta Ticket Socialista:** Obligatorio por ley, pero frecuentemente indexado o complementado por los patronos para cubrir la canasta básica.
+* **Bonos de Productividad / Desempeño (Hard Currency / Moneda Extranjera):** Asignaciones otorgadas en divisas (USD o euros) o calculadas a la tasa oficial del Banco Central de Venezuela (BCV).
+* **Bonos de Retención (Retention Bonuses):** Incentivos otorgados a personal clave (ingenieros, directivos, especialistas) condicionados a la permanencia por un período mínimo.
+
+#### Consideraciones Legales y de Talento Humano
+
+* **Carácter Salarial vs. No Salarial (Art. 105 LOTTT):** La ley estipula qué beneficios tienen carácter no salarial (como los servicios de comedor o cupones de alimentación). Sin embargo, si una bonificación se otorga de forma **regular, permanente y directa en dinero**, corre el riesgo legal de ser tipificada jurisprudencialmente como parte del **salario normal**, lo cual impacta el cálculo de prestaciones sociales, vacaciones y utilidades.
+* **Flexibilización de Beneficios Exclusivos:** Para retener talento clave sin comprometer la sostenibilidad financiera de la empresa por pasivos laborales retroactivos, se apela a beneficios no monetarios de alto impacto: medicina prepagada/pólizas en divisas, esquemas de trabajo híbrido, formación continua e incentivos de bienestar integral.
+
+---
+
+### 3. Fundamentación: Hitos Históricos y Referencias Bibliográficas
+
+1. **Reforma Laboral de 1997 (Ley Orgánica del Trabajo de 1997) – *El Hito del "Tripartitismo"***
+* **Contexto:** Producto de un acuerdo entre el Gobierno, la representación empresarial (Fedecámaras) y las centrales sindicales (CTV). Eliminó el cálculo retroactivo puro de las prestaciones para controlar la acumulación imprevista de pasivos laborales en las empresas, introduciendo la acreditación mensual/trimestral.
+
+
+2. **Promulgación de la LOTTT (Gaceta Oficial Extraordinaria N° 6.076 - 7 de mayo de 2012)**
+* **Contexto:** Restableció el régimen de cálculo retroactivo de las prestaciones sociales (Art. 142) combinado con la garantía trimestral, forzando a los departamentos de Gestión del Talento a llevar contabilidades dobles para aplicar el principio de favorabilidad (*pro operario*).
+
+
+3. **Ermo Quisbert / Alfonso Guzmán, A. (2018) – *Didáctica del Derecho del Trabajo (Editorial Panapo)***
+* **Referencia Doctrinaria:** Obra de referencia en el derecho laboral venezolano que analiza la evolución de la doctrina del salario en Venezuela, la noción de salario integral versus salario normal, y las consecuencias de las bonificaciones compensatorias sobre el pasivo laboral.

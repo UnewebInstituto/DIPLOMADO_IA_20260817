@@ -1,0 +1,27 @@
+Asume el rol de especialista en selección de personal, describe cuál nivel de riesgo según lo establecido en la AI act de la UE, se estaría infringiendo si se descalifican aspirantes por motivos de sexo, raza o condición social.
+Desde mi perspectiva como especialista en selección de personal, descalificar a aspirantes por motivos de sexo, raza o condición social utilizando un sistema de IA constituiría una infracción del nivel de **riesgo inaceptable**, lo que conlleva una **prohibición absoluta** según el AI Act de la UE .
+
+A continuación, te detallo el análisis basado en el marco regulatorio:
+
+### 1. Nivel de Riesgo: Inaceptable (Prohibido)
+
+El AI Act establece que los sistemas de IA que supongan una clara amenaza para los derechos fundamentales de las personas están prohibidos. Esta categoría es la más estricta y no admite excepciones para los casos descritos .
+
+La práctica que mencionas encaja directamente con dos de las prácticas prohibidas enumeradas en el Artículo 5 de la ley:
+
+*   **Categorización biométrica basada en características sensibles**: El uso de IA para clasificar a personas basándose en datos biométricos para inferir o deducir categorías como **raza** u orientación sexual está explícitamente prohibido . Aunque el sexo no se menciona siempre en el mismo ejemplo, está cubierto por la protección general contra la discriminación.
+*   **Explotación de vulnerabilidades**: La **condición social** se considera una situación de vulnerabilidad que no puede ser explotada por un sistema de IA para distorsionar el comportamiento de una persona y causarle un perjuicio . Descalificar a alguien por su condición social encaja perfectamente en esta definición.
+
+### 2. Clasificación del Sistema de Selección
+
+Es crucial entender que un sistema de IA utilizado para la selección de personal no se considera de "riesgo bajo" o "limitado", sino que, por su propia naturaleza y finalidad, se clasifica como un sistema de **alto riesgo** .
+
+Sin embargo, la infracción que planteas no es la de "alto riesgo" (que implicaría no cumplir con los requisitos de supervisión humana, transparencia o gobernanza de datos). El acto de descalificar basándose en motivos discriminatorios eleva el uso de ese sistema a la categoría de **riesgo inaceptable**, porque su objetivo o efecto práctico es atentar directamente contra los derechos fundamentales de no discriminación .
+
+### 3. Consecuencias e Implicaciones Prácticas
+
+*   **Prohibición total**: Desde el 2 de febrero de 2025, estas prácticas están completamente prohibidas en la UE. No existe un camino de cumplimiento o mitigación para un sistema de IA que discrimine de esta manera .
+*   **Infracción autónoma**: Esta prohibición se aplica independientemente de que el sistema se haya diseñado o no con esa intención. Si el resultado es discriminatorio, la práctica es ilegal .
+*   **Sistemas de alto riesgo**: Un sistema de selección de personal bien implementado debe estar sujeto a estrictos requisitos de gobernanza de datos, evaluación de impacto en los derechos fundamentales y supervisión humana para prevenir precisamente estos sesgos . Si estos controles fallan y se produce una discriminación, la infracción es doble: por un lado, no se han aplicado correctamente los requisitos para sistemas de alto riesgo, y por otro, se ha incurrido en una práctica de riesgo inaceptable.
+
+En resumen, para un especialista en selección, la conclusión es inequívoca: cualquier sistema de IA que, en el proceso de selección, descalifique a candidatos por motivos de sexo, raza o condición social está operando en el nivel de **riesgo inaceptable** y, por tanto, es ilegal en la UE.

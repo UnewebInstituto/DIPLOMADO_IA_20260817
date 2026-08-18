@@ -1,0 +1,45 @@
+### Ejercicio 1: El "Cazador de Alucinaciones"
+
+
+Actúa como un experto en Talento Humano en Venezuela. Explícame el cálculo de prestaciones sociales y consideraciones respecto a bonificaciones compensatorias para la retención del personal y dame tres referencias bibliográficas o hitos históricos clave para fundamentar tu explicación.
+El régimen de prestaciones sociales en Venezuela está regido por la **Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras (LOTTT de 2012)**. Comprender su cálculo y estructurar una oferta salarial competitiva exige balancear las exigencias legales con la realidad socioeconómica del país.
+
+---
+
+**Cálculo de Prestaciones Sociales (Art. 142 LOTTT)**
+
+El sistema aplica un criterio de doble cálculo al finalizar la relación laboral y liquida el monto que resulte más favorable para el trabajador:
+
+* **Fondo de Garantía (Garantía Trimestral - Art. 142a):** Se abonará el equivalente a **15 días de salario integral** cada trimestre. Además, a partir del segundo año de servicio, se adicionan **2 días de salario por año**, acumulativos hasta un máximo de 30 días.
+* **Cálculo Retroactivo (Art. 142c):** Al terminar la relación de trabajo, se calcula el equivalente a **30 días de salario integral por cada año de servicio** (o fracción superior a 6 meses) tomando como base el **último salario devengado**.
+* **Ajuste y Compensación (Art. 142d):** Se compara el total acumulado en el Fondo de Garantía frente al monto del Cálculo Retroactivo. El patrono debe pagar la suma de mayor cuantía.
+
+*Nota técnica:* La base de cálculo es el **salario integral**, el cual incluye el salario normal más la alícuota de bono vacacional y la alícuota de utilidades/bonificación de fin de año.
+
+---
+
+**Consideraciones sobre Bonificaciones Compensatorias y Retención de Talento**
+
+Debido a la dinámica inflacionaria y el uso de divisas en la economía venezolana, las empresas emplean bonos compensatorios no salariales para mantener el poder adquisitivo y retener personal:
+
+* **Naturaleza Jurídica de los Bonos (Art. 104 y 105 LOTTT):**
+* *Carácter Salarial (Art. 104):* Todo pago regular, permanente y directo por la prestación del servicio integra el salario. Si los bonos en divisas o incentivos se otorgan de manera habitual, corren el riesgo de ser recalificados judicialmente como parte del salario integral.
+* *Carácter No Remunerativo (Art. 105):* Quedan excluidos del salario los beneficios sociales como el Cestaticket / beneficio de alimentación, capacitaciones, reintegros médicos, entre otros.
+
+
+* **Estrategia en Gestión de Talento Humano:**
+* **Indexación y Flexibilidad:** Estructurar bonos por productividad o cumplimiento de KPIs desvinculados de la jornada ordinaria fija para amortiguar el impacto del pasivo laboral sin infringir el Art. 104.
+* **Salarios Mixtos y Beneficios Sociales:** Diseñar planes de compensación total que sumen salario en moneda nacional (base legal de aportes y prestaciones) con beneficios de salud, seguros en divisas, transporte y planes de estudio para reducir la rotación sin sobrecargar las prestaciones futuras.
+
+
+
+---
+
+**Fundamentación Legal y Referencias Históricas Clave**
+
+1. **Decreto con Rango, Valor y Fuerza de Ley Orgánica del Trabajo, los Trabajadores y las Trabajadoras (Gaceta Oficial Extraordinaria N° 6.076 del 7 de mayo de 2012):** Marco legal vigente que reintrodujo el esquema del cálculo retroactivo de las prestaciones sociales con el último salario (Art. 142).
+2. **Reforma de la Ley Orgánica del Trabajo de 1997 (Gaceta Oficial N° 5.152 del 19 de junio de 1997 - "Tripartita"):** Hito histórico fundamental que eliminó la retroactividad de las prestaciones sociales e instauró el pago trimestral depositado en fideicomiso, sentando el precedente de las discusiones sobre la pérdida de valor adquisitivo del pasivo laboral en contextos de alta inflación.
+3. **Jurisprudencia de la Sala de Casación Social del Tribunal Supremo de Justicia (TSJ) sobre el Concepto de Salario Integral (Ej. Sentencia N° 723 del 18 de octubre de 2018):** Criterio doctrinal imperativo en la práctica venezolana que determina cuándo un bono otorgado en divisas o moneda nacional pierde su condición de "otorgamiento eventual o gracioso" y pasa a formar parte de la base salarial para el cálculo de pasivos laborales.
+
+[Cálculo de Prestaciones Sociales LOTTT](https://www.youtube.com/watch?v=evGv7nSuuLs)
+Este recurso explica en detalle los pasos para determinar el régimen de prestaciones sociales en Venezuela y su marco legal según la LOTTT.
