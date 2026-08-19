@@ -1,0 +1,60 @@
+Como especialista en inteligencia artificial aplicada a la producción audiovisual y creación de contenido, **Fliki AI** representa la democratización total de la creación de video. Su núcleo estratégico no es la animación compleja desde cero, sino la **transformación instantánea de texto a video y voz natural (*Text-to-Video / Text-to-Speech*)**.
+
+Fliki soluciona el principal cuello de botella de los creadores de contenido, educadores y equipos de marketing: el tiempo y costo asociados a la locución, la selección de material de apoyo (*B-roll*), la edición de línea de tiempo y el subtitulado.
+
+---
+
+## ¿Qué es Fliki AI y cómo funciona?
+
+Fliki es una plataforma multiplataforma basada en la nube que utiliza modelos multimodales para **convertir guiones, ideas, artículos de blog, presentaciones de PowerPoint o enlaces web en videos listos para publicar**.
+
+Su flujo de trabajo funciona por **módulos de escenas basadas en bloques de texto**. En lugar de cortar y sincronizar pistas de audio e imágenes manualmente en un software tradicional como Premiere o Final Cut, en Fliki editas el guion textual y la plataforma ajusta automáticamente la locución, los subtítulos y los recursos visuales asociados a cada bloque.
+
+---
+
+## Las Herramientas y Funciones Clave del Ecosistema Fliki
+
+### 1. Conversión Multiformato (Text to Video)
+
+* **Idea a Video:** Escribes una premisa o *prompt* (ej. *"Crea un video educativo sobre arquitectura limpia en software"*) y la IA redacta el guion, selecciona imágenes/videos y genera la locución.
+* **Blog / URL a Video:** Pegas el enlace de un artículo o entrada de blog, y Fliki extrae las ideas principales, sintetiza un guion para video y genera una pieza audiovisual ideal para redes sociales o SEO.
+* **PPT / Presentación a Video:** Convierte diapositivas estáticas en presentaciones narradas dinámicas con voz en off fluida.
+
+### 2. Motor de Voz en Off y Clonación de Voz (Text to Speech)
+
+Es uno de sus puntos más fuertes dentro del mercado:
+
+* **Librería masiva multilingüe:** Acceso a más de **2,000 voces ultrarrealistas en más de 80 idiomas y 100 dialectos**.
+* **Clonación de Voz (Voice Cloning):** Permite grabar un fragmento breve de tu propia voz para que la IA la replique y narre guiones futuros sin necesidad de volver a usar un micrófono.
+* **Doblaje y Traducción de Video:** Permite traducir y doblar videos conservando la voz original o aplicando clonación multilingüe.
+
+### 3. Avatares de IA y Digital Twins
+
+* Incorpora **avatares virtuales y narradores digitales** que pueden presentar tu contenido en pantalla con sincronización labial (*lip-sync*) en múltiples ángulos y encuadres.
+
+### 4. Generación y Selección de Medios (AI & Stock Media)
+
+* **Integración de Stock + Clips de IA:** Combina una biblioteca masiva de fotos y videos de stock con la capacidad de generar imágenes e hipercortos de video por IA (*Pikaso / AI clips*) dentro de la misma escena.
+* **Control Estilístico:** Permite fijar un estilo visual (Anime, Cómic, Fotográfico, 3D) o cargar referencias propias para mantener coherencia gráfica en todo el video.
+
+### 5. Edición Flexible (Línea de Tiempo y Scene Rail)
+
+* Ofrece tanto un sistema rápido de edición por tarjetas/escenas como una **línea de tiempo profesional** para ajustar capas de audio, música de fondo, efectos de sonido (*SFX*), subtítulos dinámicos y formatos de aspecto (16:9 horizontal, 9:16 para Reels/TikToks, 1:1).
+
+---
+
+## Casos de Uso Estratégicos
+
+* **Reutilización de Contenido (Content Repurposing):** Transformación de blogs, e-books o hilos en clips cortos para YouTube Shorts, Instagram Reels o TikTok.
+* **E-learning y Capacitación Corporal:** Creación acelerada de módulos de formación, lecciones en video o narración de manuales operativos.
+* **Marketing de Contenidos y SEO:** Generación de videos de acompañamiento para artículos web con el fin de aumentar el tiempo de permanencia de los usuarios en un sitio.
+
+---
+
+## El Veredicto del Experto: Pros y Consideraciones
+
+| Aspecto | Evaluación Experta |
+| --- | --- |
+| **Punto Fuerte** | **Velocidad de producción extrema.** Pasar de un texto plano a un video narrado, subtitulado y maquetado toma minutos. |
+| **Punto Fuerte** | **Potencia en locución multilingüe.** La variedad de acentos y la calidad de los motores de voz sobrepasan a la mayoría de los editores convencionales. |
+| **Consideración** | **Supervisión de contexto visual.** Aunque la IA selecciona automáticamente el material de apoyo (*B-roll*), en contenidos muy técnicos o abstractos requiere revisión humana para sustituir imágenes genéricas por recursos específicos. |

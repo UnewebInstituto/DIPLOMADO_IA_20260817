@@ -1,0 +1,149 @@
+# GUIÓN DE VIDEO — CAMPAÑA INFORMATIVA
+## "Tu nuevo asistente para beneficios y servicios contractuales"
+
+**Tipo de pieza:** Video institucional informativo
+**Público objetivo:** Colaboradores de la entidad financiera
+**Duración estimada:** 3:00 – 3:30 min
+**Tono:** Cercano, claro, profesional sin ser corporativo-frío. Ritmo ágil.
+**Formato sugerido:** Motion graphics + grabación de interfaz (screen recording del chat del agente) + locución en off. Alternativa low-cost: animación 2D simple tipo "explainer".
+
+---
+
+## FICHA TÉCNICA RÁPIDA
+
+| Elemento | Detalle |
+|---|---|
+| Locutor/a | Voz en off, tono cálido y cercano (no robótico) |
+| Música | Corporativa, ritmo medio-alto, sube de energía en el cierre |
+| Paleta visual | Colores institucionales + acentos para "IA" (ej. degradés azul/violeta) |
+| Subtítulos | Obligatorios (accesibilidad + consumo sin audio) |
+| Call to action final | Acceso al agente (link/ícono en app o intranet) |
+
+---
+
+## ESCENA 1 — GANCHO (0:00 – 0:15)
+
+**VISUAL:**
+Plano rápido de un colaborador revisando el celular con cara de duda, luego un reloj que avanza rápido (time-lapse), y una fila de personas esperando en un mostrador de RRHH (puede ser animado, no necesita actores).
+
+**AUDIO / NARRACIÓN:**
+"¿Alguna vez te preguntaste cuánto crédito preferencial te corresponde? ¿O cuántos días de licencia te quedan? ¿Y tuviste que esperar días para saberlo?"
+
+**TEXTO EN PANTALLA:**
+"Eso está por cambiar."
+
+---
+
+## ESCENA 2 — PRESENTACIÓN DEL AGENTE (0:15 – 0:35)
+
+**VISUAL:**
+Transición con motion graphics: aparece el ícono/avatar del agente de IA. Se muestra la interfaz del chat abriéndose en el celular o en el portal del colaborador.
+
+**AUDIO / NARRACIÓN:**
+"Te presentamos a tu nuevo asistente de beneficios: un agente de inteligencia artificial disponible las 24 horas, que te ayuda a consultar, simular y gestionar tus beneficios y servicios contractuales, sin filas y sin esperas."
+
+**TEXTO EN PANTALLA:**
+"Disponible 24/7 · Seguro · Auditado"
+
+---
+
+## ESCENA 3 — PASO 1: AUTENTICACIÓN (0:35 – 0:50)
+
+**VISUAL:**
+Grabación de pantalla: el colaborador inicia sesión con su SSO corporativo (usuario/huella/reconocimiento). El sistema muestra automáticamente su perfil: cargo, antigüedad, tipo de contrato.
+
+**AUDIO / NARRACIÓN:**
+"Todo comienza con tu inicio de sesión corporativo. El agente reconoce automáticamente quién eres y tu información laboral, así que no tienes que volver a llenar formularios que la entidad ya conoce."
+
+**TEXTO EN PANTALLA:**
+"1. Te identificas → El agente ya sabe quién eres"
+
+---
+
+## ESCENA 4 — PASO 2 Y 3: PREGUNTA Y ELEGIBILIDAD (0:50 – 1:15)
+
+**VISUAL:**
+Se muestra al colaborador escribiendo en el chat: "¿Tengo derecho a un crédito preferencial de vivienda?". El agente responde con un check verde de elegibilidad.
+
+**AUDIO / NARRACIÓN:**
+"Preguntas lo que necesites, con tus propias palabras. El agente entiende tu solicitud y revisa automáticamente si cumples los requisitos según las políticas vigentes. Si no aplicas todavía, te explica por qué y qué alternativas tienes."
+
+**TEXTO EN PANTALLA:**
+"2. Preguntas → 3. El agente valida tu elegibilidad"
+
+---
+
+## ESCENA 5 — PASO 4 Y 5: SIMULACIÓN Y VALIDACIÓN NORMATIVA (1:15 – 1:45)
+
+**VISUAL:**
+Pantalla mostrando una simulación de crédito: monto, plazo, tasa, cuota — todo ajustable con un slider. Aparece un ícono de "escudo" que representa la validación normativa en segundo plano.
+
+**AUDIO / NARRACIÓN:**
+"¿Necesitas simular un crédito o un beneficio financiero? Ajusta el monto y el plazo, y verás la cuota estimada al instante. Y aunque no lo veas, detrás cada simulación se valida contra las políticas internas y los límites regulatorios de la Superintendencia, para que todo lo que te ofrecemos esté dentro de las normas."
+
+**TEXTO EN PANTALLA:**
+"4. Simulas tu beneficio · 5. Validado con las normas vigentes"
+
+---
+
+## ESCENA 6 — PASO 6: CUÁNDO INTERVIENE UNA PERSONA (1:45 – 2:10)
+
+**VISUAL:**
+Split screen: a la izquierda, un check verde "Aprobado automáticamente"; a la derecha, un ícono de una persona (analista de RRHH) con un mensaje "Este caso pasa a revisión humana".
+
+**AUDIO / NARRACIÓN:**
+"La mayoría de los casos se resuelven al instante. Pero si tu solicitud supera ciertos montos, tiene alguna excepción, o requiere un análisis especial, el agente lo deriva automáticamente a un analista de Recursos Humanos, sin que tengas que hacer nada extra."
+
+**TEXTO EN PANTALLA:**
+"6. Casos especiales → siempre revisados por una persona"
+
+---
+
+## ESCENA 7 — PASO 7 Y 8: EJECUCIÓN Y CONFIRMACIÓN (2:10 – 2:35)
+
+**VISUAL:**
+Animación de "engranajes" conectando el chat con distintos sistemas (ícono de banco, ícono de RRHH, ícono de documentos). Luego, una notificación llega al correo/app del colaborador con un mensaje de confirmación.
+
+**AUDIO / NARRACIÓN:**
+"Una vez confirmas, el agente hace el trabajo pesado: actualiza tus sistemas, genera los documentos necesarios y te confirma todo por los canales oficiales, con el detalle completo y el cronograma de tu beneficio."
+
+**TEXTO EN PANTALLA:**
+"7. El agente ejecuta · 8. Recibes tu confirmación oficial"
+
+---
+
+## ESCENA 8 — TRANSPARENCIA Y CONFIANZA (2:35 – 2:55)
+
+**VISUAL:**
+Primer plano del ícono del agente con una etiqueta visible "Estás hablando con un agente de IA". Aparece un botón destacado "Hablar con una persona".
+
+**AUDIO / NARRACIÓN:**
+"Siempre sabrás que estás interactuando con un agente de inteligencia artificial, y en cualquier momento puedes pedir hablar con una persona. Toda la información que compartes está protegida y cada interacción queda registrada para tu tranquilidad."
+
+**TEXTO EN PANTALLA:**
+"Transparente · Seguro · Con opción humana siempre disponible"
+
+---
+
+## ESCENA 9 — CIERRE Y CALL TO ACTION (2:55 – 3:15)
+
+**VISUAL:**
+El colaborador sonríe mirando la confirmación en su celular. Aparece el logo de la entidad y el ícono/nombre del agente, con el acceso destacado (app / intranet).
+
+**AUDIO / NARRACIÓN:**
+"Consulta tus beneficios, simula tus créditos y da seguimiento a tus solicitudes, todo desde un solo lugar. Conoce a tu nuevo asistente de beneficios, disponible ya en [nombre de la app / intranet]."
+
+**TEXTO EN PANTALLA:**
+"Descúbrelo hoy → [Acceso al agente]"
+
+**MÚSICA:** Sube de intensidad y cierra con el jingle/branding sonoro de la entidad.
+
+---
+
+## NOTAS DE PRODUCCIÓN
+
+- **Grabaciones de pantalla:** usar un entorno de prueba/staging del agente, nunca datos reales de un colaborador.
+- **Subtítulos y accesibilidad:** incluir subtítulos quemados o cerrados en todas las versiones; considerar una versión con lengua de señas si el canal lo permite.
+- **Variantes de duración:** se recomienda una versión corta (45–60 seg) para redes internas/intranet, cortando a Escenas 1, 2, 6 y 9.
+- **Idioma:** guión en español neutro corporativo; ajustar localismos según la región de la entidad.
+- **Recurrencia:** este guión puede reutilizarse como base para cápsulas específicas por beneficio (crédito preferencial, seguro, fondo de empleados, etc.), manteniendo la estructura de Escenas 3–7.
