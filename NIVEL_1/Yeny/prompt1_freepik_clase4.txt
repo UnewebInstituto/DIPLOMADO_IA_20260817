@@ -1,0 +1,1 @@
+Basado en el guión producido, se desea generar la descripción de tantas imagenes como episodios hayan sido creados. Estas descripciones van hacer el insumo para freepik. Generar las descripciones.
