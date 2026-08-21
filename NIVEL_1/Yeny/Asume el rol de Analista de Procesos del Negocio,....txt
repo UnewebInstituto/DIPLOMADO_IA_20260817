@@ -1,0 +1,57 @@
+﻿Para implementar un Agente de IA de Atención Interna (HR Tech / Beneficios) en una entidad financiera, el proceso operacional debe estar estructurado bajo estrictos parámetros de seguridad, trazabilidad e integración de sistemas core.
+Fase 1: Mapa General del Proceso (Arquitectura Operativa)
+El proceso comprende 5 etapas consecutivas desde la interacción inicial del colaborador hasta el cierre del requerimiento:
+1. Autenticación e Identificación: Validación de identidad e historial contractual.
+2. Interpretación y Clasificación: Análisis de la intención mediante procesamiento de lenguaje natural (NLP).
+3. Consulta e Interacción Backend: Conexión con APIs de Recursos Humanos y ERPs de la entidad.
+4. Respuesta o Ejecución de Acción: Autoservicio inmediato o enrutamiento asistido.
+5. Cierre, Registro y Escalado: Trazabilidad y transferencia a gestores humanos si es necesario.
+Fase 2: Desglose Detallado Paso a Paso
+Paso 1: Autenticación y Carga de Perfil
+* Acción: El colaborador interactúa con el Agente a través de la red corporativa (M365 Teams, Slack, o Portal RRHH).
+* Entrada: Token de sesión del Active Directory / SSO de la institución.
+* Procesamiento: El Agente consulta en tiempo real la ficha laboral para determinar:
+   * Tipo de contrato (Indefinido, Fijo, Aprendiz).
+   * Antigüedad y nivel jerárquico.
+   * Beneficios activos o bolsa de puntos/días asignados.
+Paso 2: Comprensión de la Solicitud (NLP / NLU)
+* Acción: El usuario realiza una consulta en lenguaje natural (ej. "¿Cuántos días de vacaciones me quedan?" o "Quiero solicitar el auxilio educativo").
+* Procesamiento:
+   * Clasificación de la intención (Consulta informativa vs. Transacción).
+   * Extracción de entidades (Tipo de beneficio, fechas, montos).
+Paso 3: Matriz de Decisiones Operativas
+Tipo de Solicitud
+	Acción del Agente
+	Integración Requerida
+	Consulta Informativa (Políticas, convenios)
+	Recuperación de información vía RAG (Base de Conocimiento de RRHH)
+	Base de conocimiento / WIKI corporativa
+	Consulta Transaccional (Saldo de días, póliza de salud)
+	Consulta directa a la API del ERP de RRHH
+	Core de RRHH (SAP SuccessFactors, Workday, etc.)
+	Trámite / Solicitud (Registro de vacaciones, auxilio)
+	Validación de elegibilidad + Lanzamiento de Workflow de aprobación
+	Motor de Workflow / BPM de la entidad
+	Paso 4: Validación de Reglas de Negocio (Compliance Interno)
+* Acción: Antes de confirmar una solicitud, el Agente valida reglas institucionales:
+   * Elegibilidad: ¿Tiene el colaborador más de 1 año de antigüedad para aplicar al préstamo de empleado?
+   * Disponibilidad: ¿El saldo de la bolsa de capacitación cubre el monto solicitado?
+* Resultado A (Cumple): Continúa al procesamiento automático.
+* Resultado B (No Cumple): Informa amablemente los requisitos faltantes o normativas que aplican.
+Paso 5: Ejecución del Autoservicio y Confirmación
+* Acción: El Agente ejecuta la tarea en el sistema de origen o genera la solicitud formal de aprobación a la jefatura directa.
+* Salida:
+   * Envío de comprobante o número de radicado al colaborador.
+   * Notificación al aprobador (jefe directo o analista de RRHH) si la acción lo requiere.
+   * Actualización en tiempo real del saldo del beneficio.
+Paso 6: Protocolo de Escalado Humano (Fallback)
+* Desencadenante: La consulta supera el alcance de la IA, requiere excepciones de política o el colaborador solicita hablar con un representante.
+* Acción del Agente:
+   1. Compila el resumen de la conversación y contexto laboral.
+   2. Crea un ticket de soporte en la plataforma de mesa de ayuda (Mesa de RRHH / ServiceNow).
+   3. Transfiere la interacción al Analista de Beneficios Humano correspondiente.
+Fase 3: Indicadores Clave de Desempeño (KPIs)
+* Tasa de Resolución en Primer Contacto (FCR): Porcentaje de consultas resueltas sin intervención humana (Meta inicial: > 75%).
+* Tiempo Medio de Procesamiento (TMT): Reducción en la entrega de certificaciones o aprobaciones de beneficios.
+* Nivel de Satisfacción Interna (CSAT/NPS): Valoración asignada por los colaboradores tras finalizar la interacción.
+* Carga Operativa Reubicada: Horas de trabajo operativas ahorradas al equipo de Gestión Humana.

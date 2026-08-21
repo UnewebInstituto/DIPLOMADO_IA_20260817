@@ -1,0 +1,63 @@
+﻿Como analista de procesos de negocio, el diseño de este servicio requiere estructurar la interacción entre los colaboradores, la plataforma del Agente de IA y los sistemas de Recursos Humanos/Core Bancario para garantizar eficiencia, trazabilidad y seguridad de la información.
+Diseño del Proceso: Gestión Automática de Beneficios y Servicios Contractuales con Agente de IA
+1. Matriz de Componentes del Proceso
+Componente
+	Descripción
+	Objetivo
+	Automatizar la atención, consulta y tramitación de beneficios contractuales (seguros, préstamos empleados, días de descanso, auxilios) para colaboradores.
+	Actores
+	Colaborador (Usuario final), Agente IA (Orquestador de consultas/solicitudes), Sistemas Core (HCM/HRIS/ERP), Gestor de RRHH (Nivel 2 / Excepciones).
+	Canales de Entrada
+	Chatbot corporativo (Microsoft Teams, WhatsApp Enterprise interno, Intranet).
+	2. Arquitectura del Flujo Paso a Paso
+
+
+
+
+
+
+
+
+1.Autenticación e Identificación del Rol:Entrada y Contextualización.
+El colaborador inicia interacción en el canal corporativo.
+* El agente valida la identidad mediante SSO (Single Sign-On) y recupera el perfil del empleado (antigüedad, tipo de contrato, cargo, sindicato/convenio colectivo).
+* Resultado: El agente delimita qué catálogo de beneficios aplica exactamente a ese perfil antes de responder.
+
+
+
+
+2.Clasificación de la Intención (NPL Engine):Procesamiento del lenguaje natural.
+El colaborador realiza su consulta en lenguaje natural (ej. "¿Cuántos días de estudio me quedan y cómo los pido?" o "Necesito incluir a mi hijo en la póliza de salud").
+* El Agente categoriza la solicitud en uno de dos flujos principales:
+   * Consulta Informativa / Preguntas Frecuentes: (Reglamentos, coberturas, requisitos).
+   * Gestión Transaccional / Solicitud: (Creación de tickets, carga de documentos, registro de beneficios).
+
+
+
+
+3.Ejecución de la Consulta o Tramitación:Integración con API Backend.
+* Si es Informativa: El Agente consulta la base de conocimiento (RAG con políticas vigentes) y responde de forma precisa y personalizada según el perfil del empleado.
+* Si es Transaccional:
+   1. Solícita parámetros o documentos requeridos (ej. certificado de matrícula, factura, partida de nacimiento).
+   2. Ejecuta validaciones de reglas de negocio en tiempo real (ej. comprobar si cumple con la antigüedad mínima requerida para un préstamo tasa preferencial).
+   3. Ejecuta la acción vía API contra el sistema HRIS (ej. Workday, SAP SuccessFactors) creando el registro formal.
+
+
+
+
+4.Enrutamiento y Escalado (Human-in-the-Loop):Manejo de Excepciones.
+Si la solicitud requiere aprobación humana (ej. desembolso de préstamo) o si la regla de negocio no se cumple:
+* El Agente genera un caso en el sistema de mesa de ayuda interno con todo el historial procesado.
+* Asigna el ticket al analista de RRHH correspondiente notificando al colaborador sobre el tiempo estimado de respuesta (SLA).
+
+
+
+
+5.Notificación y Cierre:Confirmación y Feedback.
+* El Agente envía comprobante/número de radicado al colaborador y un resumen por correo corporativo.
+* Activa una micro-encuesta de satisfacción (CSAT) de 1 pregunta al finalizar la interacción.
+3. Indicadores Clave de Rendimiento (KPIs del Proceso)
+* Tasa de Deflexión (Self-Service Rate): Porcentaje de consultas resueltas por el Agente sin intervención humana (Meta: >75%).
+* Tiempo Medio de Resolución (MTTR): Reducción en tiempo de aprobación de solicitudes transaccionales.
+* CSAT de Experiencia Interna: Satisfacción del colaborador con la inmediatez de la respuesta (Meta: >4.5/5).
+* Precisión de Cumplimiento Normativo: Reducción a 0% de solicitudes procesadas que violen las políticas contractuales.

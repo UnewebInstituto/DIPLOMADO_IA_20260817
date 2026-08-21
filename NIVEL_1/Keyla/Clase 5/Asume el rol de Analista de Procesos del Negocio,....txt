@@ -1,0 +1,51 @@
+﻿Como Analista de Procesos de Negocio, el objetivo de este diseño es automatizar las consultas de autoservicio de Recursos Humanos (beneficios y servicios contractuales) mediante un Agente de IA integrador, reduciendo la carga operativa del equipo de RRHH y garantizando un nivel de respuesta inmediato y preciso para los colaboradores del banco.
+1. Definición del Proceso: "Agente de Asistencia Contractual y Beneficios"
+Nombre del Proceso: Gestión y Autoservicio de Beneficios y Servicios Contractuales con IA.
+Objetivo: Permitir a los colaboradores consultar, solicitar y gestionar de forma autónoma beneficios (seguros, créditos empleados, becas) y servicios contractuales (cartas de trabajo, vacaciones, constancias), manteniendo la trazabilidad y seguridad de la información.
+Sistemas Involucrados: Sistema de RRHH (Core HR / SAP / SuccessFactors), Repositorio Documental (SharePoint/DMS), Sistema de Ticket (Jira/ServiceNow), Directorio Activo (Azure AD / Okta).
+2. Diagrama de Flujo del Proceso (Pasos Secuenciales)
+
+
+
+
+
+
+
+
+1.Autenticación e Identificación de Perfil:Punto de inicio.
+El colaborador inicia la interacción a través de Teams, WhatsApp Corporativo o la Intranet.
+* El agente liquida la identidad del colaborador mediante Single Sign-On (SSO).
+* Extrae la metadata del perfil: tipo de contrato, antigüedad, rol, grupo salarial y país/región.
+
+
+
+
+2.Clasificación de Intención (NLP Engine):Procesamiento del lenguaje.
+El colaborador formula su consulta en lenguaje natural (ej. "¿Cómo pido el reembolso de odontología?" o "Necesito una carta de trabajo").
+* El agente categoriza la solicitud en una de tres vías: Información General, Trámite Transaccional o Soporte Complejo/Caso Especial.
+
+
+
+
+3.Ejecución de la Vía de Atención:Lógica de resolución.
+* Vía A (Informativa): El agente consulta el repositorio de políticas vigentes mediante RAG (Retrieval-Augmented Generation) y entrega la respuesta precisa indicando la cláusula o política de origen.
+* Vía B (Transaccional): Se activa un flujo guiado. El agente solicita datos faltantes, valida elegibilidad según el perfil y envía el Payload a la API del Core de RRHH (ej. generación instantánea de constancia en PDF o registro de días de vacaciones).
+* Vía C (Excepción / Derivación): Si la regla de negocio exige validación humana (ej. excepción de póliza de salud), el agente recopila los datos y crea un ticket priorizado en el gestor de casos de RRHH.
+
+
+
+
+4.Confirmación y Registro de Trazabilidad:Cierre operativo.
+El agente envía el comprobante del trámite, documento generado o número de ticket al usuario.
+* Registra el log de interacción en la base de auditoría para fines de cumplimiento normativo y métricas de autoservicio.
+3. Matriz de Roles y Reglas de Negocio
+Elemento
+	Descripción / Regla Operativa
+	Público Objetivo
+	Empleados fijos, contratados y directivos (las respuestas se ajustan según la convención colectiva o contrato).
+	Regla de Elegibilidad
+	La IA verifica automáticamente los requisitos previos antes de habilitar un trámite (ej. antigüedad mínima de 6 meses para solicitud de créditos corporativos).
+	Seguridad de Datos
+	Enmascaramiento automático de PII (información de identificación personal) y datos sensibles de salud/salario en las interacciones con el modelo de lenguaje.
+	Escalamiento Humano
+	Desviación automática al equipo de RRHH cuando la satisfacción (CSAT) de la sesión decae o si la consulta supera un umbral de 2 intentos sin resolución.

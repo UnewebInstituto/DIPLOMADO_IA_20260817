@@ -1,0 +1,123 @@
+Te leo muy “rol analista”, así que vamos a diseñar el proceso como si fuera un flujo formal de negocio, pero aterrizado a un agente de IA.
+
+---
+
+### 1. Alcance del proceso
+
+- **Objetivo:** Facilitar a los colaboradores la consulta, gestión y actualización de sus beneficios y servicios contractuales mediante un Agente de IA.
+- **Alcance:** Desde la solicitud del colaborador hasta la confirmación de la gestión realizada (ej. cambio de plan de salud, solicitud de bono, certificación de beneficios, etc.).
+- **Actores:**
+  - **Colaborador:** Usuario final.
+  - **Agente de IA:** Punto único de contacto conversacional.
+  - **Sistema de RRHH / Nómina / Beneficios:** Sistemas fuente.
+  - **Equipo de RRHH / Beneficios:** Soporte de segundo nivel y gobierno del proceso.
+
+---
+
+### 2. Inicio del proceso: interacción del colaborador
+
+1. **Canal de acceso**
+   - **Entrada:** Colaborador inicia conversación (Teams, portal interno, app móvil).
+   - **Actividad:** El agente saluda, explica brevemente qué puede hacer y muestra opciones frecuentes (consultar beneficios, solicitar cambios, descargar certificados, etc.).
+   - **Salida:** Sesión de conversación iniciada y tipo de requerimiento identificado.
+
+2. **Autenticación y verificación de identidad**
+   - **Entrada:** Usuario autenticado vía SSO o credenciales corporativas.
+   - **Actividad:** El agente valida identidad y permisos (rol, tipo de contrato, país).
+   - **Salida:** Contexto del colaborador disponible (ID empleado, unidad, elegibilidad de beneficios).
+
+---
+
+### 3. Clasificación de la solicitud
+
+3. **Captura y entendimiento de la intención**
+   - **Entrada:** Pregunta en lenguaje natural (“¿Qué seguro de salud tengo?”, “Quiero cambiar mi plan de pensiones”).
+   - **Actividad:** El agente de IA clasifica la intención (consulta, actualización, solicitud, reclamo, certificado).
+   - **Salida:** Tipo de caso identificado y datos clave extraídos (beneficio, fecha, dependientes, etc.).
+
+4. **Validación de elegibilidad y reglas de negocio**
+   - **Entrada:** Intención + contexto del colaborador.
+   - **Actividad:** El agente consulta reglas (políticas de beneficios, ventanas de cambio, topes, requisitos).
+   - **Salida:** Determinación de si la acción es posible, condiciones y restricciones (ej. “solo puedes cambiar tu plan en el periodo de inscripción anual”).
+
+---
+
+### 4. Gestión operativa de beneficios
+
+5. **Consulta de información en sistemas fuente**
+   - **Entrada:** Solicitud válida.
+   - **Actividad:** El agente se integra con sistemas de RRHH/nómina/beneficios para:
+     - Ver beneficios vigentes.
+     - Ver historial de cambios.
+     - Ver saldos (vacaciones, bonos, etc.).
+   - **Salida:** Información consolidada y presentada al colaborador en lenguaje claro.
+
+6. **Presentación de opciones y recomendación**
+   - **Entrada:** Información actual + reglas de negocio.
+   - **Actividad:** El agente:
+     - Muestra opciones disponibles (planes, coberturas, montos).
+     - Explica diferencias clave.
+     - Puede sugerir opciones según perfil (edad, dependientes, uso histórico).
+   - **Salida:** Colaborador elige opción o confirma que desea continuar con una acción específica.
+
+7. **Ejecución de la acción en sistemas**
+   - **Entrada:** Confirmación explícita del colaborador.
+   - **Actividad:** El agente:
+     - Registra cambios en el sistema de beneficios (alta/baja/modificación).
+     - Genera solicitudes formales si requieren aprobación (workflow de RRHH).
+   - **Salida:** Transacción registrada, número de caso/solicitud generado.
+
+---
+
+### 5. Comunicación, cierre y seguimiento
+
+8. **Confirmación al colaborador**
+   - **Entrada:** Resultado de la transacción.
+   - **Actividad:** El agente:
+     - Confirma la acción realizada.
+     - Indica fecha de vigencia, impacto en nómina, próximos pasos.
+     - Ofrece descargar comprobantes o certificados (PDF, correo).
+   - **Salida:** Colaborador informado y con evidencia de la gestión.
+
+9. **Registro y trazabilidad**
+   - **Entrada:** Datos de la interacción y transacción.
+   - **Actividad:** El agente:
+     - Registra logs de conversación y acciones.
+     - Etiqueta el caso (tipo de beneficio, tiempo de resolución, canal).
+   - **Salida:** Información disponible para auditoría, métricas y mejora continua.
+
+10. **Escalamiento a RRHH (cuando aplica)**
+    - **Entrada:** Casos complejos, excepciones, errores de sistema, temas sensibles.
+    - **Actividad:** El agente:
+      - Deriva el caso a RRHH con resumen estructurado.
+      - Informa al colaborador que un humano tomará el caso y el tiempo estimado.
+    - **Salida:** Caso asignado a RRHH, colaborador con expectativa clara.
+
+---
+
+### 6. Gobierno y mejora continua del proceso
+
+11. **Monitoreo de desempeño**
+    - **Actividad:** RRHH y Procesos analizan:
+      - Volumen de consultas.
+      - Tiempo de resolución.
+      - Tipos de beneficios más consultados.
+      - Casos escalados a humanos.
+    - **Salida:** Reportes periódicos y KPIs (satisfacción, uso de beneficios, reducción de tickets).
+
+12. **Actualización de contenidos y reglas**
+    - **Actividad:** Ante cambios en políticas, convenios, nuevos beneficios:
+      - Se actualizan bases de conocimiento y reglas del agente.
+      - Se prueban escenarios críticos (periodo de inscripción, cambios masivos).
+    - **Salida:** Agente alineado con la normativa y el contrato colectivo.
+
+13. **Gestión de riesgos y cumplimiento**
+    - **Actividad:** Verificar:
+      - Protección de datos personales.
+      - Trazabilidad de cambios en beneficios.
+      - Cumplimiento de regulaciones laborales y financieras.
+    - **Salida:** Controles definidos, auditorías posibles y mitigación de riesgos.
+
+---
+
+Si quieres, en un siguiente paso podemos bajar esto a un **diagrama SIPOC** o a un **mapa de proceso con entradas/salidas y roles** para que lo puedas usar en documentación formal.

@@ -1,0 +1,12 @@
+Asume el rol de Analista de Procesos del Negocio, define el proceso para un Agente de IA que facilite a los colaboradores de una entidad financiera la gestión de sus beneficios y servicios contractuales. Evalua alternativas antes de presentar la respuesta final.
+
+https://chatgpt.com/share/6a88e336-1608-83ea-b117-2ab6a99ba250
+
+
+
+
+genera una imagen basada en la siguiente descripción
+
+Imagen 1 — Escena 1: El problema cotidiano
+
+Prompt: Ilustración digital flat design de un empleado de oficina sentado frente a un computador, mirando un reloj de pared con expresión de espera e impaciencia, rodeado de íconos flotantes de sobres de correo sin abrir y un símbolo de reloj de arena. Ambiente de oficina moderna minimalista, tonos azules fríos y grises, iluminación suave de escritorio, estilo corporativo vectorial, composición horizontal con espacio vacío en la parte superior para texto. Formato sugerido: 16:9 (video/banner intranet) Paleta: Azul corporativo, gris frío, acento en amarillo pálido (correo)

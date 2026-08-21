@@ -1,0 +1,26 @@
+Aquí tienes la propuesta técnica y el guión audiovisual diseñado desde la perspectiva de producción y dirección.  
+El formato propuesto combina **móvil/interfaz animada (screencast moderno)**, **animación 2D/3D liviana** para explicar los flujos invisibles (backend) y la participación de un **locutor dinámico/host**.
+
+# **Ficha Técnica de Producción**
+
+* **Título de la campaña:** *"Tu Agente de IA: Tus Beneficios a Un Clic"*  
+* **Duración:** 1 minuto 45 segundos (105 segundos).  
+* **Público Objetivo:** Colaboradores de la entidad financiera.  
+* **Tono:** Dinámico, corporativo moderno, cercano, claro e innovador.  
+* **Formatos de Entrega:** 16:9 (Intranet / Teams) y 9:16 (Pantallas verticales en oficinas / WhatsApp Enterprise).
+
+# **GUIÓN AUDIOVISUAL**
+
+| Escena / Tiempo | Visual (Dirección de Arte y Video) | Audio / Locución (Voiceover) |
+| :---- | :---- | :---- |
+| **ESCENA 1: INTRODUCCIÓN** *(0:00 \- 0:15)* | **Plano Medio (PM):** Un colaborador en su escritorio sonríe mientras revisa su laptop o celular. De fondo, un entorno de oficina bancaria moderna y luminosa. **Efecto Visual (VFX):** Aparece un avatar flotante o un elemento gráfico estilizado que representa al **Agente de IA** con un destello tecnológico amable. **Texto en pantalla:** *"Tus beneficios, más simples que nunca"*. | **Locutor/a (V.O.):** ¿Necesitas pedir un auxilio de estudio, consultar tus días de descanso o tramitar un préstamo con tasa preferencial? ¡Gestionar tus beneficios contractuales ahora es más rápido, ágil y transparente con nuestro nuevo **Agente de IA**\! |
+| **ESCENA 2: AUTENTICACIÓN Y CANALES** *(0:15 \- 0:30)* | **Primer Plano (PP) de Pantalla:** Se muestra la interfaz corporativa de **Microsoft Teams / WhatsApp Enterprise / Intranet**. **Animación / Motion Graphics:** Un ícono de candado verde se abre ágilmente indicando **"SSO / Autenticación Única"**. La pantalla muestra cómo el sistema reconoce automáticamente la antigüedad, cargo y tipo de contrato del usuario. | **Locutor/a (V.O.):** Acceder es facilísimo. Inicia chat desde Teams, WhatsApp corporativo o la Intranet. Gracias al sistema SSO, el Agente reconoce automáticamente tu perfil para mostrarte solo los beneficios que te aplican a ti. ¡Sin formularios eternos\! |
+| **ESCENA 3: CONSULTAS EN LENGUAJE NATURAL** *(0:30 \- 0:45)* | **Screencast animado:** Se ve la burbuja de chat escribiendo: *"¿Cuántos días de estudio me quedan?"* o *"Quiero incluir a mi hijo en la póliza"*. **VFX:** Gráficos tipo red neuronal o circuitos brillantes procesando la frase rápidamente (**NLP Engine**). | **Locutor/a (V.O.):** Escríbele como si hablaras con un compañero. El Agente entiende tu lenguaje natural y clasifica tu solicitud en segundos, ya sea para una consulta de información o para un trámite en directo. |
+| **ESCENA 4: TRÁMITES Y CARGA DE DOCUMENTOS** *(0:45 \- 1:05)* | **Pantalla Dividida (Split Screen):** \- **Lado Izquierdo:** Un usuario adjunta la foto de un documento desde su celular (ej. certificado de matrícula). \- **Lado Derecho:** Animación schemática conectando el Agente de IA en tiempo real con la API del sistema de RRHH (Workday / SAP SuccessFactors). | **Locutor/a (V.O.):** Si es una consulta, te responderá al instante con base en nuestras políticas. Si es un trámite, te pedirá los documentos necesarios, validará los requisitos en tiempo real y registrará todo automáticamente en los sistemas de Recursos Humanos. |
+| **ESCENA 5: CASOS ESPECIALES / HUMAN-IN-THE-LOOP** *(1:05 \- 1:20)* | **Secuencia Gráfica:** El Agente de IA pasa una pequeña "caja de caso" a la silueta de un analista de RRHH. **Texto en pantalla:** *"Atención personalizada cuando más lo necesitas"*. | **Locutor/a (V.O.):** ¿Tu solicitud requiere una revisión especial o aprobación humana? ¡No te preocupes\! El Agente creará automáticamente un ticket de atención, asignándolo a un analista de RRHH con todo el historial e informándote los tiempos de respuesta. |
+| **ESCENA 6: CONFIRMACIÓN Y CIERRE** *(1:20 \- 1:45)* | **Plano Detalle (PD):** Notificación emergente en el teléfono con un número de radicado y un correo de confirmación adjunto. **Interacción:** Se presiona una estrella de 5/5 en la encuesta rápida de satisfacción (CSAT). **Cierre de marca:** Logotipo de la entidad financiera \+ Isotipo del Agente de IA. **Texto final:** *"Tu bienestar a un mensaje de distancia. ¡Pruébalo hoy\!"* | **Locutor/a (V.O.):** Al finalizar, recibirás tu comprobante con número de radicado a tu correo corporativo. ¡Y no olvides darnos tu opinión en la micro-encuesta final\! Más rápido, seguro y disponible para ti 24/7. **Prueba hoy el nuevo Agente de IA.** |
+
+### **Notas de Producción y Postproducción:**
+
+> 1. **Diseño Sonoro (Audio Design):** Utilizar una música de fondo *upbeat* (tecnológica pero amigable, estilo indie corporativo). Incluir efectos de sonido (SFX) tipo *"pop"* suave al enviar mensajes, un *"chime"* de éxito cuando se valida un documento y un silbido sutil en la transición de pantallas.  
+> 2. **Branding:** Asegurar la paleta de colores oficial de la entidad financiera tanto en la interfaz del chat simulado como en los Motion Graphics de las transiciones.

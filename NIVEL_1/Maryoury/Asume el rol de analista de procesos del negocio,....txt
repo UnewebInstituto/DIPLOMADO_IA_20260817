@@ -1,0 +1,48 @@
+﻿Un agente de IA enfocado en la gestión de beneficios corporativos debe actuar como un asistente autoservicio inteligente que reduzca la carga operativa de Recursos Humanos (Gente y Cultura) y optimice el tiempo del colaborador.
+A continuación se presenta el diseño del proceso de negocio de principio a fin, estructurado por fases operativas.
+Flujo del Proceso: Agente de IA para Gestión de Beneficios
+1. Recepción de la Solicitud e Identificación
+* Inicio: El colaborador interactúa con el agente a través del canal corporativo (Teams, Slack, Intranet o App móvil).
+* Autenticación y Contextualización:
+   * El agente valida la identidad del usuario a través de SSO (Single Sign-On).
+   * Consulta en tiempo real el perfil del empleado en el sistema HRIS (ej. SAP SuccessFactors, Workday) para obtener variables clave: tipo de contrato, antigüedad, nivel jerárquico, saldo de vacaciones y dependientes registrados.
+2. Procesamiento del Lenguaje Natural y Clasificación de Intención
+* El agente analiza la consulta mediante Procesamiento de Lenguaje Natural (NLP) y clasifica la interacción en una de las tres categorías principales:
+Tipo de Solicitud
+	Ejemplo de Consulta
+	Acción del Agente
+	Informativa
+	"¿Cuántos días de vacaciones tengo y cuál es la política para pedir días de estudio?"
+	Consulta las políticas vigentes y el saldo específico, respondiendo de forma clara y directa.
+	Operativa / Transaccional
+	"Quiero solicitar mi seguro de salud complementario para mi cónyuge" o "Quiero pedir un anticipo de sueldo".
+	Inicia el flujo guiado de captura de datos y documentos requeridos.
+	Compleja / Excepción
+	"Tengo un problema con el pago de mi licencia médica que no encaja en la norma".
+	Identifica la necesidad de asistencia humana y prepara la derivación.
+	3. Verificación de Elegibilidad y Reglas de Negocio
+* Antes de ejecutar cualquier transacción, la IA valida las reglas de negocio en segundo plano:
+   * Ejemplo: Para un préstamo de colaborador, verifica si cumple con la antigüedad mínima requerida (> 6 meses) y si la capacidad de endeudamiento lo permite.
+* Respuesta condicional:
+   * Si cumple: Continúa con el proceso sin intervención humana.
+   * Si no cumple: Explica de forma empática los motivos basados en la política corporativa y sugiere alternativas si existen.
+4. Ejecución Transaccional y Captura de Datos
+* Captura Guiada: El agente solicita los datos o archivos necesarios en la misma interfaz (ej. adjuntar certificado de nacimiento para el bono de maternidad/paternidad).
+* Procesamiento y Firma:
+   * Si requiere aprobación formal, la IA genera el documento/ticket correspondiente y lo envía al flujo de aprobación del jefatura o del área de RRHH.
+   * Integra con plataformas de firma digital si la prestación lo exige.
+* Integración de Sistemas: La IA escribe la transacción directamente en el HRIS o ERP de la entidad financiera mediante APIs (ej. descuenta el saldo de días o registra la carga familiar).
+5. Derivación y Escalado (Handoff a Humano)
+* Si la consulta es compleja o el usuario expresa insatisfacción:
+   * El agente transfiere la conversación a un especialista de RRHH (Nivel 2).
+   * Adjunta el historial estructurado de la interacción para que el ejecutivo humano tenga todo el contexto sin hacer repetir al colaborador.
+6. Cierre, Confirmación y Seguimiento
+* Confirmación: El agente emite un comprobante o número de ticket y envía una notificación por correo/notificación push.
+* Encuesta de Satisfacción (CSAT): Solicita una valoración rápida (1 a 5 estrellas) de la experiencia.
+* Encuesta Operativa Post-Atención: En solicitudes asíncronas (ej. trámite de reembolso), el agente notifica proactivamente cuando el estado de la solicitud cambia.
+Indicadores Clave de Rendimiento (KPIs) del Proceso
+Para evaluar el impacto de este agente en la organización financiera, se deben monitorear los siguientes métricos:
+* Tasa de Deflexión (Self-Service Rate): % de consultas resueltas 100% por la IA sin intervención humana (Meta recomendada: > 75%).
+* Tiempo Medio de Solución (MTTR): Reducción en el tiempo de procesamiento de solicitudes (ej. de 48 horas a minutos).
+* Satisfacción del Colaborador (CSAT): Valoración directa del usuario sobre la atención recibida.
+* Adopción de Beneficios: Incremento en el uso de los beneficios contractuales por parte de los empleados al facilitar su acceso y conocimiento.
