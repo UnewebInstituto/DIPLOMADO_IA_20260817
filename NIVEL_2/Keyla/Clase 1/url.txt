@@ -1,0 +1,18 @@
+
+
+https://keyladossantos.alwaysdata.net/
+
+nombre servidor ft: ftp-keyladossantos.alwaysdata.net
+usuario ftp: keyladossantos
+clave: 1234
+puerto 21
+
+Elaboración de prompt para modificar el contenido del archivo index.html, de la plantilla descargada de bootstrapmade
+
+Asume el rol de experto en desarrollo web, bootstrap y manejo SEO 
+(optimización de motores de búsqueda), tengo una plantilla 
+descargada del sitio bootstrapmade, quiero que mantengas todos los
+aspectos del diseño, presentación, apariencia, imagenes y efectos
+del archivo anexo index.html. Necesito que generes un nuevo archivo 
+index.html, donde mejores su contenido para hacer referencia a un negocio
+de repostería ("Dulce Aroma"), incluyendo precio, sabores y método de pago.

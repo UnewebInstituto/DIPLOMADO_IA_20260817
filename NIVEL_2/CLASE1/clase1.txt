@@ -1,0 +1,49 @@
+Fuentes de plantillas HTML:
+
+https://bootstrapmade.com/bootstrap-portfolio-templates/
+
+Hosting gratuito
+
+https://www.alwaysdata.com/
+
+
+https://hduque-test.alwaysdata.net/
+nombre servidor ftp: ftp-hduque-test.alwaysdata.net
+usuario ftp: hduque-test
+
+
+https://keyladossantos.alwaysdata.net/
+
+nombre servidor ft: ftp-keyladossantos.alwaysdata.net
+usuario ftp: keyladossantos
+
+https://maryouryclavijo.alwaysdata.net/
+
+Nombre Servidor FTP: ftp-maryouryclavijo.alwaysdata.net
+Usuario FTP: maryouryclavijo
+
+https://yenysalinas.alwaysdata.net/
+
+servidor ftp: ftp-yenysalinas.alwaysdata.net
+usuario ftp: Yenysalinas 
+
+FileZilla Client
+Sitio de descarga
+https://filezilla-project.org/
+
+Permite la conexión remota vía FTP/SFTP 
+con un servidor
+
+
+Elaboración de prompt para modificar el contenido del archivo index.html, de la plantilla descargada de bootstrapmade
+
+Asume el rol de experto en desarrollo web, bootstrap y manejo SEO 
+(optimización de motores de búsqueda), tengo una plantilla 
+descargada del sitio bootstrapmade, quiero que mantengas todos los
+aspectos del diseño, presentación, apariencia, imagenes y efectos
+del archivo anexo index.html. Necesito que generes un nuevo archivo 
+index.html, donde mejores su contenido para hacer referencia a un negocio
+de repostería ("Dulce Aroma"), incluyendo precio, sabores y método de pago.
+
+
+https://www.tawk.to/

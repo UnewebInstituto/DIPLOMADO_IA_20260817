@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Dulce Aroma | Repostería Artesanal con Fresas Frescas</title>
+  <meta name="description" content="Dulce Aroma: repostería artesanal especializada en pasteles, cupcakes y postres con fresas frescas. Sabores únicos, precios accesibles y entrega a domicilio. ¡Haz tu pedido hoy!">
+  <meta name="keywords" content="repostería, pastelería, pasteles con fresas, cupcakes, postres artesanales, Dulce Aroma, pasteles personalizados, tortas, repostería a domicilio">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.dulcearoma.com/">
+
+  <!-- Open Graph / SEO redes sociales -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dulce Aroma">
+  <meta property="og:title" content="Dulce Aroma | Repostería Artesanal con Fresas Frescas">
+  <meta property="og:description" content="Pasteles, cupcakes y postres artesanales hechos con fresas frescas. Descubre nuestros sabores, precios y formas de pago.">
+  <meta property="og:image" content="assets/img/about/about-8.webp">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dulce Aroma | Repostería Artesanal con Fresas Frescas">
+  <meta name="twitter:description" content="Pasteles, cupcakes y postres artesanales con fresas frescas. Sabores, precios y métodos de pago.">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: eBusiness (adaptado para Dulce Aroma)
+  * Template URL: https://bootstrapmade.com/ebusiness-bootstrap-corporate-template/
+  * Updated: Jun 23 2025 with Bootstrap v5.3.6
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+
+  <!-- Paleta pastel + fresa "Dulce Aroma" -->
+  <style>
+    :root {
+      --background-color: #fff8f6;
+      --default-color: #6b4650;
+      --heading-color: #7a2e42;
+      --accent-color: #ff6f91;
+      --surface-color: #ffffff;
+      --contrast-color: #ffffff;
+      --nav-color: #7a2e42;
+      --nav-hover-color: #ff6f91;
+      --nav-mobile-background-color: #fff0f3;
+      --nav-dropdown-background-color: #ffffff;
+      --nav-dropdown-color: #7a2e42;
+      --nav-dropdown-hover-color: #ff6f91;
+    }
+
+    body { background-color: #fff8f6; }
+
+    a { color: #ff6f91; }
+    a:hover { color: #d94f74; }
+
+    .header { background-color: #fff0f3 !important; }
+    .header .logo .sitename { color: #7a2e42 !important; }
+    .header .logo span { color: #ff6f91 !important; }
+
+    .navmenu ul li a { color: #7a2e42; }
+    .navmenu ul li a:hover,
+    .navmenu ul li a.active { color: #ff6f91 !important; }
+
+    .btn-getstarted, .btn-getstarted:focus {
+      background-color: #ff6f91 !important;
+      border-color: #ff6f91 !important;
+      color: #fff !important;
+    }
+    .btn-getstarted:hover { background-color: #d94f74 !important; }
+
+    .btn-primary {
+      background-color: #ff6f91 !important;
+      border-color: #ff6f91 !important;
+      color: #fff !important;
+    }
+    .btn-primary:hover { background-color: #d94f74 !important; border-color: #d94f74 !important; }
+
+    .btn-outline {
+      color: #ff6f91 !important;
+      border-color: #ff6f91 !important;
+      background: transparent !important;
+    }
+    .btn-outline:hover { background-color: #ff6f91 !important; color: #fff !important; }
+
+    .hero { background: linear-gradient(135deg, #fff0f3 0%, #ffe3ec 45%, #fdf3e7 100%) !important; }
+    .hero .hero-stats .stat-item h3 { color: #ff6f91 !important; }
+
+    .light-background { background-color: #fff5f2 !important; }
+
+    .section-title h2 { color: #7a2e42 !important; }
+    .section-title h2::before { content: "🍓 "; }
+    .section-title p { color: #a5717e !important; }
+
+    .service-icon, .icon-box, .feature-icon-wrapper {
+      background-color: #ffe3ec !important;
+      color: #ff6f91 !important;
+    }
+    .service-item h3 a, .service-item h3 a span { color: #7a2e42 !important; }
+    .card-action { background-color: #ff6f91 !important; color: #fff !important; }
+
+    .service-card.featured { border-color: #ff6f91 !important; }
+    .service-card .card-header h4 { color: #7a2e42 !important; }
+
+    .pricing-card { border-color: #ffd9e2 !important; }
+    .pricing-card .price, .pricing-card .amount, .pricing-card .currency { color: #ff6f91 !important; }
+    .pricing-card.popular { background-color: #ff6f91 !important; border-color: #ff6f91 !important; }
+    .pricing-card.popular .price, .pricing-card.popular .amount, .pricing-card.popular .currency, .pricing-card.popular .period { color: #fff !important; }
+    .pricing-card .popular-badge { background-color: #7a2e42 !important; color: #fff !important; }
+    .pricing-card .features-list i { color: #ff6f91 !important; }
+    .pricing-card.popular .features-list i { color: #fff !important; }
+    .payment-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: #ffe3ec; color: #7a2e42; border-radius: 50px;
+      padding: .35rem .8rem; font-size: .85rem; margin: .2rem;
+    }
+    .pricing-card.popular .payment-badge { background: rgba(255,255,255,.2); color: #fff; }
+
+    .faq-item h3 span.num, .faq-active h3 { color: #ff6f91 !important; }
+
+    .team-card .role-badge { background-color: #ff6f91 !important; color: #fff !important; }
+
+    .footer.dark-background { background-color: #7a2e42 !important; }
+    .footer a { color: #ffd9e2 !important; }
+    .footer .social-links a { background-color: rgba(255,255,255,.1) !important; color: #fff !important; }
+    .footer .social-links a:hover { background-color: #ff6f91 !important; }
+    .footer .copyright, .footer .credits, .footer .credits a { color: #ffd9e2 !important; }
+
+    .stats-counter-card .counter-value, .highlight-number, .feature-number { color: #ff6f91 !important; }
+
+    .why-us .card-number { color: #ffd9e2 !important; }
+
+    .call-to-action .cta-wrapper { background: linear-gradient(135deg, #ff8fab 0%, #ff6f91 100%) !important; }
+  </style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.webp" alt="Dulce Aroma Repostería"> -->
+        <h1 class="sitename"><span>🍓</span>Dulce Aroma</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Inicio</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#services">Sabores</a></li>
+          <li><a href="#pricing">Precios</a></li>
+          <li><a href="#portfolio">Galería</a></li>
+          <li><a href="#team">Equipo</a></li>
+          <li class="dropdown"><a href="#"><span>Más</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#faq">Preguntas Frecuentes</a></li>
+              <li class="dropdown"><a href="#"><span>Ocasiones Especiales</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="#contact">Cumpleaños</a></li>
+                  <li><a href="#contact">Bodas</a></li>
+                  <li><a href="#contact">Baby Shower</a></li>
+                  <li><a href="#contact">Aniversarios</a></li>
+                  <li><a href="#contact">Eventos Corporativos</a></li>
+                </ul>
+              </li>
+              <li><a href="#alt-services">Nuestros Productos</a></li>
+              <li><a href="#features">Por Qué Elegirnos</a></li>
+              <li><a href="#why-us">Beneficios</a></li>
+            </ul>
+          </li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="index.html#contact">Haz tu Pedido</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+              <h2>Postres Artesanales con el Dulce Aroma de la Fresa</h2>
+              <p>En Dulce Aroma horneamos cada pastel, cupcake y postre a mano, con fresas frescas de temporada y recetas propias. Sabores únicos, presentación delicada en tonos pastel y entrega puntual para que cada celebración sea inolvidable.</p>
+              <div class="hero-btns">
+                <a href="#contact" class="btn btn-primary">Haz tu Pedido</a>
+                <a href="#services" class="btn btn-outline">Ver Sabores</a>
+              </div>
+              <div class="hero-stats">
+                <div class="stat-item">
+                  <h3><span data-purecounter-start="0" data-purecounter-end="5" data-purecounter-duration="1" class="purecounter"></span>+</h3>
+                  <p>Años de Experiencia</p>
+                </div>
+                <div class="stat-item">
+                  <h3><span data-purecounter-start="0" data-purecounter-end="1200" data-purecounter-duration="1" class="purecounter"></span>+</h3>
+                  <p>Postres Entregados</p>
+                </div>
+                <div class="stat-item">
+                  <h3><span data-purecounter-start="0" data-purecounter-end="98" data-purecounter-duration="1" class="purecounter"></span>%</h3>
+                  <p>Clientes Felices</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
+              <img src="assets/img/about/about-8.webp" alt="Pastel artesanal de fresa Dulce Aroma" class="img-fluid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- /Hero Section -->
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients section">
+
+      <div class="container text-center mb-3" data-aos="fade-up">
+        <p class="text-uppercase" style="color:#ff6f91; letter-spacing:2px; font-size:.85rem; font-weight:600;">Endulzamos toda ocasión especial</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100">
+
+        <div class="clients-slider swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 6000,
+              "autoplay": {
+                "delay": 1,
+                "disableOnInteraction": false
+              },
+              "centeredSlides": true,
+              "slideToClickedSlide": true,
+              "slidesPerView": "auto",
+              "spaceBetween": 40,
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 2,
+                  "spaceBetween": 20
+                },
+                "640": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 20
+                },
+                "992": {
+                  "slidesPerView": 4,
+                  "spaceBetween": 30
+                },
+                "1200": {
+                  "slidesPerView": 6,
+                  "spaceBetween": 40
+                }
+              }
+            }
+          </script>
+
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-1.webp" class="img-fluid" alt="Cumpleaños">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-2.webp" class="img-fluid" alt="Bodas">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-3.webp" class="img-fluid" alt="Baby Shower">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-4.webp" class="img-fluid" alt="Aniversarios">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-5.webp" class="img-fluid" alt="Eventos Corporativos">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-6.webp" class="img-fluid" alt="Graduaciones">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-1.webp" class="img-fluid" alt="Cumpleaños">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-2.webp" class="img-fluid" alt="Bodas">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-3.webp" class="img-fluid" alt="Baby Shower">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-4.webp" class="img-fluid" alt="Aniversarios">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-5.webp" class="img-fluid" alt="Eventos Corporativos">
+              </div>
+            </div><!-- End Client Item -->
+
+            <div class="swiper-slide">
+              <div class="client-logo">
+                <img src="assets/img/clients/clients-6.webp" class="img-fluid" alt="Graduaciones">
+              </div>
+            </div><!-- End Client Item -->
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Clients Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Nosotros</h2>
+        <p>Repostería artesanal hecha con dedicación, ingredientes frescos y mucho amor por las fresas</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 align-items-center justify-content-between">
+
+          <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
+            <span class="about-meta">MÁS SOBRE NOSOTROS</span>
+            <h2 class="about-title">El dulce aroma de lo hecho a mano</h2>
+            <p class="about-description">Dulce Aroma nació del gusto por combinar recetas tradicionales con un toque moderno en tonos pastel. Seleccionamos fresas frescas de temporada y solo ingredientes naturales para crear pasteles, cupcakes y postres que enamoran a la vista y al paladar.</p>
+
+            <div class="row feature-list-wrapper">
+              <div class="col-md-6">
+                <ul class="feature-list">
+                  <li><i class="bi bi-check-circle-fill"></i> Ingredientes 100% naturales</li>
+                  <li><i class="bi bi-check-circle-fill"></i> Fresas frescas de temporada</li>
+                  <li><i class="bi bi-check-circle-fill"></i> Horneado el mismo día</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="feature-list">
+                  <li><i class="bi bi-check-circle-fill"></i> Decoración personalizada</li>
+                  <li><i class="bi bi-check-circle-fill"></i> Entrega a domicilio</li>
+                  <li><i class="bi bi-check-circle-fill"></i> Opciones sin gluten</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="info-wrapper">
+              <div class="row gy-4">
+                <div class="col-lg-5">
+                  <div class="profile d-flex align-items-center gap-3">
+                    <img src="assets/img/person/person-m-2.webp" alt="Fundador de Dulce Aroma" class="profile-image">
+                    <div>
+                      <h4 class="profile-name">Mario Smith</h4>
+                      <p class="profile-position">Fundador &amp; Chef Pastelero</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-7">
+                  <div class="contact-info d-flex align-items-center gap-2">
+                    <i class="bi bi-telephone-fill"></i>
+                    <div>
+                      <p class="contact-label">Llámanos cuando quieras</p>
+                      <p class="contact-number">+123 456-789</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="image-wrapper">
+              <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
+                <img src="assets/img/about/about-5.webp" alt="Elaboración artesanal de pasteles con fresa" class="img-fluid main-image rounded-4">
+                <img src="assets/img/about/about-square-1.webp" alt="Decoración de postres Dulce Aroma" class="img-fluid small-image rounded-4">
+              </div>
+              <div class="experience-badge floating">
+                <h3>5+ <span>Años</span></h3>
+                <p>Endulzando momentos especiales</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="stats-hero row align-items-center mb-5">
+          <div class="col-lg-7 mb-4 mb-lg-0" data-aos="fade-right" data-aos-delay="200">
+            <h3 class="headline mb-3">Endulzando vidas, un postre a la vez</h3>
+            <p class="lead">Cada creación de Dulce Aroma combina técnica repostera, fresas frescas y un diseño delicado en tonos pastel. Así hemos conquistado el paladar de cientos de familias.</p>
+          </div>
+          <div class="col-lg-5 text-lg-end text-center" data-aos="zoom-in" data-aos-delay="300">
+            <div class="stats-rating d-inline-flex align-items-center py-3 px-4 shadow-sm">
+              <img src="assets/img/about/about-1.webp" class="img-fluid stats-rating-img me-3" alt="Clientes felices de Dulce Aroma" width="64" height="48">
+              <div>
+                <div class="rating-score d-flex align-items-center mb-1">
+                  <span class="fs-5 fw-semibold me-2">4.9/5</span>
+                  <span class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                  </span>
+                </div>
+                <div class="user-feedback small">Basado en más de 70 reseñas de clientes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-counters row gy-4 justify-content-center">
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+            <article class="stats-counter-card">
+              <div class="counter-value mb-1">
+                <span data-purecounter-start="0" data-purecounter-end="5" data-purecounter-duration="1.5" class="purecounter"></span>K+
+              </div>
+              <small class="label">Clientes Felices</small>
+            </article>
+          </div>
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+            <article class="stats-counter-card">
+              <div class="counter-value mb-1">
+                <span data-purecounter-start="0" data-purecounter-end="3" data-purecounter-duration="1.5" class="purecounter"></span>K+
+              </div>
+              <small class="label">Postres Entregados</small>
+            </article>
+          </div>
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+            <article class="stats-counter-card">
+              <div class="counter-value mb-1">
+                <span data-purecounter-start="0" data-purecounter-end="97" data-purecounter-duration="1.5" class="purecounter"></span>%
+              </div>
+              <small class="label">Ingredientes Frescos</small>
+            </article>
+          </div>
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="400">
+            <article class="stats-counter-card">
+              <div class="counter-value mb-1">
+                <span data-purecounter-start="0" data-purecounter-end="99" data-purecounter-duration="1.5" class="purecounter"></span>%
+              </div>
+              <small class="label">Pedidos Entregados a Tiempo</small>
+            </article>
+          </div>
+        </div><!-- End stats counters -->
+
+      </div>
+
+    </section><!-- /Stats Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Nuestros Sabores</h2>
+        <p>Cada sabor está pensado para sorprender: combinaciones clásicas y creaciones únicas con fresa fresca</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 justify-content-center">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <article class="service-item">
+              <span class="service-icon rounded-circle">
+                <i class="bi bi-heart-fill"></i>
+              </span>
+              <h3>
+                <a href="service-details.html">
+                  Fresa <span>con crema</span>
+                </a>
+              </h3>
+              <p>
+                Bizcocho suave relleno de crema chantilly y trozos de fresa fresca. Nuestro sabor insignia, ligero y delicado. Desde $18.
+              </p>
+              <a href="service-details.html" class="card-action rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-right"></i>
+              </a>
+            </article>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
+            <article class="service-item">
+              <span class="service-icon rounded-circle">
+                <i class="bi bi-gem"></i>
+              </span>
+              <h3>
+                <a href="service-details.html">
+                  Red <span>Velvet</span>
+                </a>
+              </h3>
+              <p>
+                Bizcocho aterciopelado color rojo con queso crema y un toque de fresa. Elegante y muy solicitado en bodas. Desde $22.
+              </p>
+              <a href="service-details.html" class="card-action rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-right"></i>
+              </a>
+            </article>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <article class="service-item">
+              <span class="service-icon rounded-circle">
+                <i class="bi bi-droplet-fill"></i>
+              </span>
+              <h3>
+                <a href="service-details.html">
+                  Chocolate <span>y fresa</span>
+                </a>
+              </h3>
+              <p>
+                Intenso bizcocho de chocolate belga con mermelada casera de fresa y ganache. Un contraste perfecto. Desde $20.
+              </p>
+              <a href="service-details.html" class="card-action rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-right"></i>
+              </a>
+            </article>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+            <article class="service-item">
+              <span class="service-icon rounded-circle">
+                <i class="bi bi-star-fill"></i>
+              </span>
+              <h3>
+                <a href="service-details.html">
+                  Cheesecake <span>de fresa</span>
+                </a>
+              </h3>
+              <p>
+                Base de galleta, queso crema horneado y cobertura de fresas naturales. Cremoso y refrescante. Desde $19.
+              </p>
+              <a href="service-details.html" class="card-action rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-right"></i>
+              </a>
+            </article>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <article class="service-item">
+              <span class="service-icon rounded-circle">
+                <i class="bi bi-flower1"></i>
+              </span>
+              <h3>
+                <a href="service-details.html">
+                  Vainilla <span>francesa</span>
+                </a>
+              </h3>
+              <p>
+                Bizcocho de vainilla de Madagascar con crema pastelera y láminas de fresa fresca. Un clásico reinventado. Desde $17.
+              </p>
+              <a href="service-details.html" class="card-action rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-right"></i>
+              </a>
+            </article>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="350">
+            <article class="service-item">
+              <span class="service-icon rounded-circle">
+                <i class="bi bi-basket2-fill"></i>
+              </span>
+              <h3>
+                <a href="service-details.html">
+                  Frutos <span>rojos</span>
+                </a>
+              </h3>
+              <p>
+                Mezcla de fresa, frambuesa y mora sobre bizcocho de limón. Fresco, ácido y ligero, ideal para el verano. Desde $21.
+              </p>
+              <a href="service-details.html" class="card-action rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-right"></i>
+              </a>
+            </article>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+
+    <!-- Alt Services Section -->
+    <section id="alt-services" class="alt-services section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-4">
+          <div class="col-lg-6 col-xl-3">
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
+              <div class="card-header">
+                <div class="icon-box">
+                  <i class="bi bi-cake2"></i>
+                </div>
+                <h4>Pasteles</h4>
+              </div>
+              <div class="card-body">
+                <p>Pasteles personalizados para toda ocasión, decorados a mano con detalles en tonos pastel y fresas naturales.</p>
+                <div class="feature-image">
+                  <img src="assets/img/services/services-1.webp" alt="Pasteles Dulce Aroma" class="img-fluid">
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="#pricing" class="btn-explore">
+                  Ver Precios
+                  <i class="bi bi-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+          </div><!-- /Service Card -->
+
+          <div class="col-lg-6 col-xl-3">
+            <div class="service-card featured" data-aos="zoom-in" data-aos-delay="200">
+              <div class="card-header">
+                <div class="icon-box">
+                  <i class="bi bi-cup-straw"></i>
+                </div>
+                <h4>Cupcakes</h4>
+              </div>
+              <div class="card-body">
+                <p>Cupcakes esponjosos rellenos y decorados en distintos sabores, perfectos para fiestas y detalles.</p>
+                <div class="feature-image">
+                  <img src="assets/img/services/services-2.webp" alt="Cupcakes Dulce Aroma" class="img-fluid">
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="#pricing" class="btn-explore">
+                  Ver Precios
+                  <i class="bi bi-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+          </div><!-- /Service Card -->
+
+          <div class="col-lg-6 col-xl-3">
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
+              <div class="card-header">
+                <div class="icon-box">
+                  <i class="bi bi-cup-hot"></i>
+                </div>
+                <h4>Postres en Vaso</h4>
+              </div>
+              <div class="card-body">
+                <p>Postres individuales en capas con fresa, crema y galleta. Ideales para eventos y catering.</p>
+                <div class="feature-image">
+                  <img src="assets/img/services/services-3.webp" alt="Postres en vaso Dulce Aroma" class="img-fluid">
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="#pricing" class="btn-explore">
+                  Ver Precios
+                  <i class="bi bi-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+          </div><!-- /Service Card -->
+
+          <div class="col-lg-6 col-xl-3">
+            <div class="service-card" data-aos="zoom-in" data-aos-delay="400">
+              <div class="card-header">
+                <div class="icon-box">
+                  <i class="bi bi-egg-fried"></i>
+                </div>
+                <h4>Galletas Decoradas</h4>
+              </div>
+              <div class="card-body">
+                <p>Galletas artesanales decoradas a mano, perfectas como souvenir o detalle en tus eventos.</p>
+                <div class="feature-image">
+                  <img src="assets/img/services/services-4.webp" alt="Galletas decoradas Dulce Aroma" class="img-fluid">
+                </div>
+              </div>
+              <div class="card-footer">
+                <a href="#pricing" class="btn-explore">
+                  Ver Precios
+                  <i class="bi bi-arrow-up-right"></i>
+                </a>
+              </div>
+            </div>
+          </div><!-- /Service Card -->
+
+        </div>
+      </div>
+    </section><!-- /Alt Services Section -->
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Por Qué Elegirnos</h2>
+        <p>Sabor, frescura y presentación: así vivimos la repostería en Dulce Aroma</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row align-items-center mb-5">
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+            <div class="features-intro">
+              <h2>Momentos Dulces e Inolvidables</h2>
+              <p>Cuidamos cada detalle, desde la selección de las fresas hasta la última capa de crema, para que tu celebración sea perfecta.</p>
+              <div class="highlights-grid">
+                <div class="highlight-item">
+                  <div class="highlight-number">100%</div>
+                  <div class="highlight-text">Artesanal</div>
+                </div>
+                <div class="highlight-item">
+                  <div class="highlight-number">24h</div>
+                  <div class="highlight-text">Entrega Rápida</div>
+                </div>
+                <div class="highlight-item">
+                  <div class="highlight-number">500+</div>
+                  <div class="highlight-text">Clientes Felices</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+            <div class="featured-image-container">
+              <img src="assets/img/features/features-3.webp" alt="Postres artesanales Dulce Aroma" class="img-fluid">
+              <div class="floating-badge">
+                <i class="bi bi-award"></i>
+                <span>Favorito Local</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="features-grid">
+          <div class="row g-4">
+            <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+              <div class="feature-box text-center">
+                <div class="feature-icon-wrapper">
+                  <i class="bi bi-lightning-charge"></i>
+                </div>
+                <h4>Frescura Garantizada</h4>
+                <p>Compramos fresas y demás ingredientes frescos cada semana para que cada bocado sepa a recién horneado.</p>
+                <div class="progress-indicator">
+                  <div class="progress-bar" style="width: 95%;"></div>
+                </div>
+                <span class="progress-label">95% Frescura</span>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+              <div class="feature-box text-center">
+                <div class="feature-icon-wrapper">
+                  <i class="bi bi-shield-shaded"></i>
+                </div>
+                <h4>Higiene y Calidad</h4>
+                <p>Procesos de elaboración certificados y control estricto de higiene en cada etapa de producción.</p>
+                <div class="progress-indicator">
+                  <div class="progress-bar" style="width: 100%;"></div>
+                </div>
+                <span class="progress-label">100% Higiene</span>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+              <div class="feature-box text-center">
+                <div class="feature-icon-wrapper">
+                  <i class="bi bi-layers"></i>
+                </div>
+                <h4>Personalización Total</h4>
+                <p>Adaptamos colores, sabores y decoración de cada pedido según el estilo y la temática de tu evento.</p>
+                <div class="progress-indicator">
+                  <div class="progress-bar" style="width: 88%;"></div>
+                </div>
+                <span class="progress-label">88% Personalización</span>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+              <div class="feature-box text-center">
+                <div class="feature-icon-wrapper">
+                  <i class="bi bi-graph-up"></i>
+                </div>
+                <h4>Presentación Perfecta</h4>
+                <p>Cuidamos el acabado visual de cada postre, con paletas pastel y detalles de fresa cuidadosamente colocados.</p>
+                <div class="progress-indicator">
+                  <div class="progress-bar" style="width: 92%;"></div>
+                </div>
+                <span class="progress-label">92% Satisfacción</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="advanced-features-section" data-aos="fade-up" data-aos-delay="100">
+          <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up" data-aos-delay="200">
+              <h3>Servicios Especiales</h3>
+              <p>Además de nuestra carta habitual, ofrecemos servicios pensados para ocasiones y necesidades específicas.</p>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="300">
+              <div class="advanced-feature-card">
+                <div class="feature-header">
+                  <div class="feature-number">01</div>
+                  <div class="feature-status-badge enterprise">Empresarial</div>
+                </div>
+                <div class="feature-content">
+                  <h5>Pedidos Corporativos</h5>
+                  <p>Coordinamos pedidos grandes para eventos empresariales, con opciones de facturación y entrega programada.</p>
+                  <ul class="feature-benefits">
+                    <li><i class="bi bi-check-circle"></i> Cotización a medida</li>
+                    <li><i class="bi bi-check-circle"></i> Entrega puntual</li>
+                  </ul>
+                </div>
+                <div class="feature-icon-bg">
+                  <i class="bi bi-briefcase"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="400">
+              <div class="advanced-feature-card">
+                <div class="feature-header">
+                  <div class="feature-number">02</div>
+                  <div class="feature-status-badge premium">Premium</div>
+                </div>
+                <div class="feature-content">
+                  <h5>Pasteles Personalizados</h5>
+                  <p>Diseñamos junto a ti la torta soñada: colores, figuras y sabores a tu gusto, con boceto previo incluido.</p>
+                  <ul class="feature-benefits">
+                    <li><i class="bi bi-check-circle"></i> Diseño exclusivo</li>
+                    <li><i class="bi bi-check-circle"></i> Boceto previo</li>
+                  </ul>
+                </div>
+                <div class="feature-icon-bg">
+                  <i class="bi bi-palette"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="500">
+              <div class="advanced-feature-card">
+                <div class="feature-header">
+                  <div class="feature-number">03</div>
+                  <div class="feature-status-badge standard">Estándar</div>
+                </div>
+                <div class="feature-content">
+                  <h5>Clases de Repostería</h5>
+                  <p>Talleres prácticos para aprender a decorar postres con fresa, ideales en grupo o de forma individual.</p>
+                  <ul class="feature-benefits">
+                    <li><i class="bi bi-check-circle"></i> Grupos reducidos</li>
+                    <li><i class="bi bi-check-circle"></i> Materiales incluidos</li>
+                  </ul>
+                </div>
+                <div class="feature-icon-bg">
+                  <i class="bi bi-mortarboard"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="600">
+              <div class="advanced-feature-card">
+                <div class="feature-header">
+                  <div class="feature-number">04</div>
+                  <div class="feature-status-badge coming-soon">Próximamente</div>
+                </div>
+                <div class="feature-content">
+                  <h5>Club Dulce Aroma</h5>
+                  <p>Suscripción mensual con un postre sorpresa y descuentos exclusivos para nuestros clientes más fieles.</p>
+                  <ul class="feature-benefits">
+                    <li><i class="bi bi-check-circle"></i> Postre sorpresa</li>
+                    <li><i class="bi bi-check-circle"></i> Descuentos exclusivos</li>
+                  </ul>
+                </div>
+                <div class="feature-icon-bg">
+                  <i class="bi bi-gift"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Features Section -->
+
+    <!-- Why Us Section -->
+    <section id="why-us" class="why-us section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Por Qué Elegirnos</h2>
+        <p>Estas son las razones por las que nuestros clientes vuelven a pedir con nosotros</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-7 mb-4 mb-lg-0">
+            <div class="row gy-4">
+
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-item">
+                  <div class="card-number">01</div>
+                  <h3>Ingredientes de primera</h3>
+                  <p>Trabajamos con fresas frescas de temporada, mantequilla real y chocolate de calidad, sin conservantes artificiales.</p>
+                </div>
+              </div><!-- End Card Item -->
+
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-item">
+                  <div class="card-number">02</div>
+                  <h3>Recetas propias</h3>
+                  <p>Cada receta ha sido perfeccionada a lo largo de años de práctica para lograr el equilibrio perfecto de sabor.</p>
+                </div>
+              </div><!-- End Card Item -->
+
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card-item">
+                  <div class="card-number">03</div>
+                  <h3>Decoración artesanal</h3>
+                  <p>Cada postre se decora a mano con técnicas de repostería fina y una paleta de colores pastel muy cuidada.</p>
+                </div>
+              </div><!-- End Card Item -->
+
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="card-item">
+                  <div class="card-number">04</div>
+                  <h3>Entrega puntual</h3>
+                  <p>Coordinamos la hora exacta de entrega o retiro para que tu pastel llegue fresco justo a tiempo para la celebración.</p>
+                </div>
+              </div><!-- End Card Item -->
+
+            </div>
+          </div>
+
+          <div class="col-lg-5" data-aos="zoom-out" data-aos-delay="300">
+            <div class="image-wrapper">
+              <img src="assets/img/about/about-portrait-3.webp" alt="Repostera decorando un pastel de fresa" class="img-fluid rounded-4">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Why Us Section -->
+
+    <!-- Call To Action Section -->
+    <section id="call-to-action" class="call-to-action section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="cta-wrapper">
+          <div class="background-pattern">
+            <div class="wave"></div>
+            <div class="geometric-shape shape-1"></div>
+            <div class="geometric-shape shape-2"></div>
+          </div>
+
+          <div class="row align-items-center">
+            <div class="col-lg-6 order-lg-2">
+              <div class="image-section" data-aos="fade-left" data-aos-delay="200">
+                <div class="main-image-wrapper">
+                  <img src="assets/img/cta/cta-4.webp" alt="Pastel de fresa Dulce Aroma" class="img-fluid main-img">
+                  <div class="overlay-circle circle-1"></div>
+                  <div class="overlay-circle circle-2"></div>
+                </div>
+
+                <div class="stats-card card-1" data-aos="zoom-in" data-aos-delay="400">
+                  <div class="stat-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                  </div>
+                  <div class="stat-content">
+                    <h6>98%</h6>
+                    <span>Clientes Satisfechos</span>
+                  </div>
+                </div>
+
+                <div class="stats-card card-2" data-aos="zoom-in" data-aos-delay="500">
+                  <div class="stat-icon">
+                    <i class="bi bi-trophy-fill"></i>
+                  </div>
+                  <div class="stat-content">
+                    <h6>5K+</h6>
+                    <span>Postres Entregados</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 order-lg-1">
+              <div class="content-section" data-aos="fade-right" data-aos-delay="300">
+                <div class="label-badge" data-aos="fade-up" data-aos-delay="400">
+                  <i class="bi bi-rocket-takeoff"></i>
+                  <span>Pide Hoy Mismo</span>
+                </div>
+
+                <h2 data-aos="fade-up" data-aos-delay="450">¿Listo para Endulzar tu Próxima Celebración?</h2>
+                <p data-aos="fade-up" data-aos-delay="500">Cuéntanos la ocasión, el sabor y la fecha, y nosotros nos encargamos de sorprender a tus invitados con un postre inolvidable hecho con fresas frescas.</p>
+
+                <div class="features-grid" data-aos="fade-up" data-aos-delay="550">
+                  <div class="feature-item">
+                    <div class="feature-icon">
+                      <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <span>Atención Personalizada</span>
+                  </div>
+
+                  <div class="feature-item">
+                    <div class="feature-icon">
+                      <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <span>Sabores Únicos con Fresa</span>
+                  </div>
+
+                  <div class="feature-item">
+                    <div class="feature-icon">
+                      <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <span>Entrega a Domicilio</span>
+                  </div>
+
+                  <div class="feature-item">
+                    <div class="feature-icon">
+                      <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <span>Diseños Personalizados</span>
+                  </div>
+                </div>
+
+                <div class="cta-actions" data-aos="fade-up" data-aos-delay="600">
+                  <a href="#contact" class="btn btn-cta-primary">Haz tu Pedido</a>
+                  <div class="secondary-action">
+                    <a href="#portfolio" class="btn btn-cta-secondary">
+                      <i class="bi bi-images"></i>
+                      Ver Galería
+                    </a>
+                    <span class="note">Pagas al confirmar tu pedido</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Call To Action Section -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Galería</h2>
+        <p>Un vistazo a algunas de nuestras creaciones más queridas por los clientes</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+            <li data-filter="*" class="filter-active">Todos</li>
+            <li data-filter=".filter-app">Pasteles</li>
+            <li data-filter=".filter-product">Cupcakes</li>
+            <li data-filter=".filter-branding">Postres en Vaso</li>
+            <li data-filter=".filter-books">Galletas</li>
+          </ul><!-- End Portfolio Filters -->
+
+          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-1.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-1.webp" class="img-fluid" alt="Pastel de Fresa Clásico"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Pastel de Fresa Clásico</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-10.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-10.webp" class="img-fluid" alt="Cupcakes de Fresa y Crema"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Cupcakes de Fresa y Crema</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-7.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-7.webp" class="img-fluid" alt="Postre en Vaso de Fresa"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Postre en Vaso de Fresa</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-4.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-4.webp" class="img-fluid" alt="Galletas Decoradas de Fresa"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Galletas Decoradas de Fresa</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-2.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-2.webp" class="img-fluid" alt="Pastel Red Velvet"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Pastel Red Velvet</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-11.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-11.webp" class="img-fluid" alt="Cupcakes de Chocolate y Fresa"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Cupcakes de Chocolate y Fresa</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-8.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-8.webp" class="img-fluid" alt="Cheesecake en Vaso"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Cheesecake en Vaso</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-5.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-5.webp" class="img-fluid" alt="Galletas de Vainilla"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Galletas de Vainilla</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-3.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-3.webp" class="img-fluid" alt="Pastel de Cumpleaños Pastel"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Pastel de Cumpleaños Pastel</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-12.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-12.webp" class="img-fluid" alt="Cupcakes de Vainilla Francesa"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Cupcakes de Vainilla Francesa</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-9.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-9.webp" class="img-fluid" alt="Postre de Frutos Rojos"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Postre de Frutos Rojos</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-books">
+              <div class="portfolio-content h-100">
+                <a href="assets/img/portfolio/portfolio-6.webp" data-gallery="portfolio-gallery-app" class="glightbox"><img src="assets/img/portfolio/portfolio-6.webp" class="img-fluid" alt="Galletas de Boda"></a>
+                <div class="portfolio-info">
+                  <h4><a href="portfolio-details.html" title="Ver más detalles">Galletas de Boda</a></h4>
+                  <p>Hecho a mano con fresas frescas y mucho cariño</p>
+                </div>
+              </div>
+            </div><!-- End Portfolio Item -->
+
+          </div><!-- End Portfolio Container -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Section -->
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Precios</h2>
+        <p>Elige el tamaño y sabor perfecto para tu ocasión. Todos nuestros pasteles incluyen decoración base</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4 justify-content-center">
+
+          <!-- Plan Básico -->
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="pricing-card">
+              <h3>Combo Fresa Clásica</h3>
+              <div class="price">
+                <span class="currency">$</span>
+                <span class="amount">15</span>
+                <span class="period">/ pastel individual</span>
+              </div>
+              <p class="description">Ideal para un antojo o un pequeño festejo. Porción individual con crema chantilly y fresas frescas.</p>
+
+              <h4>Incluye:</h4>
+              <ul class="features-list">
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Sabor Fresa con Crema
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  1 a 2 porciones
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Decoración pastel sencilla
+                </li>
+              </ul>
+
+              <div class="text-center mt-2">
+                <span class="payment-badge"><i class="bi bi-cash-stack"></i> Efectivo</span>
+                <span class="payment-badge"><i class="bi bi-credit-card"></i> Tarjeta</span>
+              </div>
+
+              <a href="#contact" class="btn btn-primary">
+                Pedir Ahora
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Plan Popular -->
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="pricing-card popular">
+              <div class="popular-badge">Más Popular</div>
+              <h3>Combo Dulce Aroma</h3>
+              <div class="price">
+                <span class="currency">$</span>
+                <span class="amount">28</span>
+                <span class="period">/ pastel (8-10 porciones)</span>
+              </div>
+              <p class="description">Nuestro pastel mediano, perfecto para cumpleaños y reuniones familiares. Elige entre nuestros 6 sabores.</p>
+
+              <h4>Incluye:</h4>
+              <ul class="features-list">
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Sabor a elección (6 opciones)
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  8 a 10 porciones
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Decoración temática básica
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Mensaje personalizado incluido
+                </li>
+              </ul>
+
+              <div class="text-center mt-2">
+                <span class="payment-badge"><i class="bi bi-cash-stack"></i> Efectivo</span>
+                <span class="payment-badge"><i class="bi bi-credit-card"></i> Tarjeta</span>
+                <span class="payment-badge"><i class="bi bi-phone"></i> Pago Móvil</span>
+              </div>
+
+              <a href="#contact" class="btn btn-light">
+                Pedir Ahora
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Plan Premium -->
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="pricing-card">
+              <h3>Combo Celebración Especial</h3>
+              <div class="price">
+                <span class="currency">$</span>
+                <span class="amount">55</span>
+                <span class="period">/ pastel (20-25 porciones)</span>
+              </div>
+              <p class="description">Pastel grande totalmente personalizado, ideal para bodas, XV años y eventos corporativos.</p>
+
+              <h4>Incluye:</h4>
+              <ul class="features-list">
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Hasta 2 sabores combinados
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  20 a 25 porciones
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Diseño personalizado con boceto
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Topper y decoración premium
+                </li>
+                <li>
+                  <i class="bi bi-check-circle-fill"></i>
+                  Entrega a domicilio incluida
+                </li>
+              </ul>
+
+              <div class="text-center mt-2">
+                <span class="payment-badge"><i class="bi bi-cash-stack"></i> Efectivo</span>
+                <span class="payment-badge"><i class="bi bi-credit-card"></i> Tarjeta</span>
+                <span class="payment-badge"><i class="bi bi-bank"></i> Transferencia</span>
+              </div>
+
+              <a href="#contact" class="btn btn-primary">
+                Pedir Ahora
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="text-center mt-4" style="color:#7a2e42;">
+          <i class="bi bi-info-circle"></i>
+          Aceptamos <strong>efectivo</strong>, <strong>tarjeta de crédito/débito</strong>, <strong>transferencia bancaria</strong> y <strong>pago móvil</strong>. Se solicita un 50% de anticipo para confirmar pedidos personalizados.
+        </p>
+
+      </div>
+
+    </section><!-- /Pricing Section -->
+
+    <!-- Faq Section -->
+    <section id="faq" class="faq section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="content px-xl-5">
+              <h3><span>Preguntas </span><strong>Frecuentes</strong></h3>
+              <p>
+                Resolvemos las dudas más comunes sobre nuestros pasteles, sabores, tiempos de entrega y formas de pago.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="faq-container">
+              <div class="faq-item faq-active">
+                <h3><span class="num">1.</span> <span>¿Con cuánta anticipación debo hacer mi pedido?</span></h3>
+                <div class="faq-content">
+                  <p>Recomendamos pedir con al menos 48 horas de anticipación. Para pasteles personalizados grandes o de bodas, lo ideal es reservar con 1 a 2 semanas de anticipación.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span class="num">2.</span> <span>¿Puedo combinar sabores en un mismo pastel?</span></h3>
+                <div class="faq-content">
+                  <p>Sí. En los combos Dulce Aroma y Celebración Especial puedes combinar hasta dos sabores de nuestra carta, incluyendo nuestras opciones con fresa fresca.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span class="num">3.</span> <span>¿Qué métodos de pago aceptan?</span></h3>
+                <div class="faq-content">
+                  <p>Aceptamos efectivo, tarjeta de crédito o débito, transferencia bancaria y pago móvil. Para pedidos personalizados solicitamos un anticipo del 50% y el resto contra entrega.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span class="num">4.</span> <span>¿Tienen opciones sin gluten o veganas?</span></h3>
+                <div class="faq-content">
+                  <p>Sí, contamos con versiones sin gluten y veganas de nuestros sabores más populares. Solo indícalo al momento de hacer tu pedido para prepararlo especialmente para ti.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item">
+                <h3><span class="num">5.</span> <span>¿Realizan entregas a domicilio?</span></h3>
+                <div class="faq-content">
+                  <p>Sí, ofrecemos entrega a domicilio dentro de la ciudad con un costo adicional según la distancia. También puedes retirar tu pedido directamente en nuestro local.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Faq Section -->
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Equipo</h2>
+        <p>Las manos y el talento detrás de cada postre de Dulce Aroma</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4 justify-content-center">
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="team-card">
+              <div class="profile-image">
+                <img src="assets/img/person/person-f-3.webp" class="img-fluid" alt="Olivia Martínez - Chef Pastelera Principal Dulce Aroma" loading="lazy">
+                <div class="role-badge">Chef Pastelera Principal</div>
+                <div class="social-icons">
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Olivia Martínez</h4>
+                <p>Con más de 8 años de experiencia, lidera la creación de nuevas recetas y sabores con fresa.</p>
+              </div>
+            </div><!-- End Team Card -->
+          </div>
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="team-card">
+              <div class="profile-image">
+                <img src="assets/img/person/person-m-9.webp" class="img-fluid" alt="James Wilson - Especialista en Decoración Dulce Aroma" loading="lazy">
+                <div class="role-badge">Especialista en Decoración</div>
+                <div class="social-icons">
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>James Wilson</h4>
+                <p>Encargado del diseño y la decoración artesanal de pasteles personalizados en tonos pastel.</p>
+              </div>
+            </div><!-- End Team Card -->
+          </div>
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="team-card">
+              <div class="profile-image">
+                <img src="assets/img/person/person-f-8.webp" class="img-fluid" alt="Sophia Johnson - Coordinadora de Pedidos Dulce Aroma" loading="lazy">
+                <div class="role-badge">Coordinadora de Pedidos</div>
+                <div class="social-icons">
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Sophia Johnson</h4>
+                <p>Se asegura de que cada pedido se entregue a tiempo y cumpla con todos los detalles solicitados.</p>
+              </div>
+            </div><!-- End Team Card -->
+          </div>
+
+          <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="350">
+            <div class="team-card">
+              <div class="profile-image">
+                <img src="assets/img/person/person-m-12.webp" class="img-fluid" alt="Benjamin Davis - Atención al Cliente Dulce Aroma" loading="lazy">
+                <div class="role-badge">Atención al Cliente</div>
+                <div class="social-icons">
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+                  <a href="#"><i class="bi bi-twitter-x"></i></a>
+                  <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Benjamin Davis</h4>
+                <p>Recibe tus pedidos y te asesora sobre sabores, tamaños y opciones de pago disponibles.</p>
+              </div>
+            </div><!-- End Team Card -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contacto</h2>
+        <p>Escríbenos y cuéntanos qué ocasión quieres endulzar. Te responderemos lo antes posible</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4 g-lg-5">
+          <div class="col-lg-5">
+            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+              <h3>Información de Contacto</h3>
+              <p>Estamos disponibles para tomar tu pedido, resolver dudas sobre sabores o coordinar la entrega de tu postre.</p>
+
+              <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box">
+                  <i class="bi bi-geo-alt"></i>
+                </div>
+                <div class="content">
+                  <h4>Nuestra Ubicación</h4>
+                  <p>A108 Adam Street</p>
+                  <p>New York, NY 535022</p>
+                </div>
+              </div>
+
+              <div class="info-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon-box">
+                  <i class="bi bi-telephone"></i>
+                </div>
+                <div class="content">
+                  <h4>Teléfono</h4>
+                  <p>+1 5589 55488 55</p>
+                  <p>+1 6678 254445 41</p>
+                </div>
+              </div>
+
+              <div class="info-item" data-aos="fade-up" data-aos-delay="450">
+                <div class="icon-box">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="content">
+                  <h4>Correo Electrónico</h4>
+                  <p>pedidos@dulcearoma.com</p>
+                  <p>contacto@dulcearoma.com</p>
+                </div>
+              </div>
+
+              <div class="info-item" data-aos="fade-up" data-aos-delay="500">
+                <div class="icon-box">
+                  <i class="bi bi-credit-card"></i>
+                </div>
+                <div class="content">
+                  <h4>Métodos de Pago</h4>
+                  <p>Efectivo, tarjeta de crédito/débito, transferencia bancaria y pago móvil</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-7">
+            <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
+              <h3>Haz tu Pedido</h3>
+              <p>Cuéntanos el sabor que prefieres, el tamaño y la fecha de tu evento, y te enviaremos una cotización.</p>
+
+              <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                <div class="row gy-4">
+
+                  <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" placeholder="Tu Nombre" required="">
+                  </div>
+
+                  <div class="col-md-6 ">
+                    <input type="email" class="form-control" name="email" placeholder="Tu Correo" required="">
+                  </div>
+
+                  <div class="col-12">
+                    <input type="text" class="form-control" name="subject" placeholder="Sabor y Ocasión (ej. Fresa con crema - Cumpleaños)" required="">
+                  </div>
+
+                  <div class="col-12">
+                    <textarea class="form-control" name="message" rows="6" placeholder="Cuéntanos más detalles: tamaño, fecha de entrega y método de pago preferido" required=""></textarea>
+                  </div>
+
+                  <div class="col-12 text-center">
+                    <div class="loading">Cargando</div>
+                    <div class="error-message"></div>
+                    <div class="sent-message">¡Tu mensaje ha sido enviado! Gracias por escribirnos.</div>
+
+                    <button type="submit" class="btn">Enviar Pedido</button>
+                  </div>
+
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-6">
+            <h4>Únete al Club Dulce Aroma</h4>
+            <p>Suscríbete y recibe promociones, nuevos sabores y descuentos exclusivos directo en tu correo.</p>
+            <form action="forms/newsletter.php" method="post" class="php-email-form">
+              <div class="newsletter-form"><input type="email" name="email" placeholder="Tu correo electrónico"><input type="submit" value="Suscribirme"></div>
+              <div class="loading">Cargando</div>
+              <div class="error-message"></div>
+              <div class="sent-message">¡Gracias por suscribirte a Dulce Aroma!</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">🍓 Dulce Aroma</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>A108 Adam Street</p>
+            <p>New York, NY 535022</p>
+            <p class="mt-3"><strong>Teléfono:</strong> <span>+1 5589 55488 55</span></p>
+            <p><strong>Correo:</strong> <span>pedidos@dulcearoma.com</span></p>
+            <p><strong>Pago:</strong> <span>Efectivo, tarjeta, transferencia y pago móvil</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Enlaces Útiles</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#hero">Inicio</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#about">Nosotros</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#pricing">Precios</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#faq">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Nuestros Productos</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#services">Pasteles</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#alt-services">Cupcakes</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#alt-services">Postres en Vaso</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#alt-services">Galletas Decoradas</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Síguenos</h4>
+          <p>Comparte tus antojos con nosotros y entérate primero de nuestras promociones y sabores de temporada.</p>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-tiktok"></i></a>
+            <a href=""><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Dulce Aroma</strong> <span>Todos los derechos reservados</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> | <a href="https://bootstrapmade.com/tools/">DevTools</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Datos estructurados para SEO local (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    "name": "Dulce Aroma",
+    "image": "assets/img/about/about-8.webp",
+    "description": "Repostería artesanal especializada en pasteles, cupcakes y postres con fresas frescas.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "A108 Adam Street",
+      "addressLocality": "New York",
+      "postalCode": "535022",
+      "addressCountry": "US"
+    },
+    "telephone": "+15589554885",
+    "email": "pedidos@dulcearoma.com",
+    "priceRange": "$$",
+    "servesCuisine": "Repostería",
+    "paymentAccepted": "Efectivo, Tarjeta de crédito, Tarjeta de débito, Transferencia bancaria, Pago móvil",
+    "sameAs": [
+      "https://www.instagram.com/",
+      "https://www.facebook.com/",
+      "https://www.tiktok.com/"
+    ]
+  }
+  </script>
+
+</body>
+
+</html>

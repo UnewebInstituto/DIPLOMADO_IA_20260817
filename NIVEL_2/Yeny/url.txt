@@ -1,0 +1,13 @@
+https://yenysalinas.alwaysdata.net/|
+servidor ftp:   
+usuario ftp: Yenysalinas   
+
+Elaboracion de prompt para modificar el contenido del archivo index.html, de la plantilla de bootstrapmade
+
+Asume el rol de experto en desarrollo web, bootstrap y manejo SEO 
+(optimización de motores de búsqueda), tengo una plantilla 
+descargada del sitio bootstrapmade, quiero que mantengas todos los
+aspectos del diseño, presentación, apariencia, imagenes y efectos
+del archivo anexo index.html. Necesito que generes un nuevo archivo 
+index.html, donde mejores su contenido para hacer referencia a un negocio
+de repostería ("Dulce Aroma"), incluyendo precio, sabores y método de pago.
