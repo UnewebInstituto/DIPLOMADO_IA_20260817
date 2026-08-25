@@ -16,3 +16,20 @@ aspectos del diseño, presentación, apariencia, imagenes y efectos
 del archivo anexo index.html. Necesito que generes un nuevo archivo 
 index.html, donde mejores su contenido para hacer referencia a un negocio
 de repostería ("Dulce Aroma"), incluyendo precio, sabores y método de pago.
+
+
+
+Fuentes de plantillas HTML:
+
+https://bootstrapmade.com/bootstrap-portfolio-templates/
+
+Hosting gratuito
+
+https://www.alwaysdata.com/
+
+FileZilla Client
+Sitio de descarga
+https://filezilla-project.org/
+
+Permite la conexión remota vía FTP/SFTP 
+con un servidor
