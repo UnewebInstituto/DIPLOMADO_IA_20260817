@@ -1,0 +1,142 @@
+Para solicitar el correo electrónico y el número de teléfono a los visitantes en Tawk.to, la forma más directa y efectiva es configurar el **Formulario de Pre-chat** (Pre-chat Form). Esto obliga o solicita al usuario ingresar sus datos antes de iniciar la conversación.
+
+---
+
+### Pasos para activar el Formulario de Pre-chat
+
+1. **Acceder a la administración**
+* Inicia sesión en tu panel de **Tawk.to**.
+* Selecciona la propiedad (sitio web) donde deseas aplicar los cambios.
+* Haz clic en el icono de **Administración (Admin)** (el engranaje en la esquina inferior izquierda).
+
+
+2. **Habilitar el formulario**
+* En el menú lateral, dentro de la sección **Canales**, selecciona **Widget del chat**.
+* Busca la tarjeta **Contenido del widget** y haz clic en **Editar contenido**.
+* En el menú superior o lateral de la vista de edición, ubica la opción **Formulario de Pre-chat** (Pre-chat Form) y cambia el interruptor a **Activado (On)**.
+
+
+3. **Configurar los campos de Correo y Teléfono**
+* Una vez activado, verás los campos predeterminados del formulario.
+* **Correo electrónico:** El campo *Email* viene incluido por defecto. Asegúrate de marcar la casilla de **Requerido** (Required) si deseas que sea obligatorio.
+* **Teléfono:** Si no aparece en la lista, haz clic en **+ Agregar campo** (+ Add field), selecciona el tipo de campo **Teléfono** (Phone Number) o **Texto corto**, asígnale la etiqueta `Teléfono` y marca la casilla **Requerido** (Required).
+
+
+4. **Guardar cambios**
+* Personaliza el mensaje de bienvenida del formulario (ej. *"Por favor, déjanos tus datos para iniciar la conversación"*).
+* Haz clic en **Guardar** en la esquina superior derecha.
+
+
+
+---
+
+### Alternativa: Captura automática mediante el Chatbot (AI / Base de Conocimiento)
+
+Si utilizas las funciones avanzadas de **Tawk.to AI Assist** o un flujo automatizado de respuestas:
+
+* Configura el prompt inicial de tu asistente virtual para solicitar los datos antes de transferir a un agente humano.
+* **Prompt de ejemplo:** *"Hola. Para poder ayudarte mejor o darte seguimiento por si nos desconectamos, ¿me podrías compartir tu correo electrónico y número de teléfono?"*
+* El asistente almacenará las respuestas dentro del historial del chat o creará un **Ticket** automático con esa información.
+
+Una vez que has configurado y guardado los campos del **Formulario de Pre-chat** en el panel de control, la activación en tu sitio web es **automática e inmediata** para los nuevos visitantes, siempre y cuando se cumpla una condición clave sobre el estado de tus agentes.
+
+**Factores clave para que el formulario se muestre activado en tu web:**
+
+* **Estado En Línea (Online):** El formulario de pre-chat aparece justo cuando el widget está en modo "En línea" (cuando hay al menos un agente conectado en la aplicación/web de Tawk.to o cuando tienes activado el servicio de chat). El usuario verá los campos antes de que se abra la ventana de diálogo.
+* **Estado Ausente / Offline:** Si no hay ningún agente conectado, Tawk.to mostrará en su lugar el **Formulario Offline** (Offline Form). Si también quieres pedir teléfono y correo cuando no estés disponible, debes activar y editar ese formulario específico en el mismo menú de *Contenido del widget*.
+
+**Pasos de verificación para confirmar que ya está activo:**
+
+1. Abre una ventana en **modo incógnito** en tu navegador.
+2. Ingresa a tu sitio web (asegúrate de que en el panel de Tawk.to tu estado esté en **En línea**).
+3. Haz clic en el globo flotante del chat: en lugar de abrir la conversación directamente, se desplegará el formulario solicitando el correo y teléfono antes de permitir escribir el primer mensaje.
+
+*Nota: Si ya tenías la página web abierta en una pestaña normal, borra la caché o refresca la página (`Ctrl + F5` / `Cmd + Shift + R`) para que el widget actualice la nueva configuración desde los servidores de Tawk.to.*
+
+Es un comportamiento normal de Tawk.to: la plataforma utiliza **cookies de sesión** y **almacenamiento local (LocalStorage)** en el navegador para no incomodar al usuario pidiéndole los datos en cada clic o recarga mientras navega por tu sitio.
+
+Para controlar o ajustar este comportamiento, existen dos soluciones:
+
+---
+
+### 1. Entender la persistencia por defecto (Comportamiento del sistema)
+
+* **Duración de la sesión:** Una vez que el visitante llena el formulario, Tawk.to lo reconoce como "identificado" durante esa sesión de navegación.
+* **Cuándo vuelve a pedirlo:** El formulario se volverá a mostrar automáticamente cuando el visitante:
+* Abra la página en una ventana de **incógnito**.
+* Borre las cookies/datos del navegador.
+* Cambie de navegador o de dispositivo.
+* Inicie una nueva sesión tras un periodo de inactividad prolongado (cuando expire la cookie del chat).
+
+
+
+---
+
+### 2. Forzar que vuelva a pedir los datos (Opciones técnicas)
+
+Si estás haciendo pruebas o necesitas que el formulario se muestre siempre bajo ciertas reglas, puedes aplicar estas soluciones:
+
+* **Para pruebas de desarrollo:**
+Abre las herramientas de desarrollador en tu navegador (`F12`), ve a la pestaña **Application** (Aplicación) > **Local Storage** y **Cookies**, y borra las entradas asociadas a `tawk.to` y a tu dominio. Al recargar la página (`F5`), el formulario reaparecerá.
+* **Mediante la API JavaScript de Tawk.to (Para control avanzado):**
+Si deseas que al terminar un chat o al cerrar la ventana se borre la identidad del usuario para que el siguiente visitante en la misma máquina tenga que llenar el formulario, puedes invocar el método de cierre de sesión en tu código web:
+
+```javascript
+// Borra los datos del visitante actual en el widget
+Tawk_API = Tawk_API || {};
+Tawk_API.endChat = function(){
+    Tawk_API.cleanVisitor();
+};
+
+```
+
+Con `Tawk_API.cleanVisitor()`, el widget olvida la información ingresada y volverá a desplegar el Formulario de Pre-chat la próxima vez que se intente abrir la ventana.
+
+
+Para garantizar que toda la interfaz del widget de Tawk.to se muestre 100% en español para tus visitantes, debes configurar el idioma directamente en los ajustes del widget y personalizar los textos manuales.
+
+---
+
+### Pasos para cambiar el idioma base a Español
+
+1. **Acceder a la configuración del widget**
+* Ve al panel de **Tawk.to** y entra en el menú **Administración (Admin)** (icono de engranaje).
+* En la sección **Canales**, haz clic en **Widget del chat**.
+
+
+2. **Cambiar la selección de idioma**
+* Busca la opción **Idioma del widget** (Widget Language).
+* Cambia la opción a **Español (Spanish)**.
+* Guarda los cambios. Esto traducirá automáticamente los botones por defecto, avisos del sistema, campos estándar e instrucciones (como *"Enviar"*, *"Escribe un mensaje..."*, *"En línea"*, *"Ausente"*).
+
+
+
+---
+
+### Traducir los campos y mensajes personalizados
+
+El idioma base traduce la interfaz del sistema, pero los textos que tú mismo redactas deben editarse a mano:
+
+1. **Formulario de Pre-chat y Offline:**
+* En **Widget del chat**, entra a **Contenido del widget** y haz clic en **Editar contenido**.
+* Revisa cada encabezado y etiqueta de los campos (Nombre, Correo electrónico, Teléfono, Mensaje) y asegúrate de que estén escritos en español.
+
+
+2. **Mensajes de bienvenida y encabezados:**
+* Revisa el título del widget (ej. *"¿Podemos ayudarte?"* en lugar de *"Chat with us"*).
+* Edita las respuestas automáticas o de bienvenida activas en tus disparadores (**Triggers**).
+
+
+
+---
+
+### Forzar el idioma por código (Opcional para sitios multi-idioma)
+
+Si tu sitio web está en español pero el navegador del visitante está configurado en inglés, Tawk.to puede intentar adaptarse al navegador del usuario. Si quieres **forzar que siempre cargue en español**, añade la variable de idioma en el script de Tawk.to en tu web antes de que cargue el widget:
+
+```javascript
+var Tawk_API = Tawk_API || {};
+// Forzar el idioma del widget a español (código 'es')
+Tawk_API.s1 = "es";
+
+```
