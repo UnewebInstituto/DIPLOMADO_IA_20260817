@@ -1,0 +1,116 @@
+¡Entendido! Asumo formalmente el rol de especialista e implementador en **Tidio**.
+
+Tengo dominio completo de la plataforma en sus distintos niveles:
+
+* **Tidio Chat & Live Chat:** Configuración del widget, personalización visual, gestión de departamentos, enrutamiento de conversaciones y métricas de desempeño de operadores.
+* **Lyro AI Agent:** Entrenador de la IA con fuentes de datos (sitios web, FAQs, documentos), personalización de personalidad, gestión de transferencia a humanos y optimización de respuestas para soporte automatizado.
+* **Flows (Automatizaciones):** Diseño de flujos lógicos desde cero para captación de clientes potenciales (*lead generation*), abandono de carrito, preguntas frecuentes (*FAQ*), disparadores (*triggers*) por intenciones o comportamiento web, y variables de conversación.
+* **Integraciones:** Conexión nativa con plataformas e-commerce (Shopify, WooCommerce, WordPress, Magento), CRMs (HubSpot, Zoho), e-mail marketing (Klaviyo, Mailchimp) y canales como WhatsApp, Instagram y Messenger.
+
+¿Qué proyecto o ajuste necesitas resolver hoy en Tidio? Dime en qué punto estamos y nos ponemos a trabajar.
+
+La ubicación del widget de Tidio depende de si lo quieres configurar de manera visual desde su panel de control o ajustar manualmente en el código de tu sitio web.
+
+**1. Ajuste rápido desde el panel de Tidio (Sin código)**
+
+Para la mayoría de los sitios web (Shopify, WordPress, WooCommerce, HTML), la posición se ajusta directamente en la interfaz:
+
+* Ve a **Settings** (icono de engranaje abajo a la izquierda) > **Channels** > **Live Chat**.
+* Entra en la pestaña **Appearance**.
+* En la sección **Widget Position**, selecciona la esquina inferior donde deseas mostrarlo:
+* **Bottom-Right** (Abajo a la derecha - opción por defecto y recomendada por usabilidad).
+* **Bottom-Left** (Abajo a la izquierda).
+
+
+* Haz clic en **Save** en la esquina inferior para aplicar los cambios en tiempo real.
+
+---
+
+**2. Ajuste fino mediante CSS (Personalizado)**
+
+Si el widget cubre un elemento clave de tu web (como un botón de WhatsApp o un banner flotante) y necesitas desplazarlo unos píxeles específicos, puedes añadir CSS personalizado en tu sitio web:
+
+```css
+/* Desplazar el widget de Tidio */
+#tidio-chat-iframe {
+    bottom: 30px !important; /* Distancia desde abajo */
+    right: 20px !important;  /* Distancia desde la derecha */
+}
+
+```
+
+---
+
+**3. Ubicación del código de instalación**
+
+Si te refieres a en qué parte de la estructura HTML de tu sitio se inserta el script de integración:
+
+* El fragmento de código JavaScript de Tidio se coloca justo antes de la etiqueta de cierre `</body>` o dentro de la sección `<head>` del archivo principal de la plantilla (como `header.php` en WordPress o `theme.liquid` en Shopify).
+
+La ubicación del widget de Tidio depende de si lo quieres configurar de manera visual desde su panel de control o ajustar manualmente en el código de tu sitio web.
+
+**1. Ajuste rápido desde el panel de Tidio (Sin código)**
+
+Para la mayoría de los sitios web (Shopify, WordPress, WooCommerce, HTML), la posición se ajusta directamente en la interfaz:
+
+* Ve a **Settings** (icono de engranaje abajo a la izquierda) > **Channels** > **Live Chat**.
+* Entra en la pestaña **Appearance**.
+* En la sección **Widget Position**, selecciona la esquina inferior donde deseas mostrarlo:
+* **Bottom-Right** (Abajo a la derecha - opción por defecto y recomendada por usabilidad).
+* **Bottom-Left** (Abajo a la izquierda).
+
+
+* Haz clic en **Save** en la esquina inferior para aplicar los cambios en tiempo real.
+
+---
+
+**2. Ajuste fino mediante CSS (Personalizado)**
+
+Si el widget cubre un elemento clave de tu web (como un botón de WhatsApp o un banner flotante) y necesitas desplazarlo unos píxeles específicos, puedes añadir CSS personalizado en tu sitio web:
+
+```css
+/* Desplazar el widget de Tidio */
+#tidio-chat-iframe {
+    bottom: 30px !important; /* Distancia desde abajo */
+    right: 20px !important;  /* Distancia desde la derecha */
+}
+
+```
+
+---
+
+**3. Ubicación del código de instalación**
+
+Si te refieres a en qué parte de la estructura HTML de tu sitio se inserta el script de integración:
+
+* El fragmento de código JavaScript de Tidio se coloca justo antes de la etiqueta de cierre `</body>` o dentro de la sección `<head>` del archivo principal de la plantilla (como `header.php` en WordPress o `theme.liquid` en Shopify).
+
+Para devolver una conversación al agente **Lyro** después de haber intervenido manualmente como operador humano, debes **desasignarte** o **cerrar la atención manual** para reactivar la automatización.
+
+En la interfaz de Tidio se realiza con los siguientes pasos:
+
+**1. Desde el panel central de conversación (Inbox)**
+
+* Ubícate en la conversación activa en el panel **Inbox**.
+* En la esquina superior derecha del chat, busca el botón de acción principal o el estado de asignación.
+* Haz clic en **Unassign** (Desasignar) o selecciona la opción **Hand back to Bot / Return to Lyro** en el menú desplegable de acciones del ticket.
+* Si no ves la opción explícita de desasignar, haz clic en **Solve** (Resolver) o **Close** (Cerrar) la conversación. Al cerrarse la intervención manual, si el usuario vuelve a escribir, Lyro retomará el control automáticamente.
+
+---
+
+**2. Requisito clave en la configuración de Lyro**
+
+Para asegurar que Lyro vuelva a responder de forma automática cuando te retires:
+
+* Ve a **Settings** > **Lyro AI Agent** > **Handoff Settings** (o *Human Handoff*).
+* Verifica que la opción **"Enable Lyro after unassigning a conversation"** (Habilitar Lyro tras desasignar una conversación) esté **activada**.
+
+---
+
+**3. Comando directo desde el chat**
+
+Si utilizas comandos rápidos en la caja de texto del operador:
+
+* Escribe `/` en el campo de texto y selecciona el comando de automatización/bot si tu versión de panel lo tiene habilitado, o simplemente limpia los operadores asignados usando la lista de agentes del panel lateral derecho (*Operators assigned -> Remove yourself*).
+
+Al desasignarte, el estado de la conversación cambiará de *Assigned to you* (Asignada a ti) a *Unassigned* (Sin asignar), permitiendo que el disparador de Lyro procese el siguiente mensaje del usuario.
