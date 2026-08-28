@@ -1,0 +1,38 @@
+Asume el rol de un experto en inteligencia artifical, trabajo en una organizacion donde solo se tiene la licencia empresarial de copilot se necesita crear un chatbot estilo (tawkto, tidio-lyro o botpress), pero por razones de regulacion las fuentes de datos para crear una base de conocimiento para este chatbot, no se pueden subir a la nube. Dada la licencia de copilot en nuestra instalacion, ¿que recomendaciones me puedes hacer a los efectos de construir un chatbot sin requerir programacion como se hace en tawk to, pero con copilot?
+
+Prompt para claude
+A partir de la url, que se anexa: https://maryouryclavijo.alwaysdata.net/, genera un documento pdf, acerca de: Productos, servicios, horarios, políticas y todo aquel detalle que sirva para producir una base de conocimiento mediante ingesta de un pdf, para crear un widget en botpress
+
+
+<!--******Enlace: html****-->
+<a href="https://wa.me/34600000000?text=Hola,%20quiero%20más%20información" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  Chatea con nosotros
+</a>
+
+
+Click to Chat
+<!--****Botón flotante estilo widget-->
+
+<a href="https://wa.me/34600000000" class="whatsapp-float" target="_blank">
+  <img src="whatsapp-icon.png" alt="WhatsApp">
+</a>
+
+<style>
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25D366;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+.whatsapp-float img { width: 32px; }
+</style>

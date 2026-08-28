@@ -1,0 +1,31 @@
+
+Asume el rol de experto en IA, necesito agregar el whasapp Business a una pagina web de mi negocio ¿Cuál es el proceso para integrar Whatsapp Business en un sitio web HTMl?
+
+
+
+<a href="https://wa.me/521234567890?text=Hola,%20Bienvenido%20a%20Dulce%20Aroma" 
+   class="whatsapp-float" 
+   target="_blank">
+  <img src="whatsapp-icon.png" alt="WhatsApp">
+</a>
+
+<style>
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+.whatsapp-float img {
+  width: 32px;
+}
+</style>

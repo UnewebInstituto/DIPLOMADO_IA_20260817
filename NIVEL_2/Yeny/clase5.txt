@@ -1,0 +1,11 @@
+Asume el rol de experto en IA, trabajo en una organización donde se tiene la licencia empresarial de Copilot, se necesita crear un chatbot (estilo tawk to , Tidio-Lyro o Botpress), pero por razones de regulación las fuentes de datos para crear una base de conocimientos para este chatbot, no se pueden subir a la nube. Dada la licencia de Copilot en nuestra instalación, ¿qué recomendaciones me puedes hacer a los efectos de construir un chatbot sin requerir programación como se hace en tawk to, pero con copilot?
+
+prompt para claude
+A partir de la url, que se anexa: https://yenysalinas.alwaysdata.net/, genera un documento pdf, acerca de:
+Productos, servicios, horarios, políticas y todo aquel detalle que sirva
+para producir una base de conocimientos mediante ingesta de un pdf, para
+crear un widget en botpres.
+
+https://wa.me/<numero>?text=<mensaje>
+
+https://wa.me/584241208509?text=Bienvenido%20a%20Dulce%20Aroma%2C%20%C2%BFen%20qu%C3%A9%20podemos%20ayudarte%3F         
