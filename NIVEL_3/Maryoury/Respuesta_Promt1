@@ -1,0 +1,17 @@
+Entendido. Cuando subas el archivo, puedo trabajar en dos frentes:
+
+1. Proyección de ventas confiable
+No me voy a quedar con un solo número optimista. La idea es:
+
+Explorar la serie histórica (tendencia, estacionalidad, atípicos)
+Probar más de un método (por ejemplo, promedio móvil/suavizado exponencial vs. un modelo con estacionalidad tipo Holt-Winters o SARIMA, según qué tan larga y regular sea la serie)
+Validar contra datos recientes (backtesting) para saber qué tan bien predijo el modelo en periodos ya conocidos
+Entregar la proyección con un rango (intervalo de confianza), no solo el valor puntual, para que quede claro el margen de error
+
+2. Segmentación de clientes
+
+Definir variables relevantes (frecuencia de compra, monto, recencia, tipo de producto, etc. — dependerá de qué columnas traiga el archivo)
+Aplicar un método de clustering (K-means u otro, según la naturaleza de los datos) y validar que los grupos tengan sentido (no solo que el algoritmo "encuentre" grupos, sino que sean interpretables y accionables para campañas)
+Perfilar cada segmento en términos simples para que se pueda usar en decisiones de marketing
+
+En cuanto subas el archivo lo reviso primero para ver qué información tenemos disponible (periodo de tiempo, granularidad, variables de cliente) y a partir de ahí te propongo el enfoque concreto antes de lanzarme a modelar.

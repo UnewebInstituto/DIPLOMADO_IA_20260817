@@ -1,0 +1,19 @@
+Ya revisé el archivo. Resultados de la validación:
+
+**Fecha (columna `Date`)**
+- Formato único y consistente: **DD-MM-YYYY** (ej. `05-02-2010`), sin mezclas de formato en las 6,435 filas.
+- Confirmado que es DD-MM y no MM-DD, porque el primer campo llega hasta 31 (no sería válido como mes).
+- Rango: **05-feb-2010 a 26-oct-2012** (143 fechas únicas).
+- Periodicidad perfectamente semanal: la diferencia entre fechas consecutivas es de 7 días en el 100% de los casos (142 de 142 saltos) — no hay huecos en la serie temporal.
+
+**Weekly_Sales**
+- **0 celdas vacías/nulas.**
+- Tipo numérico (float) correcto en toda la columna, sin valores en cero o negativos.
+
+**Extra que revisé de paso (para que no aparezca luego como sorpresa):**
+- 45 tiendas (`Store` 1–45), sin duplicados de la combinación Store+Date.
+- El resto de columnas (`Holiday_Flag`, `Temperature`, `Fuel_Price`, `CPI`, `Unemployment`) tampoco tienen nulos.
+
+En resumen: el dataset está limpio en fecha y en `Weekly_Sales`, no se requiere imputación ni corrección de formato antes de modelar.
+
+Con esto confirmado, para avanzar con el forecasting y la segmentación necesito una decisión tuya:

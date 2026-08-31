@@ -1,0 +1,25 @@
+Revisé el archivo completo. Aquí está el diagnóstico de las dos cosas que pediste:
+
+Columna Date
+
+Formato único y consistente en las 6,435 filas: texto tipo DD-MM-MM, sin mezclas.
+Confirmé que es día-mes-año (no mes-día-año), porque el primer número llega hasta 31, lo cual solo es válido como día.
+Rango: 05-feb-2010 a 26-oct-2012, con periodicidad semanal (7 días entre fechas consecutivas) — consistente con el nombre Weekly_Sales.
+No hay fechas mal escritas ni formatos alternativos (ej. con "/" o texto de mes).
+
+Columna Weekly_Sales
+
+0 celdas vacías.
+0 valores no numéricos (nada de texto, símbolos de moneda, ni espacios en blanco disfrazados de vacío).
+Todo el archivo, de hecho, no tiene nulos en ninguna columna.
+
+Otros hallazgos rápidos que vale la pena tener en cuenta antes de proyectar:
+
+45 tiendas (Store 1 a 45), cada una con su propia serie semanal de 143 semanas.
+0 duplicados de combinación Tienda+Fecha.
+Ya viene una columna Holiday_Flag (útil como variable exógena para el modelo, dado que las ventas seguramente pican en semanas festivas).
+También trae Temperature, Fuel_Price, CPI, Unemployment — variables macro/contextuales que podrían servir como regresores o, indirectamente, como insumo de segmentación por tienda (ej. tiendas en zonas con distinto perfil económico).
+
+Con esto confirmado, el archivo está limpio para avanzar. Antes de lanzarme al modelado, una pregunta para enfocar bien el trabajo:
+
+¿Cómo quieres enfocar la proyección de ventas?

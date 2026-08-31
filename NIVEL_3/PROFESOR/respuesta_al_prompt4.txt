@@ -1,0 +1,3 @@
+Listo. `Entrada.csv` contiene todo el histórico **excepto** las últimas 6 semanas: del **05-feb-2010 al 14-sep-2012** (137 fechas únicas, 45 tiendas cada una) → **6,165 filas**, con la misma estructura de columnas del original.
+
+Entre `Entrada.csv` (6,165 filas) y `Test.csv` (270 filas) suman las 6,435 filas del archivo original — quedan complementarios y listos para el esquema de entrenamiento/backtesting.

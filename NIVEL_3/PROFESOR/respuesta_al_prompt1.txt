@@ -1,0 +1,14 @@
+Entendido. Cuando me compartas el archivo, para el análisis lo abordaré en dos partes:
+
+**1. Proyección de ventas (forecasting confiable)**
+- Exploraré la serie temporal: tendencia, estacionalidad, valores atípicos y calidad de los datos.
+- Probaré uno o más modelos apropiados según el patrón de los datos (por ejemplo, suavizado exponencial, ARIMA/SARIMA, o modelos de regresión con variables estacionales), no solo una extrapolación simple.
+- Validaré con un esquema de backtesting (entrenar con datos históricos, probar contra periodos ya conocidos) para reportar el error real del modelo (MAE, MAPE, RMSE), y no solo presentar una cifra sin respaldo.
+- Entregaré la proyección con intervalos de confianza, dejando claro el nivel de incertidumbre.
+
+**2. Segmentación de clientes (grupos naturales)**
+- Definiré variables relevantes (frecuencia de compra, monto, recencia, tipo de producto, etc. — según lo que tenga el archivo).
+- Aplicaré un método de clustering (K-Means, jerárquico, u otro según la estructura de los datos), validando el número óptimo de grupos (método del codo, silhouette score, etc.).
+- Caracterizaré cada segmento en términos de negocio para que sea accionable en campañas (quiénes son, qué los distingue, qué acción sugiere cada grupo).
+
+Cuando subas el archivo lo reviso primero para confirmar qué columnas tenemos disponibles y ajustar el enfoque exacto a los datos reales.

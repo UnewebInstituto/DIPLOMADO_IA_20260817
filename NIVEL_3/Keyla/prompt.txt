@@ -1,0 +1,26 @@
+Variables de entrada
+Store,Date,Temperature,CPI,Unemployment,IsHoliday
+
+Variable de salida
+Fuel_Price
+
+
+Enlace del dataset
+https://www.kaggle.com/datasets/mikhail1681/walmart-sales/data?select=Walmart_Sales.csv
+
+Variables de entrada
+Store,Date,Holiday_Flag,Temperature,Fuel_Price,CPI,Unemployment
+
+Variable de salida
+Weekly_Sales
+
+
+
+prompt 1:
+Eres un analista al que le piden dos cosas: proyectar las ventas de los próximos meses de forma confiable (no solo “un número que suene bien”), y entender si existen grupos naturales de clientes para orientar campañas.  Próximamente se te dará el archivo para su análisis.
+
+prompt 2:
+Se anexa el archivo en cuestión, verificar que la fecha (columa Date ) esté en un solo formato y que no hayan celdas vacías en la columna de Weekly_sales.
+
+prompt 3:
+A partir del archivo original, genera el archivo Test en formato csv,  que contenga las últimas 6 semanas de este. Conserva la misma estructura de columnas.

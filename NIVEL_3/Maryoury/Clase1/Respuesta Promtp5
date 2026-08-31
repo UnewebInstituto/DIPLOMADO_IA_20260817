@@ -1,0 +1,40 @@
+## Metodología
+
+Trabajé con la venta semanal **agregada de las 45 tiendas** (137 semanas, feb-2010 a sep-2012), que es el nivel más estable para detectar tendencia real sin el ruido propio de cada tienda.
+
+**1. Descomposición de la serie (STL):**
+- **Tendencia:** prácticamente plana. Una regresión lineal simple da una pendiente casi nula (~$8,255/semana) con R²=0.003 y p=0.49 — es decir, estadísticamente **no hay una tendencia de crecimiento o caída significativa** en el periodo. El descomponer STL confirma esto: la tendencia pasó de ~$47.0M a ~$48.5M en 2.5 años, una variación menor.
+- **Estacionalidad:** aquí está casi toda la señal (fuerza estacional = 0.99 vs. fuerza de tendencia = 0.59). Hay picos muy marcados en las semanas de **Black Friday/Thanksgiving** (semana 47, +$18.8M sobre el nivel base) y sobre todo **Navidad** (semana 51, +$31.8M). Los valles más fuertes son en **enero** (post-fiestas) y a **finales de septiembre**.
+
+**2. Selección de modelo (backtesting):**
+Antes de proyectar "a ciegas", separé las últimas 6 semanas *del propio archivo Entrada* como si fueran el futuro, entrené distintos modelos con el resto, y comparé contra la realidad:
+
+| Modelo | MAPE | RMSE |
+|---|---|---|
+| Promedio móvil ingenuo | 2.08% | 1,290,662 |
+| SARIMA(1,1,1) | 1.94% | 1,285,038 |
+| Naive estacional (mismo valor hace 52 semanas) | 1.90% | 1,106,362 |
+| Holt-Winters aditivo | 1.22% | 782,937 |
+| **Holt-Winters multiplicativo** | **0.84%** | **613,052** |
+
+El ganador claro es **Holt-Winters multiplicativo** (tendencia aditiva + estacionalidad multiplicativa, periodo 52 semanas), con un error de solo 0.84% en el backtest — mucho mejor que un simple promedio o una repetición del año anterior.
+
+## Proyección próximas 6 semanas (con ese modelo, reentrenado con todo el histórico)
+
+| Semana | Proyección | Rango 90% |
+|---|---|---|
+| 21-sep-2012 | $42.83M | $40.67M – $45.04M |
+| 28-sep-2012 | $43.02M | $40.95M – $45.07M |
+| 05-oct-2012 | $47.07M | $44.63M – $49.31M |
+| 12-oct-2012 | $44.61M | $42.44M – $46.87M |
+| 19-oct-2012 | $45.32M | $43.06M – $47.87M |
+| 26-oct-2012 | $45.62M | $43.40M – $47.99M |
+
+## Qué tan confiable es
+
+- **Fortaleza:** el error de validación (0.84% MAPE) es bajo, y el periodo proyectado (sep-oct) es una zona "tranquila" del año — sin festivos grandes de por medio, que es justamente donde el modelo se probó mejor.
+- **Límite importante:** con solo 137 semanas (~2.6 ciclos anuales), el componente estacional de 52 semanas se estima con muy poca repetición histórica. El modelo funciona bien para semanas "normales" como estas, pero **su confiabilidad baja considerablemente si se proyectara hacia noviembre-diciembre**, donde el pico depende de solo 2-3 observaciones pasadas de Black Friday/Navidad.
+- El modelo no incorpora `Fuel_Price`, `CPI`, `Unemployment` ni `Temperature` como variables explicativas — asumí que su efecto ya queda capturado indirectamente en la tendencia/estacionalidad histórica, pero si hay un cambio macro fuerte (ej. shock de inflación) el modelo no lo anticiparía.
+- El rango de 90% mostrado (no solo el punto) es la forma correcta de leer esto: por ejemplo, para el 5-oct no diría "van a vender $47.07M" sino "es razonable esperar entre $44.6M y $49.3M".
+
+¿Quieres que baje este mismo análisis a nivel de tienda individual (algunas podrían tener tendencias muy distintas al agregado), o seguimos con la segmentación de clientes/tiendas?

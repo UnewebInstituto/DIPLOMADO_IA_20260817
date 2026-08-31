@@ -1,0 +1,50 @@
+Ahora sí tengo todo el análisis. Aquí está el desglose completo.
+
+## 1. Qué hice y en qué me baso
+
+Trabajé sobre la **serie total semanal** (suma de las 45 tiendas, 137 semanas: feb-2010 a sept-2012). Antes de proyectar, diagnostiqué la serie:
+
+- **Estacionalidad muy fuerte** (índice 0.962 sobre 1.0): hay un patrón anual claro y repetido — picos grandes en Acción de Gracias/Navidad (las 5 semanas más altas de todo el histórico son todas noviembre/diciembre), y un valle relativo en enero-septiembre.
+- **Tendencia débil pero presente** (índice 0.149): la venta base subió ligeramente de ~46.9M a ~48.7M entre 2010 y 2012.
+- **Serie estacionaria** una vez removida la estacionalidad (test ADF, p<0.0001).## 2. Modelo elegido
+
+Con estacionalidad tan fuerte y solo ~2.6 años de historia (2.6 ciclos anuales, insuficiente para SARIMA estacional robusto), usé **Suavizado Exponencial (ETS) con tendencia amortiguada + estacionalidad aditiva de 52 semanas** — el enfoque estándar para series cortas con patrón anual dominante.
+
+**No me quedé con un solo modelo "porque sí".** Probé 4 variantes (Holt-Winters aditivo, amortiguado, multiplicativo, y naive estacional como piso de referencia) y las validé todas con **backtesting rolling-origin**: 5 orígenes distintos en 2012, cada uno proyectando 6 semanas hacia adelante contra datos reales ya conocidos, igual que se va a evaluar el pronóstico real.
+
+| Modelo | MAE | RMSE | MAPE |
+|---|---|---|---|
+| Naive estacional (año anterior) | 1.60M | 2.02M | 3.34% |
+| Holt-Winters aditivo | 1.26M | 1.58M | 2.63% |
+| **Holt-Winters amortiguado (elegido)** | **1.25M** | **1.54M** | **2.61%** |
+| Holt-Winters multiplicativo | 1.24M | 1.57M | 2.59% |
+
+Las tres variantes de Holt-Winters superan claramente al naive estacional (~2.6% vs 3.3% de error), así que el modelo sí está capturando información real, no solo repitiendo el año pasado. Elegí la versión amortiguada por ser la más estable frente a las otras (diferencia marginal con la multiplicativa) y menos propensa a sobre-extrapolar la tendencia.
+
+## 3. Proyección — próximas 6 semanas (21-sept al 26-oct-2012)
+
+| Semana | Proyección | Rango esperado (95%, empírico) |
+|---|---|---|
+| 21-sep-2012 | $43.96M | $40.93M – $46.98M |
+| 28-sep-2012 | $43.67M | $40.65M – $46.69M |
+| 05-oct-2012 | $48.47M | $45.44M – $51.49M |
+| 12-oct-2012 | $45.70M | $42.68M – $48.72M |
+| 19-oct-2012 | $46.98M | $43.96M – $50.01M |
+| 26-oct-2012 | $47.04M | $44.02M – $50.07M |
+
+El nivel se mantiene relativamente estable (~$44-48M/semana), consistente con que esta ventana (sept-oct) es temporada baja, sin los picos de fin de año.
+
+## 4. Qué tan confiable es — y una advertencia honesta
+
+**Lo bueno:**
+- El error esperado, medido con backtesting real (no en teoría), ronda **2.6% de MAPE** — bastante preciso para una serie con picos estacionales tan violentos.
+- El horizonte proyectado (sept-oct) es temporada baja, la más predecible de la serie — el modelo tiene mejor desempeño ahí que cerca de noviembre-diciembre.
+- El intervalo de la tabla lo construí a partir del **error real de backtesting**, no del intervalo analítico que entrega el modelo por defecto. Ese intervalo "de fábrica" salía artificialmente ancho (±57% en vez de ±13%) porque calcula una sola varianza global, y esa varianza queda inflada por los picos de diciembre, aunque diciembre no es lo que estoy proyectando. Usar ese número tal cual hubiera sido "un número que suena confiable pero no lo es" — exactamente lo que me pediste evitar.
+
+**Limitaciones que debes tener presentes:**
+- Solo 2.6 ciclos anuales de historia — con tan poca repetición, el patrón estacional aún no está "probado" estadísticamente con la solidez que tendría con 5+ años.
+- Es una proyección **agregada** (suma de 45 tiendas). Tiendas individuales pueden tener errores mucho mayores; el agregado promedia y "esconde" variabilidad local.
+- No incorpora variables externas relevantes (promociones, eventos, cambios de competencia) — solo usa el patrón histórico de ventas.
+- Ya generamos `Test.csv` con las 6 semanas reales que corresponden exactamente a este horizonte — el paso natural siguiente es comparar esta proyección contra esos valores reales para confirmar el error fuera de muestra en un holdout genuino (no solo backtesting interno).
+
+¿Quieres que valide esta proyección contra `Test.csv` para confirmar el error real, o que baje el análisis a nivel de tienda individual?
