@@ -1,0 +1,100 @@
+Prompt 1:
+Dame un resumen general del dataset anexo en lenguaje natural: número de filas, rango de fechas, categorías presentes, y que identifique valores nulos o inconsistentes en las columnas clave.
+
+Respuesta al prompt 1:
+
+**Número de filas:**
+El dataset cuenta con un total de **9.648 filas** (registros de transacciones de ventas) y 13 columnas.
+
+**Rango de fechas:**
+Las fechas de las facturas (`Invoice Date`) abarcan desde el **1 de enero de 2020** hasta el **31 de diciembre de 2021** (un periodo de dos años).
+
+**Categorías presentes:**
+
+* **Retailer (Minoristas):** 6 marcas diferentes (Foot Locker, West Gear, Sports Direct, Kohl's, Amazon y Walmart).
+* **Region:** 5 regiones geográficas (West, Northeast, Midwest, South y Southeast).
+* **State (Estados):** 50 estados cubiertos.
+* **City (Ciudades):** 52 ciudades diferentes.
+* **Product (Productos):** 6 líneas de productos (*Men's Street Footwear*, *Men's Athletic Footwear*, *Women's Street Footwear*, *Women's Athletic Footwear*, *Men's Apparel* y *Women's Apparel*).
+* **Sales Method (Métodos de venta):** 3 canales (*Online*, *Outlet* e *In-store*).
+
+**Valores nulos:**
+
+* El dataset **no presenta valores nulos** explícitos en ninguna de sus columnas.
+
+**Valores inconsistentes en columnas clave:**
+
+* **Formato de datos y símbolos internacionales:** Debido a la regionalización en la exportación de este archivo CSV específico, columnas numéricas como *Price per Unit*, *Total Sales*, *Operating Profit* y *Operating Margin* vienen formateadas como texto utilizando separadores de miles/decimales inusuales (por ejemplo, puntos o comas que desplazan los valores reales o porcentajes escritos con el símbolo `%` como texto).
+* **Inconsistencias lógicas de cálculo:** Al limpiar y convertir los campos monetarios y de unidades a valores numéricos estándar, se observa que en una parte importante de los registros el valor de *Total Sales* no coincide matemáticamente con el producto directo entre *Price per Unit* y *Units Sold* (presentando diferencias sistemáticas de factores de escala o redondeo en la fuente original de la tabla).
+
+prompt 2:
+Crea una tabla dinámica de Total Sales por Region y
+Retailer.
+
+Respuesta prompt 2:
+
+A continuación presento la tabla dinámica con la suma de las ventas totales (**Total Sales**) segmentadas por región (**Region**) y minorista (**Retailer**), expresadas en USD:
+
+| Region | Amazon | Foot Locker | Kohl's | Sports Direct | Walmart | West Gear | Total General |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Midwest** | $16,835,873 | $47,987,394 | $22,229,415 | $26,207,191 | $0 | $22,540,586 | **$135,800,459** |
+| **Northeast** | $36,262,590 | $65,326,474 | $14,031,168 | $24,698,097 | $13,712,005 | $32,293,733 | **$186,324,067** |
+| **South** | $409,091 | $9,307,025 | $3,552,055 | $65,258,121 | $33,049,858 | $33,087,031 | **$144,663,181** |
+| **Southeast** | $10,826,333 | $59,669,118 | $0 | $54,178,543 | $21,005,539 | $17,491,703 | **$163,171,236** |
+| **West** | $13,365,025 | $37,804,709 | $62,302,115 | $12,129,045 | $6,791,008 | $137,551,280 | **$269,943,182** |
+| **Total General** | **$77,698,912** | **$220,094,720** | **$102,114,753** | **$182,470,997** | **$74,558,410** | **$242,964,333** | **$899,902,125** |
+
+---
+
+### Key Takeaways:
+
+* **Líder regional:** La región **West** es la que mayor volumen de ventas genera con **$269,943,182**, impulsada principalmente por **West Gear** ($137.5M).
+* **Líder por Retailer:** **West Gear** ($242,964,333) y **Foot Locker** ($220,094,720) representan los mayores canales de venta a nivel nacional.
+* **Ceros/Sin ventas en combinaciones:** Se observa que **Walmart** no registra ventas en la región *Midwest*, y **Kohl's** no registra ventas en la región *Southeast*.
+
+prompt 3:
+Resáltame las filas donde Operating Margin sea
+negativo o menor al 10%
+
+Respuesta al prompt 3:
+
+En el dataset no existen filas con margen operativo negativo ni menor al 10% ($< 0.10$). El margen mínimo registrado en todo el conjunto de datos es exactamente del **10%** (0.10), alcanzado en 4 registros:
+
+| Retailer | Invoice Date | Region | State | City | Product | Total Sales | Operating Profit | Operating Margin |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **West Gear** | 2021-01-29 | West | California | San Francisco | Women's Apparel | $542,500 | $54,250 | **10%** |
+| **West Gear** | 2021-02-04 | West | California | San Francisco | Women's Apparel | $490,000 | $49,000 | **10%** |
+| **West Gear** | 2021-02-10 | West | California | San Francisco | Women's Apparel | $542,500 | $54,250 | **10%** |
+| **West Gear** | 2021-02-16 | West | California | San Francisco | Women's Apparel | $560,000 | $56,000 | **10%** |
+
+**Detalles de los registros mínimos:**
+
+* **Ubicación y canal:** Todos los casos ocurrieron a principios de 2021 en **San Francisco, California** a través del minorista **West Gear**.
+* **Línea de producto:** En los 4 casos el producto vendido fue la categoría **Women's Apparel** (Ropa de Mujer).
+
+Prompt 4:
+Dame un gráfico que compare Units Sold vs Operating Margin por Sales Method (in-store, online, outlet) para detectar si algún canal de venta es sistemáticamente menos rentable.
+
+El canal **In-store (Tienda Física)** es el canal sistemáticamente menos rentable en términos de porcentaje de margen operativo, mientras que el canal **Online** registra los márgenes más elevados.
+
+**Resumen por Canal de Venta**
+
+| Sales Method | Unidades Vendidas | Ventas Totales ($) | Ganancia Operativa ($) | Margen Promedio | Margen Mediano | Margen Ponderado |
+| --- | --- | --- | --- | --- | --- | --- |
+| **In-store** | 689,990 | $356,643,750 | $127,591,250 | **35.61%** | **35.00%** | **35.78%** |
+| **Outlet** | 849,778 | $295,585,493 | $107,988,333 | **39.49%** | **40.00%** | **36.53%** |
+| **Online** | 939,093 | $247,672,882 | $96,555,178 | **46.42%** | **47.00%** | **38.98%** |
+
+**Hallazgos Clave**
+
+* **Menor Rentabilidad Porcentual (In-store):** Las tiendas físicas concentran su distribución de márgenes entre el **30% y el 40%**, alcanzando el margen mediano más bajo (35.00%). Aunque mueven volúmenes de venta más altos por transacción, sus costos operativos reducen su margen.
+* **Mayor Rentabilidad Porcentual (Online):** El canal e-commerce maneja volúmenes de unidades por factura más dispersos y pequeños, pero logra un margen operativo promedio del **46.42%**, superando significativamente a las tiendas físicas.
+* **Desempeño Intermedio (Outlet):** Los outlets se posicionan en el centro con un margen mediano del **40.00%**, aunque concentran la mayor cantidad de valores atípicos con márgenes bajos (hasta del 10%).
+
+prompt 5:
+Dame un resumen ejecutivo de 5-6 líneas donde se decriba qué se encontró en la exploración, qué anomalía de margen detectó, y qué preguntaría antes de pasar a un modelo predictivo con esos
+datos.
+
+
+Respuesta del prompt 5:
+La exploración del dataset de ventas de Adidas (2020-2021; 9.648 filas) reveló que el canal West Gear en la región West lidera las ventas con $137.5M, mientras que las ventas físicas (In-store) registran el margen medio más bajo (35%), en contraste con el canal Online (47%). Como anomalía clave, se detectaron registros con un margen operativo mínimo del 10% (concentrados en la categoría Women's Apparel en San Francisco) y una desalineación en el CSV donde Total Sales no equivale exactamente al producto de Price per Unit por Units Sold (debido a factores de escala de x10 en canales físicos y outlets). Antes de construir un modelo predictivo, preguntaría: ¿Las discrepancias de escala en los precios y unidades responden a descuentos/promociones no registrados o a un error en la toma de datos, y los márgenes del 10% en San Francisco corresponden a una estrategia comercial puntual o a un sesgo operativo que deba filtrarse?

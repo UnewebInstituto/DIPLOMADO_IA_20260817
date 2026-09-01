@@ -1,0 +1,86 @@
+Prompt 1:
+Toma el archivo anexo 
+
+Respuesta Prompt 1:
+Ya tengo el archivo cargado. Es el dataset **Walmart Sales**: 6,435 filas, 45 tiendas, ventas semanales desde el 05-feb-2010 hasta el 26-oct-2012, sin datos faltantes. Columnas: Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment.
+
+¿Qué te gustaría que haga con él? Por ejemplo:
+- Análisis exploratorio (tendencias, estacionalidad, efecto de holidays)
+- Comparar desempeño entre tiendas
+- Un modelo predictivo de ventas
+- Generar un reporte/dashboard (Excel, gráficos, o un artifact interactivo)
+
+Prompt 2:
+Analiza la tendencia de ventas mensual y proyecta los próximos 3 meses. Explica en qué te basas y qué tan confiable es la proyección.
+
+Respuesta Prompt 2:
+
+Ahora armo el gráfico con histórico + proyección.## Resumen de la proyección
+
+| Mes | Ventas proyectadas | Rango probable (80%) |
+|---|---|---|
+| Nov 2012 | **$206.9 M** | $165 M – $246 M |
+| Dic 2012 | **$289.6 M** | $250 M – $329 M |
+| Ene 2013 | **$167.1 M** | $130 M – $208 M |
+
+## En qué me baso
+
+1. **Agregación mensual**: sumé las ventas semanales de las 45 tiendas por mes calendario (33 meses, feb 2010 – oct 2012).
+2. **Patrón detectado**: hay una **estacionalidad anual clara** — diciembre siempre es el pico (~$288-289M por el "Holiday" de fin de año), enero siempre es el valle (~$164-169M), y hay repuntes menores en abril y julio/agosto. El nivel general crece muy levemente año a año (2010→2011 fue +7%), pero 2012 se ve prácticamente plano frente a 2011.
+3. **Modelo**: usé **suavizado exponencial de Holt-Winters** (tendencia aditiva + estacionalidad aditiva, periodo 12), que separa la serie en tendencia + patrón estacional + ruido y proyecta ambos componentes hacia adelante. Es el método estándar para series con estacionalidad marcada y pocos años de historia.
+4. **Validación cruzada**: los valores proyectados coinciden con el patrón histórico de esos mismos meses en años anteriores (nov ronda $203-210M, dic ronda $288M, ene ronda $164-169M), lo cual es una buena señal de que el modelo no está inventando algo fuera de lo razonable.
+
+## Qué tan confiable es
+
+**Moderadamente confiable, con matices importantes:**
+
+- ✅ El **patrón estacional es muy consistente** (3 diciembres seguidos casi idénticos), así que la forma de la curva (subida fuerte en dic, caída en ene) es de bajo riesgo.
+- ⚠️ Solo hay **2.75 ciclos anuales completos** — el mínimo aceptable para estimar estacionalidad es ~2-3 ciclos, así que el modelo tiene poco margen para distinguir "estacionalidad real" de "coincidencia".
+- ⚠️ El error histórico del modelo (ajuste dentro de la muestra) es de **~5.9% en promedio**, lo que en dic 2012 equivale a una banda de ±$40M aprox.
+- ⚠️ El modelo **no conoce el mundo real**: no incorpora eventos, aperturas/cierres de tiendas, cambios de precios, inflación (CPI) o desempleo, que sí están en tu dataset pero no los usé como variables explicativas — solo la serie de ventas en sí.
+- ⚠️ Nov y oct 2012 en el dataset están completos (4-5 viernes), así que no hay sesgo por meses parciales.
+
+**En corto**: confío bastante en la *forma* de la proyección (pico en diciembre, caída en enero) porque se repite 3 años seguidos, pero el *nivel exacto en dólares* tiene un margen de error real de ±13-15%. Si quieres una proyección más precisa, podría incorporar CPI/desempleo como variables explicativas o desagregar por tienda para detectar si algunas están creciendo/decreciendo de forma distinta al promedio.
+
+Prompt 3:
+Dame una proyección más precisa, incorpora CPI, desempleo y precio del combustible como variables explicativas.
+
+Respuesta Prompt 3:
+Ahora ajusto el modelo con las variables exógenas y proyecto:## Resultado honesto: incorporarlas no mejora la proyección — y eso también es información valiosa
+
+Probé varios enfoques (regresión con dummies estacionales, SARIMAX con exógenas, y un modelo híbrido: base estacional + ajuste por variables económicas). El hallazgo consistente en los tres fue el mismo, así que te explico el más riguroso.
+
+### Lo que encontré
+
+**1. Correlación directa de las 3 variables con las ventas mensuales: prácticamente cero**
+
+| Variable | Correlación con ventas |
+|---|---|
+| CPI | 0.03 |
+| Desempleo | 0.02 |
+| Precio combustible | -0.03 |
+
+**2. Las 3 variables están casi perfectamente correlacionadas *entre sí*** (CPI vs Desempleo: -0.98; CPI vs Combustible: 0.83). Esto es multicolinealidad severa (VIF de 44 y 32, muy por encima del umbral aceptable de ~10). En la práctica, las tres solo están capturando la misma tendencia macroeconómica de 2010-2012 (inflación subiendo, desempleo bajando, gasolina subiendo y luego estabilizándose) — no aportan 3 señales independientes, sino prácticamente 1 sola.
+
+**3. Al ajustar el modelo estacional con estas variables, el error empeoró levemente**: MAPE pasó de 5.95% (solo estacionalidad+tendencia) a 6.08% (con el ajuste económico), y ningún coeficiente fue estadísticamente significativo (p-valores entre 0.10 y 0.36 — el umbral típico es 0.05).
+
+### Por qué pasa esto
+
+Tiene sentido de negocio: las ventas de Walmart en este dataset están dominadas por el **calendario** (Thanksgiving, Navidad, Labor Day, Super Bowl) — un efecto enorme y muy repetible. El CPI, desempleo y precio del combustible se mueven **lenta y suavemente** mes a mes; no tienen la variación abrupta necesaria para explicar picos como el de diciembre. Con solo 33 meses de historia, tampoco hay suficientes datos para separar un efecto económico real de simple ruido.
+
+### Proyección final
+
+| Mes | Solo estacionalidad | Con ajuste económico | Diferencia |
+|---|---|---|---|
+| Nov 2012 | $207.4 M | $199.3 M | -$8.1 M (no significativo) |
+| Dic 2012 | $290.4 M | $281.3 M | -$9.1 M (no significativo) |
+| Ene 2013 | $167.7 M | $157.5 M | -$10.1 M (no significativo) |
+
+Las diferencias están dentro del margen de error del modelo, así que **me quedo con la proyección basada en estacionalidad + tendencia** ($207M / $290M / $168M) como la más confiable — es más simple, tiene menos riesgo de sobreajuste, y su error histórico (5.95%) es mejor que el de la versión "enriquecida".
+
+### Nota metodológica importante para tu clase (si esto es para un curso)
+
+Esto es un buen ejemplo pedagógico de un error común: **agregar más variables a un modelo no lo hace automáticamente "más preciso"** — hay que validar con métricas (R², p-valores, error fuera de muestra), no solo asumir que "más información = mejor". Si quisiera intentar rescatar el valor de CPI/desempleo, el siguiente paso lógico sería analizarlas **a nivel de tienda individual** (ahí sí varían bastante entre regiones — desviación estándar de ~1.8 puntos en desempleo entre tiendas) en vez de promediarlas a nivel nacional, donde se diluyen. ¿Te interesa que explore esa vía?
+
+Prompt 4:
+Dame sugerencias de variables que si podrían afectar la proyección de ventas en este modelo y que no se encuentran presentes en el dataset

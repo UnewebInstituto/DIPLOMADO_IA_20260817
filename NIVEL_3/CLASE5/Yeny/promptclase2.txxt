@@ -1,0 +1,122 @@
+    Pedir a Gemini un resumen general del dataset en lenguaje natural: 
+    número de filas, rango de fechas, categorías presentes, y que identifique 
+    valores nulos o inconsistentes en las columnas clave
+
+    respuesta 
+    El conjunto de datos proviene del archivo Walmart_Sales.csv y contiene la información de ventas semanales e indicadores macroeconómicos de distintas tiendas.
+
+Resumen Estructurado del Dataset
+
+Volumen de datos: 6,435 filas y 8 columnas.
+
+Rango de fechas: Del 05-02-2010 al 26-10-2012 (formato DD-MM-YYYY, equivalente a 143 semanas consecutivas).
+
+Categorías y dimensiones:
+
+Tiendas (Store): 45 tiendas identificadas numéricamente del 1 al 45 (143 registros por tienda).
+
+Indicador festivo (Holiday_Flag): Variable binaria donde 0 representa una semana regular (5,985 registros) y 1 una semana con festivo (450 registros).
+
+Variables cuantitativas: Ventas semanales (Weekly_Sales), temperatura (Temperature), precio del combustible (Fuel_Price) y tasa de desempleo (Unemployment).
+
+Diagnóstico de Calidad y Calidad de Datos
+
+Valores nulos: 0 valores nulos presentes en el dataset; todas las columnas tienen la totalidad de sus registros.
+
+Filas duplicadas: Se verificó que no existen filas completamente duplicadas.
+
+Inconsistencia principal (CPI): La columna CPI (Consumer Price Index) está guardada como tipo texto (object) en lugar de numérico debido a errores de puntuación en el separador decimal/miles. Presenta valores con múltiples puntos (ej. 2.110.963.582 o 211.215.635 en vez de 211.0963582 o 211.215635). Se requiere limpiar los puntos antes de realizar análisis estadísticos o modelado predictivo.
+
+prompt 2
+"Crea una tabla dinámica de Total Sales por Region y 
+Retailer". 
+
+respuesta
+Key Takeaways:
+Líder por minorista: West Gear registra las mayores ventas acumuladas ($242,964,333.00), seguido de cerca por Foot Locker ($220,094,720.00).
+
+Líder por región: La región West representa el mayor volumen de ventas totales ($269,943,182.00), donde West Gear aporta más del 50% del total regional.
+
+Casos sin registros: Walmart no registra ventas en la región Midwest, mientras que Kohl's no registra ventas en la región Southeast.
+
+Prompt 3
+Resáltame las filas donde Operating Margin sea 
+negativo o menor al 10%"
+ respuesta
+ ```python
+import pandas as pd
+
+df_adidas = pd.read_excel('Adidas US Sales Datasets.xlsx', sheet_name='Data Sales Adidas', skiprows=4)
+if 'Unnamed: 0' in df_adidas.columns:
+    df_adidas = df_adidas.drop(columns=['Unnamed: 0'])
+
+print("Operating Margin min and max:", df_adidas['Operating Margin'].min(), df_adidas['Operating Margin'].max())
+
+# Find rows where Operating Margin < 0.10
+low_margin = df_adidas[df_adidas['Operating Margin'] < 0.10]
+print("Count of rows with Operating Margin < 0.10:", len(low_margin))
+
+# Find rows where Operating Margin <= 0.10
+low_margin_10 = df_adidas[df_adidas['Operating Margin'] <= 0.10]
+print("Count of rows with Operating Margin <= 0.10:", len(low_margin_10))
+
+if len(low_margin_10) > 0:
+    print(low_margin_10[['Retailer', 'Invoice Date', 'Region', 'State', 'City', 'Product', 'Total Sales', 'Operating Profit', 'Operating Margin']])
+
+
+```
+
+```text
+Operating Margin min and max: 0.1 0.8000000000000002
+Count of rows with Operating Margin < 0.10: 0
+Count of rows with Operating Margin <= 0.10: 4
+      Retailer Invoice Date Region       State           City          Product  Total Sales  Operating Profit  Operating Margin
+193  West Gear   2021-01-29   West  California  San Francisco  Women's Apparel     542500.0           54250.0               0.1
+199  West Gear   2021-02-04   West  California  San Francisco  Women's Apparel     490000.0           49000.0               0.1
+205  West Gear   2021-02-10   West  California  San Francisco  Women's Apparel     542500.0           54250.0               0.1
+211  West Gear   2021-02-16   West  California  San Francisco  Women's Apparel     560000.0           56000.0               0.1
+
+
+```
+
+```python
+print("Operating Margin unique values near 0.1:")
+print(df_adidas['Operating Margin'].sort_values().unique()[:10])
+
+
+```
+
+```text
+Operating Margin unique values near 0.1:
+[0.1  0.12 0.15 0.15 0.17 0.17 0.18 0.18 0.19 0.2 ]
+
+
+```
+
+En el conjunto de datos de Adidas **no existen registros con un margen operativo (`Operating Margin`) negativo ni menor al 10%**. El margen mínimo registrado en todo el dataset es de exactamente **10% (0.10)**, el cual aparece en únicamente **4 filas**:
+
+| Fecha | Minorista | Región | Estado | Ciudad | Producto | Ventas Totales | Margen Operativo |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **2021-01-29** | West Gear | West | California | San Francisco | Women's Apparel | $542,500.00 | 10% |
+| **2021-02-04** | West Gear | West | California | San Francisco | Women's Apparel | $490,000.00 | 10% |
+| **2021-02-10** | West Gear | West | California | San Francisco | Women's Apparel | $542,500.00 | 10% |
+| **2021-02-16** | West Gear | West | California | San Francisco | Women's Apparel | $560,000.00 | 10% |
+
+Las 4 transacciones corresponden de manera exclusiva a la categoría *Women's Apparel* comercializada por el distribuidor *West Gear* en la ciudad de San Francisco, California, entre enero y febrero de 2021.
+
+prompt 4
+Dame un gráfico que compare Units Sold vs Operating Margin por 
+Sales Method (in-store, online, outlet) para detectar si algún canal de 
+venta es sistemáticamente menos rentable.
+
+respuesta
+Hallazgos Directos
+
+El canal más bajo en margen (In-store): Es sistemáticamente el menos rentable en términos porcentuales (media de 35.6% y mediana de 35.0%). Aunque registra las transacciones con mayor volumen de unidades por factura (hasta 1,200 unidades), opera con mayores costos fijos y menor margen relativo.
+
+El canal más rentable en porcentaje (Online): Genera el margen operativo más alto de forma consistente (media de 46.4% y mediana de 47.0%, alcanzando techos del 80%), aun cuando sus transacciones individuales son de menor volumen (promedio de 192 unidades).
+
+Canal intermedio (Outlet): Registra márgenes equilibrados (alrededor del 39.5% - 40.0%) funcionando como canal de volumen medio.
+
+prompt5
+Dame un resumen ejecutivo donde se describa que se encontro en la exploracion, que anomalia de margen detecto y que preguntaria antes de pasar a un modelo predictivo con esos datos.

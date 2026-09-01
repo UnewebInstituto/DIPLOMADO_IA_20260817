@@ -1,0 +1,99 @@
+Prompt 1:
+Toma el archivo anexo 
+Ya revisé el archivo. Es el dataset Walmart Sales, con 6,435 filas y 8 columnas:
+
+Store: 45 tiendas distintas
+Date: semanas desde el 05-feb-2010 hasta el 26-oct-2012
+Weekly_Sales: ventas semanales (promedio ~$1.05M, rango entre $210K y $3.82M)
+Holiday_Flag: 450 semanas marcadas como festivas vs 5,985 normales
+Temperature, Fuel_Price, CPI, Unemployment: variables económicas/climáticas por semana y tienda
+
+¿Qué te gustaría hacer con estos datos? Por ejemplo puedo:
+
+Analizar ventas por tienda o por temporada
+Comparar ventas en semanas festivas vs. normales
+Ver correlaciones entre ventas y las variables económicas
+Crear gráficos o un dashboard
+Exportarlo a Excel con análisis incluido
+
+prompt 2
+Analiza la tendencia de ventas mensual y proyecta los próximos 3 meses. Explica en qué te basas y qué tan confiable es la proyección
+Ventas mensuales totales (todas las tiendas) — Real vs. Proyección
+Ventas (millones USD)
+
+
+Ventas reales
+Proyección
+Tendencia mensual
+Al agregar las 45 tiendas por mes, el patrón dominante no es una tendencia de crecimiento sostenida, sino una fuerte estacionalidad anual: cada diciembre las ventas se disparan (~$288-290M por el pico navideño) y cada enero caen fuerte (~$164-169M). Fuera de eso, el nivel base ronda los $180-230M/mes de forma bastante estable.
+
+La tendencia subyacente (quitando estacionalidad) es prácticamente plana, con leve crecimiento reciente:
+
+Feb-Oct 2011 vs. 2010: -0.6%
+Feb-Oct 2012 vs. 2011: +2.5%
+Proyección próximos 3 meses (Nov-2012 a Ene-2013)
+Mes	Proyección
+Noviembre 2012	~$207 millones
+Diciembre 2012	~$290 millones
+Enero 2013	~$167 millones
+En qué me baso
+Usé un modelo Holt-Winters (suavizado exponencial triple) con tendencia aditiva y estacionalidad aditiva de periodo 12 (mensual), ajustado sobre las 33 observaciones mensuales agregadas de todas las tiendas. Este método pondera más los datos recientes, pero mantiene el patrón estacional de cada mes calendario (aprendido de los ~2-3 años disponibles).
+
+Como referencia cruzada, los valores proyectados son casi idénticos al promedio histórico simple de cada mes (Nov ≈ $203-210M, Dic ≈ $288M, Ene ≈ $164-169M), lo que da confianza en que el modelo está capturando bien el patrón estacional.
+
+Qué tan confiable es
+Ajuste dentro de la muestra: error medio absoluto (MAPE) de 5.9%, lo cual es razonablemente bueno.
+Limitación clave: solo tengo 2.7 años de historia (2010-2012), es decir cada mes calendario solo se observó 2-3 veces. Eso es muy poco para estimar un patrón estacional robusto — un solo evento atípico en un diciembre o enero pasado pesa mucho en la proyección.
+Los meses de borde están incompletos: los datos empiezan el 5-feb-2010 y terminan el 26-oct-2012, así que esos meses no representan el mes completo (los excluí del cálculo de tendencia, pero octubre 2012 sigue siendo parcial en el gráfico).
+El modelo no incorpora variables externas (CPI, desempleo, combustible, festivos específicos) que sí están en tus datos y podrían mejorar la precisión.
+No genera intervalos de confianza explícitos aquí, pero dado el MAPE de ~6%, un rango razonable sería ±10-15% alrededor de cada cifra proyectada.
+En resumen: la proyección de diciembre es la más confiable (patrón navideño muy consistente en ambos años previos); noviembre y enero tienen algo más de incertidumbre por depender de solo 2 observaciones históricas cada uno.
+
+prompt 3
+dame una proyeccion mas precisa, incorpora cpi, desempleo y  precio del combustible, como variables explicativas
+
+Hice el análisis incorporando CPI, desempleo y precio del combustible como variables explicativas, y el resultado honesto es que no mejoran la precisión de forma significativa a este nivel de agregación. Te explico por qué y qué obtuve.
+
+Lo que encontré
+
+1. Correlación directa con ventas: prácticamente nula
+
+Variable	Correlación con ventas mensuales
+CPI	0.03
+Desempleo	0.02
+Precio combustible	-0.03
+
+2. Regresión controlando por mes (para separar el efecto real de la estacionalidad)
+
+Ninguna de las tres variables resultó estadísticamente significativa:
+
+CPI: p = 0.34
+Desempleo: p = 0.37
+Combustible: p = 0.47
+
+Lo único claramente significativo fue el efecto de diciembre (p < 0.001) — es decir, la temporada navideña, no las variables macro.
+
+3. Multicolinealidad severa (VIF): CPI, desempleo y combustible tienen VIF de 34-58 (>10 ya es problemático). Esto pasa porque en tus datos las tres variables simplemente van subiendo o bajando de forma monótona con el tiempo (CPI sube todo el periodo, desempleo baja todo el periodo), así que el modelo no puede distinguir si el efecto es de la variable económica o solo del paso del tiempo/tendencia. Estadísticamente están confundidas entre sí.
+
+Proyección con modelo SARIMAX + exógenas (para comparar)
+Mes	Sin exógenas	Con exógenas	IC 95% (con exógenas)
+Nov-2012	$212.5M	$209.9M	$154.9M – $265.0M
+Dic-2012	$290.6M	$254.7M	$190.9M – $318.5M
+Ene-2013	$170.6M	$180.2M	$113.6M – $246.7M
+
+Nota que diciembre baja de $290M a $255M al meter las exógenas — pero ese cambio no es confiable: es un artefacto de la colinealidad (el modelo "roba" parte del efecto estacional y se lo atribuye a las variables económicas que en realidad no tienen relación causal clara aquí), no una señal económica real. Además los intervalos de confianza se ensancharon mucho.
+
+Mi recomendación honesta
+
+Con este dataset agregado a nivel mensual (33 observaciones), el modelo puramente estacional (sin exógenas) sigue siendo el más confiable. Las variables macro no aportan poder explicativo adicional una vez que controlas por el mes del año — su aparente "efecto" es solo tendencia temporal disfrazada.
+
+Esto es consistente con lo que se sabe de este dataset de Walmart: las ventas están dominadas por la estacionalidad de cada tienda/festivo, no por CPI/desempleo/combustible a nivel mensual agregado. Si quieres que estas variables sí aporten, funcionarían mejor:
+
+A nivel de tienda individual (donde CPI y desempleo sí varían entre regiones, no solo en el tiempo)
+Con más años de historia (para separar tendencia de efecto económico)
+Con series económicas más volátiles/no monótonas en el periodo
+
+¿Quieres que pruebe el modelo a nivel de tienda (donde CPI/desempleo sí varían transversalmente) o prefieres quedarte con la proyección estacional simple del mensaje anterior como la definitiva?
+
+prompt 4
+dame sugerencias de variables que si podrian afectar la proyeccion de ventas en este modelo y que no se encuentran presentes en el dataset
