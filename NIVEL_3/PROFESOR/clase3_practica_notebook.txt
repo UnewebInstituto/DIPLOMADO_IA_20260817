@@ -1,0 +1,99 @@
+https://www.kaggle.com/datasets/vivek468/superstore-dataset-final
+
+
+prompt 1:
+Toma el archivo y Usando tablas dinámicas (o fórmulas SUMIFS/AVERAGEIFS), calcular para 3 trimestres consecutivos (ej.: Q1, Q2 y Q3 de un mismo año):Ventas totales, Ganancia total (Profit), Margen de ganancia (Profit / Sales),  Ticket promedio por orden, Categoría con mayor venta y Variación % respecto al trimestre anterior.
+
+respuesta al prompt 1:
+Necesito ejecutar el script desde el directorio correcto.Data mapping is correct. Ahora recalculo con LibreOffice.No hay errores. Verifico que los valores calculados tengan sentido antes de entregarlo.Ahora los valores son correctos. Copio el archivo final a outputs y lo comparto.El libro tiene dos hojas:
+
+**"Datos"** — las ~9,994 filas originales del CSV, más columnas auxiliares calculadas con fórmulas (`Year`, `Quarter`, `Primera Fila Orden`) que sirven de base para todo el resumen.
+
+**"Resumen Trimestral"** — la tabla pedida, con Q1, Q2 y Q3 de 2017 (los tres trimestres consecutivos más recientes con datos completos), todo calculado con `SUMIFS`/`COUNTIF`/`INDEX`+`MATCH` (nada hardcodeado):
+
+| Trimestre | Ventas | Ganancia | Margen | Ticket promedio | Categoría top | Variación % |
+|---|---|---|---|---|---|---|
+| Q1 2017 | $123,144.86 | $23,506.20 | 19.1% | $513.10 | Technology | -47.8% (vs Q4 2016) |
+| Q2 2017 | $133,764.37 | $15,499.21 | 11.6% | $364.48 | Office Supplies | +8.6% |
+| Q3 2017 | $196,251.96 | $26,985.13 | 13.8% | $438.06 | Office Supplies | +46.7% |
+
+Notas sobre las decisiones que tomé:
+- **Ticket promedio por orden** = ventas totales del trimestre ÷ número de órdenes únicas (no de líneas), usando un conteo con `COUNTIF` sobre el Order ID.
+- **Categoría con mayor venta** compara Furniture, Office Supplies y Technology por trimestre con `SUMIFS` auxiliares (columnas I:K) y las selecciona con `INDEX`/`MATCH`.
+- Incluí una fila de referencia **Q4 2016** solo para poder calcular la variación % de Q1 2017 respecto a su trimestre anterior; está claramente marcada como fuera del rango de los 3 trimestres solicitados.
+- Todos los supuestos están documentados al pie de la hoja "Resumen Trimestral".
+
+Si prefieres analizar otro año o trimestres distintos, dime cuáles y ajusto las fórmulas (son fácilmente reconfigurables cambiando el año/trimestre en la fórmula `SUMIFS`).
+
+prompt 2:
+Por cada trimestre, crear un documento PDF de media página con: 1  párrafo de contexto ("Por ejemplo Durante el Q2 se observó un incremento impulsado por..."), La tabla de KPIs calculados en el Paso anterior, 2 frases explicando una posible causa de algún cambio relevante. Exportar cada documento PDF como: Informe_Q1.pdf, Informe_Q2.pdf, Informe_Q3.pdf
+
+
+NotebookLM:
+prompt 1:
+Resume el contenido de estos tres informes en un párrafo por trimestre
+
+respuesta prompt 1:
+Durante el **Q1 2017**, las ventas totales sumaron **\$123,144.86**, lo que representó una contracción del **47.8%** respecto al cierre de Q4 2016. Esta disminución es atribuible a un patrón estacional post-temporada alta en el que cayó el número de órdenes, aunque el ticket promedio se mantuvo estable en **\$513.10**. A pesar del descenso en la facturación, el trimestre registró una ganancia total de **\$23,506.20** y obtuvo el margen de ganancia más alto de los periodos analizados con un **19.1%**, teniendo a la categoría de **Technology** como líder en ventas.
+
+En el **Q2 2017**, las ventas experimentaron un crecimiento del **8.6%** en comparación con el trimestre anterior, alcanzando los **\$133,764.37**. Sin embargo, la ganancia total cayó a su nivel más bajo con **\$15,499.21**, lo que comprimió el margen de ganancia a un mínimo de **11.6%**. Esta baja en los beneficios, acompañada de un descenso en el ticket promedio a **\$364.48**, sugiere un mayor peso de descuentos o un aumento en las ventas de productos con menor margen, trimestre en el cual la categoría de **Office Supplies** lideró la facturación.
+
+El **Q3 2017** presentó el desempeño más sólido del periodo analizado, logrando un fuerte incremento en ventas del **46.7%** con respecto a Q2, sumando **\$196,251.96**. La ganancia total también se recuperó notablemente hasta alcanzar los **\$26,985.13**, con un margen del **13.8%**. Esta tendencia positiva, junto con la recuperación del ticket promedio a **\$438.06**, refleja una mejor combinación de productos vendidos y una posible disminución de descuentos agresivos. Por segundo trimestre consecutivo, la categoría de **Office Supplies** se mantuvo a la cabeza de las ventas.
+
+📈 ¿Te gustaría que prepare un reporte en formato PDF que consolide estos datos y compare visualmente el rendimiento financiero de los tres trimestres?
+
+prompt 2:
+Extrae todos los KPIs mencionados en estos tres informes, organízalos en una tabla comparativa por trimestre, e identifica cuáles muestran una tendencia negativa sostenida.
+
+respuesta del prompt 2:
+Aquí tienes la tabla comparativa con todos los KPIs mencionados en los informes trimestrales:
+
+| KPI / Indicador | Q1 2017 | Q2 2017 | Q3 2017 |
+| :--- | :---: | :---: | :---: |
+| **Ventas Totales** | \$123,144.86 | \$133,764.37 | \$196,251.96 |
+| **Ganancia Total (Profit)** | \$23,506.20 | \$15,499.21 | \$26,985.13 |
+| **Margen de Ganancia** | 19.1% | 11.6% | 13.8% |
+| **Ticket Promedio por Orden** | \$513.10 | \$364.48 | \$438.06 |
+| **Categoría con Mayor Venta** | Technology | Office Supplies | Office Supplies |
+| **Variación % vs. Trimestre Anterior** | -47.8% (vs. Q4 2016) | +8.6% | +46.7% |
+
+### Análisis de Tendencias
+
+Tras evaluar la evolución de los indicadores trimestre a trimestre, **ninguno de los KPIs muestra una tendencia negativa sostenida** (es decir, un descenso continuo a lo largo de todo el periodo analizado):
+
+*   **Ventas Totales**: Muestran una **tendencia positiva sostenida**, acumulando incrementos constantes en cada periodo (+8.6% en Q2 y +46.7% en Q3).
+*   **Ganancia Total, Margen y Ticket Promedio**: Sufrieron un retroceso notable en el paso del Q1 al Q2, pero lograron una **recuperación sólida en el Q3**. Por lo tanto, su tendencia se clasifica como fluctuante y no de caída continua.
+
+📊 ¿Te gustaría que genere un gráfico de barras comparativo que muestre visualmente la relación entre las ventas y las ganancias de cada trimestre para que puedas ver esta fluctuación de un vistazo?
+
+
+prompt 3:
+De los KPIs con tendencia negativa, ¿qué causa se menciona en los informes? Cita el fragmento exacto.
+
+respuesta del prompt 3:
+Aunque en el análisis previo se determinó que ningún indicador presenta una tendencia negativa *sostenida* durante todo el periodo (pues todos muestran alguna recuperación), los informes explican detalladamente las causas detrás de las **caídas o retrocesos puntuales** registrados en el **Q1** y el **Q2**:
+
+### 1. Caída de ventas en Q1 2017 (frente al cierre de Q4 2016)
+El informe del primer trimestre explica que esta contracción de las ventas se debió a un comportamiento estacional y a un menor volumen de transacciones:
+> *"Esta caída es consistente con un patrón estacional post-temporada alta: Q4 suele concentrar compras de fin de año que no se repiten en el primer trimestre. El ticket promedio por orden (\$513.10) se mantuvo similar al de Q4, lo que sugiere que la baja provino de un menor número de órdenes y no de compras más pequeñas."*
+
+### 2. Caída de ganancias, margen y ticket promedio en Q2 2017 (frente a Q1)
+Para el segundo trimestre, se detalla que la pérdida de rentabilidad a pesar de haber vendido más volumen se originó por la política de precios y el tipo de productos vendidos:
+> *"El aumento de ventas junto con la caída simultánea de la ganancia sugiere un mayor peso de descuentos o de productos de menor margen (posiblemente Office Supplies, que lidera este trimestre) dentro de la mezcla de ventas. El ticket promedio también bajó a \$364.48, lo que indica órdenes de menor valor individual."*
+
+📦 ¿Te gustaría que prepare una presentación de diapositivas que resuma estas variaciones de rendimiento, sus causas y las estrategias de recuperación observadas en Q3?
+
+prompt 4:
+Si tuvieras que dar una sola recomendación a la junta directiva  basada en estos tres informes, ¿cuál sería y por qué?
+
+respuesta prompt 4:
+La recomendación principal para la junta directiva sería **establecer directrices claras para regular la política de descuentos y optimizar la mezcla de productos vendidos, priorizando la defensa del margen de ganancia por encima del simple incremento en el volumen de ventas.**
+
+**¿Por qué?**
+La evolución de los tres trimestres demuestra que un aumento en la facturación puede destruir valor si no se controla la agresividad comercial:
+*   En el **Q2 2017**, a pesar de que las ventas crecieron un **8.6%** frente al trimestre anterior, la ganancia total se desplomó a su nivel más bajo (**\$15,499.21**) y el margen se comprimió a un mínimo del **11.6%**. El informe asocia directamente esta pérdida de rentabilidad a un "mayor peso de descuentos o de productos de menor margen" (vinculado al liderazgo de la categoría Office Supplies) y a una reducción del ticket promedio.
+*   En contraste, el excelente desempeño del **Q3 2017** —donde las ganancias se recuperaron con fuerza hasta **\$26,985.13**— se atribuye a "una mejor combinación de productos vendidos y posiblemente menos descuentos agresivos", lo que permitió elevar el ticket promedio a **\$438.06** y recuperar el margen al **13.8%**.
+
+Controlar activamente el límite de los descuentos aplicados (especialmente en categorías de alta rotación como Office Supplies) garantizará que el crecimiento de la empresa sea sostenible y altamente rentable, tomando como referencia las mejores prácticas aplicadas en el tercer trimestre.
+
+📝 ¿Te gustaría que redacte una propuesta de informe ejecutivo formal dirigida a la junta directiva donde se detalle esta recomendación y los planes de acción sugeridos?

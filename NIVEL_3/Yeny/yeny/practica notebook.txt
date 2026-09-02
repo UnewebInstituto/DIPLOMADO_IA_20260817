@@ -1,0 +1,112 @@
+Toma el archivo y Usando tablas dinámicas (o fórmulas SUMIFS/AVERAGEIFS), calcular para 3 trimestres consecutivos (ej.: Q1, Q2 y Q3 de un mismo año):Ventas totales, Ganancia total (Profit), Margen de ganancia (Profit / Sales),  Ticket promedio por orden, Categoría con mayor venta y Variación % respecto al trimestre anterior.
+
+respuesta
+Cero errores. Verifico que los valores calculados tengan sentido antes de entregarlo.Todo cuadra. Muevo el archivo final a outputs y lo comparto.Elegí Q1, Q2 y Q3 de 2017 (los trimestres con más datos completos), e incluí Q4 2016 solo como referencia para calcular la variación de Q1.
+
+**Cómo está armado el archivo:**
+
+- **Hoja "Datos":** el CSV completo más tres columnas auxiliares con fórmulas (`Año`, `Trimestre`, `Primera Fila de la Orden` — esta última marca la primera aparición de cada Order ID para poder contar órdenes únicas con SUMIFS).
+- **Hoja "Resumen":**
+  - Tabla de apoyo con ventas por Categoría x Trimestre (SUMIFS), usada para determinar la categoría líder.
+  - Tabla principal con todas las métricas pedidas, 100% con fórmulas (SUMIFS, AVERAGEIFS vía Ventas/Órdenes, INDEX/MATCH, variación %).
+
+**Resultados (Q1 → Q2 → Q3 2017):**
+- Ventas: $123,145 → $133,764 → $196,252
+- Ganancia: $23,506 → $15,499 → $26,985
+- Margen: 19.1% → 11.6% → 13.8%
+- Ticket promedio: $513 → $364 → $438
+- Categoría líder: Technology → Office Supplies → Office Supplies
+- Variación % vs. trimestre anterior: -47.8% (vs Q4 2016) → +8.6% → +46.7%
+
+Todas las celdas son fórmulas dinámicas: si cambias el año/trimestre de referencia en las fórmulas o se actualiza la data, los resultados se recalculan solos.
+
+prompt 2
+Por cada trimestre, crear un documento PDF de media página con:
+1 párrafo de contexto ("Durante el Q2 se observó un incremento impulsado por..."), La tabla de KPIs calculados en el Paso anterior,
+2 frases explicando una posible causa de algún cambio relevante
+Exportar cada documento PDF: Informe_Q1.pdf, Informe_Q2.pdf, Informe_Q3.pd
+
+NotebookLM:
+prompt 1:
+Resume el contenido de estos tres informes en un párrafo por trimestre
+
+respuesta
+Durante el Q1 2017, se registraron ventas totales de $123,144.86, lo que representó una caída del 47.8% en comparación con el trimestre anterior (Q4 2016), una desaceleración estacional típica en el retail tras el fin de año
+. No obstante, este periodo alcanzó el margen de ganancia más alto con un 19.1% (generando una ganancia total de $23,506.20), lo cual se atribuye a un menor nivel de descuentos aplicados y al liderazgo en ventas de la categoría de Technology
+. Adicionalmente, el trimestre registró 240 órdenes únicas con el ticket promedio por orden más elevado de la primera mitad del año, situándose en $513.10
+.
+En el Q2 2017, las ventas totales experimentaron un incremento del 8.6% respecto al trimestre anterior, alcanzando los $133,764.37, mientras que el número de órdenes únicas ascendió a 367
+. Sin embargo, el margen de ganancia se contrajo al 11.6%, convirtiéndose en el más bajo de los trimestres analizados con una ganancia total de $15,499.21, debido a una aparente estrategia de incremento de descuentos para impulsar el volumen de pedidos
+. Asimismo, la categoría de Office Supplies desplazó a Technology como la de mayor venta, lo que, al tener un menor valor unitario, ayuda a explicar la reducción del ticket promedio a $364.48
+.
+El Q3 2017 registró el mayor crecimiento del periodo analizado, con ventas totales que alcanzaron los $196,251.96 (un aumento del 46.7% en comparación con Q2) y una recuperación de la ganancia total a $26,985.13
+. Este fuerte repunte comercial, impulsado por factores estacionales como el regreso a clases y la preparación para el cierre de año, elevó las órdenes únicas a 448 y el ticket promedio a $438.06
+. La categoría líder se mantuvo en Office Supplies, mientras que el margen de ganancia se recuperó parcialmente hasta un 13.8% gracias a una normalización de los descuentos aplicados tras la campaña agresiva del trimestre anterior
+
+
+Prompt2
+Extrae todos los KPIs mencionados en estos tres informes, organízalos en una tabla comparativa por trimestre, e identifica cuáles muestran una tendencia negativa sostenida.
+
+respuesta
+A continuación se presentan todos los KPIs comerciales extraídos de los informes trimestrales de la tienda:
+
+### Tabla Comparativa de KPIs por Trimestre
+
+| Métrica / KPI | Q1 2017 | Q2 2017 | Q3 2017 |
+| :--- | :---: | :---: | :---: |
+| **Ventas Totales** | \$123,144.86 | \$133,764.37 | \$196,251.96 |
+| **Ganancia Total (Profit)** | \$23,506.20 | \$15,499.21 | \$26,985.13 |
+| **Margen de Ganancia** | 19.1% | 11.6% | 13.8% |
+| **N° de Órdenes Únicas** | 240 | 367 | 448 |
+| **Ticket Promedio por Orden** | \$513.10 | \$364.48 | \$438.06 |
+| **Variación % vs. Trimestre Anterior** | -47.8% | +8.6% | +46.7% |
+| **Categoría con Mayor Venta** | Technology | Office Supplies | Office Supplies |
+
+---
+
+### Análisis de Tendencias
+
+Tras evaluar la evolución de estas métricas, se identifica que **ninguno de los KPIs muestra una tendencia negativa sostenida** a lo largo del periodo analizado. 
+
+Aunque varias métricas críticas experimentaron un deterioro al pasar del primer al segundo trimestre, **todas lograron recuperarse significativamente durante el Q3**:
+*   La **Ganancia Total** cayó un 34% en el Q2 (bajando de \$23,506.20 a \$15,499.21), pero repuntó notablemente en el Q3 hasta alcanzar su punto más alto con **\$26,985.13**.
+*   El **Margen de Ganancia** se contrajo en el Q2 a su nivel más bajo (11.6%) debido a estrategias de descuento, pero rebotó parcialmente al **13.8%** en el Q3 gracias a una normalización de los precios.
+*   El **Ticket Promedio por Orden** disminuyó considerablemente en el Q2 a \$364.48 debido al cambio de liderazgo hacia productos de menor valor unitario, pero se recuperó a **\$438.06** en el Q3.
+
+Por el contrario, las métricas de volumen como las **Ventas Totales** y el **Número de Órdenes Únicas** mantuvieron un **crecimiento positivo y sostenido** durante cada trimestre del año 2017.
+
+Prompt 3
+De los KPIs con tendencia negativa, ¿qué causa se menciona en los informes? Cita el fragmento exacto.
+
+respuesta
+Aunque ningún KPI muestra una tendencia negativa *sostenida* a lo largo de todo el periodo analizado, los informes explican detalladamente las causas detrás de las caídas y contracciones puntuales que experimentaron ciertas métricas en el **Q1** y **Q2**:
+
+### 1. Caída de ventas en el Q1 2017 (variación de -47.8% vs. Q4 2016)
+*   **Causa:** Se atribuye a una desaceleración comercial típica posterior a las festividades de fin de año.
+*   **Fragmento exacto:** 
+    > *"La caída trimestral coincide con el patrón estacional típico del retail, donde el Q4 concentra las compras de fin de año y el Q1 muestra una desaceleración natural."*
+
+### 2. Compresión del Margen de Ganancia en el Q2 2017 (reducción al 11.6% frente al 19.1% de Q1)
+*   **Causa:** Se debió a una política comercial activa de reducción de precios para incentivar una mayor cantidad de transacciones.
+*   **Fragmento exacto:** 
+    > *"La compresión del margen sugiere un aumento en los descuentos u ofertas otorgadas durante el trimestre para impulsar el volumen de órdenes, que creció a 367."*
+
+### 3. Caída del Ticket Promedio por Orden en el Q2 2017 (disminución a \$364.48 frente a los \$513.10 de Q1)
+*   **Causa:** Se explica por la transición del consumo hacia una categoría de productos con precios individuales más bajos.
+*   **Fragmento exacto:** 
+    > *"El cambio de categoría líder hacia Office Supplies, de menor valor unitario, también ayuda a explicar la caída del ticket promedio a \$364.48."*
+
+---
+prompt 4
+Si tuvieras que dar una sola recomendación a la junta directiva  basada en estos tres informes, ¿cuál sería y por qué?
+
+respuesta
+La recomendación estratégica principal para la junta directiva sería **optimizar y moderar la política de descuentos y promociones en los trimestres de transición y alta demanda (Q2 y Q3) para proteger la rentabilidad y evitar la erosión innecesaria del margen de ganancia**.
+
+**¿Por qué?**
+*   **La erosión del beneficio por buscar volumen:** En el Q2, la estrategia de incrementar descuentos y ofertas logró aumentar el volumen de órdenes a 367, pero tuvo un impacto adverso en la rentabilidad: el margen de ganancia se contrajo a su nivel más bajo (11.6%), provocando que la ganancia total cayera a \$15,499.21 (un 34% menos que en el Q1), a pesar de que la facturación total fue mayor.
+*   **La prueba de que menor volumen con precios firmes es más rentable:** El Q1 demostró que con un menor número de transacciones (240 órdenes) pero aplicando un menor nivel de descuentos y liderando con categorías de alto valor como **Technology**, se obtuvo el margen de ganancia más alto de todo el semestre (19.1%) y una ganancia de \$23,506.20.
+*   **Aprovechar la estacionalidad de forma eficiente:** Durante el Q3, la demanda natural por el regreso a clases y la preparación de fin de año impulsó orgánicamente las ventas a un récord de \$196,251.96 y las órdenes a 448. Al normalizar parcialmente los descuentos tras la agresiva campaña del trimestre anterior, el margen se recuperó a un 13.8%. Sin embargo, este porcentaje sigue estando muy por debajo del potencial del 19.1% visto en el Q1.
+
+Establecer pautas comerciales estrictas y límites a las rebajas en categorías de menor valor unitario como **Office Supplies** (que lideró en ventas en el Q2 y Q3) permitirá capturar el volumen de la temporada alta sin comprometer de manera desmedida los beneficios finales de la operación.
+
