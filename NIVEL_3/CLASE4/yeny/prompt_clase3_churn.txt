@@ -1,0 +1,50 @@
+
+
+prompt 2
+Tomar una muestra aleatoria de 150 filas (mezcla de clientes que abandonaron y que no) y guardarla como 
+historial_churn.csv, conservando la columna Churn.
+
+prompt 3 nueva conversacion
+
+Este archivo contiene clientes históricos con una columna Churn que indica si abandonaron. Identifica qué 
+variables (antigüedad, tipo de contrato, cargos mensuales, soporte técnico, etc.) están más asociadas a que 
+un cliente haya abandonado. Resume los 3-4 factores de mayor peso. 
+
+Con 150 clientes (30% tasa de churn), estos son los factores más asociados al abandono, de mayor a menor peso:
+
+**1. Tipo de contrato** — el factor más determinante. Churn del 47% en contratos mes a mes vs. 12% en un año y solo 3% en dos años. Un contrato mes a mes deja al cliente sin fricción para irse en cualquier momento.
+
+**2. Servicio de internet (Fibra óptica)** — 53% de churn entre clientes con fibra óptica, frente a 12% con DSL y 3% sin internet. Sugiere problemas de precio o calidad/servicio en ese producto específico, no solo tener internet.
+
+**3. Ausencia de soporte técnico y seguridad online** — sin TechSupport: 53% de churn (vs 15% con él); sin OnlineSecurity: 49% (vs 17%). Estos add-ons parecen actuar como "anclas" de retención, probablemente porque generan más contacto/valor percibido con el cliente.
+
+**4. Antigüedad y cargo mensual** — los que se van llevan en promedio 19 meses vs. 39 de los que se quedan, y pagan más al mes ($82 vs $57). El patrón clásico: clientes nuevos, con factura alta, sin contrato largo ni servicios de soporte, son los de mayor riesgo.
+
+**Perfil de riesgo combinado**: cliente nuevo, con fibra óptica, contrato mes a mes, sin TechSupport ni OnlineSecurity, y cargo mensual alto — ese combo aparece repetidamente entre los que abandonaron.
+
+¿Quieres que arme un modelo de scoring (regresión logística) para predecir probabilidad de churn por cliente, o un dashboard visual de estos hallazgos?
+
+Prompt 3
+Ahora adjunto la base de clientes actuales, sin indicar si abandonaron o no. Usando los patrones que 
+identificaste en el archivo anterior, ordena a estos clientes de mayor a menor probabilidad/riesgo de 
+abandono, indicando qué factores influyen en cada caso.
+
+Same schema, no Churn column. 30 customers. I'll build a logistic regression on historical data using key features, then score and rank current customers, and explain top contributing factors per row.Ahora genero el archivo Excel con el ranking completo para que lo puedas usar directamente.Entrené un modelo de regresión logística con los 150 clientes históricos usando las variables identificadas antes (contrato, tipo de internet, soporte técnico, antigüedad, cargo mensual, etc.) y lo apliqué a los 30 clientes actuales. Resultado:
+
+**Distribución de riesgo:**
+- 🔴 Alto (>60%): 11 clientes
+- 🟡 Medio (30-60%): 6 clientes
+- 🟢 Bajo (<30%): 13 clientes
+
+**Los 3 casos más críticos:**
+1. **3420-YJLQT** (89%) — contrato mes a mes, fibra óptica, sin soporte técnico, solo 2 meses de antigüedad, $79.55/mes
+2. **7398-SKNQZ** (88.1%) — mismo perfil: mes a mes, fibra, sin soporte técnico, 3 meses, $94.90/mes
+3. **9576-ANLXO** (84.2%) — mes a mes, fibra, sin soporte técnico, 3 meses de antigüedad
+
+**Patrón general del grupo de alto riesgo:** casi todos combinan contrato mes a mes + fibra óptica + sin soporte técnico + clientes muy nuevos (menos de 12 meses). Es exactamente el perfil que detectamos en el histórico.
+
+**Los más seguros:** clientes con contrato de dos años, antigüedad alta (50+ meses) y/o sin servicio de internet (ej. 5442-PPTJY con 2.6% de riesgo).
+
+prompt4
+Para los clientes de mayor riesgo, agrúpalos en 2 o 3 segmentos según el motivo principal de riesgo, y 
+propone una acción de retención específica y distinta para cada segmento (no una recomendación genérica).

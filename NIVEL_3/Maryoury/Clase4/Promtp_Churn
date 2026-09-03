@@ -1,0 +1,35 @@
+Microsoft Copilot
+
+Toma el anexo describe su estructura y contenido
+
+Prompt 2
+Tomar una muestra aleatoria de 150 filas (mezcla de clientes que abandonaron y que no) y guardarla como historial_churn.csv, conservando la columna Churn.
+
+
+Prompt 3
+ Este archivo contiene clientes históricos con una columna Churn que indica si abandonaron. Identifica qué variables (antigüedad, tipo de contrato, cargos mensuales, soporte técnico, etc.) están más asociadas a que un cliente haya abandonado. Resume los 3-4 factores de mayor peso.
+
+ Prompt 4
+ Buena, ya la tengo. Voy a entrenar un modelo de regresión logística con los datos históricos y usarlo para calcular la probabilidad de abandono de cada uno de estos clientes actuales.Entrené un modelo (regresión logística) con los patrones del histórico y lo apliqué a los 30 clientes actuales. El archivo Excel de arriba trae el ranking completo coloreado por nivel de riesgo; acá los casos más urgentes:
+
+**🔴 Riesgo alto (9 clientes) — combinan casi todos los factores de peligro:**
+- **3494-JCHRQ (88%)**, **4291-SHSBH (87%)**, **9840-EFJQB (81%)**: el patrón "de libro" — contrato mes a mes, fibra óptica, cheque electrónico, sin TechSupport ni OnlineSecurity, y apenas 1-7 meses de antigüedad. Son clientes nuevos sin ninguna atadura.
+- **4060-LDNLU (78%)** y **2038-OEQZH (69%)**: mismo perfil, agravado por cargos mensuales altos (~$86-96).
+- **7271-AJDTL (71%)**: caso interesante — lleva 55 meses (antigüedad alta, factor protector), pero el contrato mes a mes, la falta de soporte/seguridad y el cargo alto ($94.45) pesan más en el modelo.
+
+**🟡 Riesgo medio (6 clientes)**, como **9279-CJEOJ (46%)**: mismo combo de riesgo, pero el pago automático por transferencia actúa como contrapeso parcial.
+
+**🟢 Riesgo bajo (15 clientes)**: dominados por contratos de uno o dos años, pago automático, TechSupport/OnlineSecurity activos, o alta antigüedad. Ejemplos extremos: **6479-VDGRK (0.03%)** y **4295-YURET (0.2%)** — clientes "blindados" con casi todos los factores protectores presentes.
+
+**Patrón general confirmado**: el riesgo se dispara cuando se juntan *contrato mes a mes + sin soporte técnico/seguridad + baja antigüedad*, y se amplifica si además pagan con cheque electrónico o tienen fibra óptica con cargo alto. La antigüedad y el contrato de dos años son, de lejos, los mejores "amortiguadores" — casi ningún cliente con esas condiciones aparece en riesgo alto, incluso con cargos elevados (ver 6479-VDGRK, $85.30/mes pero 0% de riesgo por sus 72 meses y contrato largo).
+
+Si quieres, puedo priorizar acciones de retención (ej. ofrecer upgrade a contrato anual, o activar TechSupport gratis) específicamente para los 9 clientes de riesgo alto.
+
+Prompt 5
+Para los clientes de mayor riesgo, agrúpalos en 2 o 3 segmentos según el motivo principal de riesgo, y propone una acción de retención específica y distinta para cada segmento (no una recomendación genérica).
+
+Repuesta Promtp 5
+Analizando los 9 clientes de riesgo alto, el motivo dominante no es el mismo en todos — se agrupan claramente en 3 segmentos:La lógica de la segmentación: no todos los clientes de riesgo alto fallan por lo mismo. El **Segmento 1** falla por falta de vínculo (son demasiado nuevos para tener nada que perder); el **Segmento 2** falla por falta de reconocimiento pese a la lealtad (pagan caro sin sentir retorno); el **Segmento 3** falla por fricción operativa más que por precio o compromiso. Por eso cada acción ataca una causa distinta en vez de aplicar el mismo descuento a los nueve.
+
+Respuesta prompt 6
+Compara el ranking de riesgo generado (RAnking_riesgo_chirn.xls) contra los valores reales de Churn historial_churn.csv. Contar: de los clientes que marcó como "alto riesgo", ¿cuántos efectivamente habían abandonado?

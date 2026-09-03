@@ -1,0 +1,101 @@
+
+prompt 1:
+Toma el anexo, describe su estructura y contenido.
+
+prompt 2:
+Toma una muestra aleatoria de 150 filas (mezcla de clientes que abandonaron y que no) y guardarla como
+historial_churn.csv, conservando la columna Churn.
+
+En nueva conversación
+prompt 3:
+Este archivo contiene clientes históricos con una columna Churn que indica si abandonaron. Identifica qué variables (antigüedad, tipo de contrato, cargos mensuales, soporte técnico,  etc.) están más asociadas a que un cliente haya abandonado. Resume los 3-4 factores de mayor peso.
+
+Respuesta del prompt 3:
+Con 150 clientes (30% de churn), estos son los factores con mayor peso, ordenados por fuerza de asociación:
+
+**1. Tipo de contrato — el factor más fuerte**
+Mes a mes: 46.6% de churn, frente a 12% en contratos de un año y solo 2.7% en contratos de dos años. La falta de compromiso a largo plazo es el predictor más claro de abandono.
+
+**2. Servicio de soporte técnico y seguridad online**
+Sin soporte técnico: 52.8% de churn vs. 14.6% con soporte. Patrón casi idéntico con "Seguridad Online" (49.4% sin vs. 16.7% con). Los clientes sin estos servicios de valor agregado abandonan mucho más.
+
+**3. Tipo de conexión a internet (Fibra óptica)**
+Fibra óptica: 53.4% de churn, frente a 12.5% en DSL. Es contraintuitivo (la fibra suele ser el servicio "premium"), pero probablemente refleja mayor costo mensual y expectativas más altas — vale la pena investigar experiencia de servicio y precio en ese segmento.
+
+**4. Antigüedad (tenure) y cargo mensual**
+Los clientes que abandonan llevan en promedio 19 meses vs. 39 meses de los que se quedan, y pagan más al mes ($82 vs. $57). Es decir: clientes nuevos con facturas altas son el perfil de mayor riesgo.
+
+*Menciones secundarias con menor peso pero significativas:* método de pago (Electronic check: 53.3% de churn, muy por encima de otros métodos) y facturación sin papel (Yes: 37.9% vs No: 19%).
+
+**En resumen:** el cliente de mayor riesgo es alguien con contrato mes a mes, fibra óptica, sin soporte técnico ni seguridad online, poca antigüedad y factura mensual alta — probablemente pagando "electronic check". Todas estas asociaciones son estadísticamente significativas (p < 0.05).
+
+¿Quieres que arme una tabla de perfil de riesgo o un modelo predictivo simple (regresión logística) para cuantificar el efecto de cada variable de forma conjunta?
+
+prompt 4:
+Ahora adjunto la base de clientes actuales, sin indicar si abandonaron o no. Usando los patrones que identificaste en el archivo anterior, ordena a estos clientes de mayor a menor probabilidad/riesgo de abandono, indicando qué factores influyen en cada caso.
+
+Respuesta prompt 4:
+Same schema, 30 clients. Building a logistic regression model on the historical data, then scoring these.Entrené un modelo de regresión logística con los patrones del archivo histórico y lo apliqué a los 30 clientes actuales. Resultado: **9 en riesgo alto, 4 en riesgo medio, 17 en riesgo bajo**.
+
+**Top 5 de mayor riesgo:**
+
+| Cliente | Prob. abandono | Factores clave |
+|---|---|---|
+| 1143-NMNQJ | 96% | mes a mes + fibra + sin soporte/seguridad + solo 2 meses de antigüedad + $86/mes |
+| 8270-RKSAP | 88% | mes a mes + fibra + sin soporte/seguridad + 9 meses + electronic check |
+| 0872-JCPIB | 86% | mes a mes + sin soporte técnico |
+| 8058-INTPH | 82% | mes a mes + fibra + sin soporte/seguridad + apenas 1 mes de antigüedad |
+| 9450-TRJUU | 82% | mes a mes + fibra + sin soporte/seguridad + $83/mes |
+
+**Patrón general:** casi todos los de riesgo alto combinan contrato mes a mes + fibra óptica + ausencia de soporte técnico/seguridad online — la misma combinación que ya identificamos como más letal en el histórico. La antigüedad baja y el pago por electronic check aparecen como agravantes adicionales.
+
+**En el otro extremo**, los clientes de menor riesgo casi siempre tienen contrato de dos años y antigüedad alta (>50 meses), que actúan como factor protector incluso cuando tienen fibra óptica o cargos altos.
+
+Te dejé el archivo Excel completo con los 30 clientes ordenados de mayor a menor riesgo, código de color por nivel (rojo/amarillo/verde) y la columna de factores clave para cada uno — útil si quieres priorizar campañas de retención por ese orden.
+
+prompt 5:
+Para los clientes de mayor riesgo, agrúpalos en 2 o 3 segmentos según el motivo principal de riesgo, y
+propone una acción de retención específica y distinta para cada segmento (no una recomendación genérica).
+
+respuesta prompt 5:
+
+## Segmentación de los 9 clientes de alto riesgo
+
+**Segmento 1 — "Nuevos de fibra sin ninguna red de soporte" (4 clientes)**
+`1143-NMNQJ, 8058-INTPH, 8270-RKSAP, 8107-KNCIM`
+Perfil común: antigüedad ≤14 meses, fibra óptica, **sin soporte técnico NI seguridad online**, cargo mensual alto, pagan con electronic check. Son clientes que entraron con el servicio más caro y ningún colchón de protección — el motivo de riesgo es *falta de anclaje temprano*.
+
+→ **Acción:** programa de bienvenida activa con contacto en los días 30-60-90 (no esperar a que se quejen), incluir **gratis 3 meses de Soporte Técnico + Seguridad Online** como "regalo de bienvenida" (no como upsell pagado), y ofrecer migrar de electronic check a domiciliación/tarjeta con $5 de descuento — el electronic check está correlacionado con mayor churn en el histórico, probablemente por fricción de cobro.
+
+**Segmento 2 — "Fibra de alto valor con protección incompleta" (3 clientes)**
+`8104-OSKWT, 0876-WDUUZ, 9450-TRJUU`
+Perfil común: cargo mensual alto ($75-85), fibra, mes a mes, les falta soporte técnico o seguridad online (a veces solo uno de los dos). `9450-TRJUU` destaca: 35 meses de antigüedad sin ningún addon ni contrato — es un cliente leal pero nunca blindado.
+
+→ **Acción:** oferta de "completar protección + firmar contrato": el addon que les falta gratis por 6 meses **si** pasan a contrato de 1 año con precio congelado. Para `9450-TRJUU` en particular, dado su valor histórico (35 meses, $83/mes), trato diferenciado con contacto de un ejecutivo dedicado en vez de oferta automatizada — el mensaje debe reconocer su antigüedad, no tratarlo como cliente nuevo.
+
+**Segmento 3 — "DSL económico sin soporte técnico" (2 clientes)**
+`0872-JCPIB, 1986-PHGZF`
+Perfil común: DSL (no fibra), cargo mensual bajo-medio ($58-66), ya tienen seguridad online pero **no soporte técnico**, antigüedad media (17-18 meses). Aquí el riesgo no es precio — llevan más de un año pagando sin quejarse del costo — sino fricción de servicio no resuelta.
+
+→ **Acción:** llamada de "chequeo de calidad de servicio" para detectar problemas técnicos sin resolver, y agregar Soporte Técnico gratis por 6 meses **sin condicionarlo a ningún contrato** (a diferencia del segmento 2) — el objetivo es remover la fuente de fricción, no negociar precio ni permanencia.
+
+prompt 6:
+
+Compara el ranking de riesgo generado (Riesgo abandono clientes actuales.xls) contra los valores reales de Churn historial_churn.csv.
+Contar: de los clientes que marcó como "alto riesgo", ¿cuántos efectivamente habían abandonado?
+
+Los 30 clientes sí tienen match completo en el dataset original.
+
+**Resultado: de los 9 clientes marcados como "Alto" riesgo, 3 efectivamente habían abandonado (Churn = Yes).**
+
+Tabla completa (Nivel de Riesgo vs. Churn real):
+
+| Nivel de Riesgo | Churn = No | Churn = Yes | Total |
+|---|---|---|---|
+| Alto | 6 | 3 | 9 |
+| Medio | 4 | 0 | 4 |
+| Bajo | 16 | 1 | 17 |
+
+Esto da una **precisión del 33% (3/9)** en la categoría "Alto riesgo" — es decir, 1 de cada 3 clientes marcados como alto riesgo realmente abandonó. Por otro lado, hay que notar que el modelo también dejó pasar 1 abandono real clasificado como "Bajo" riesgo (falso negativo), lo cual es más preocupante desde el punto de vista de negocio que los falsos positivos.
+
+¿Quieres que calcule métricas adicionales (recall, matriz de confusión completa considerando también Medio, o el punto de corte óptimo de probabilidad) para evaluar mejor el desempeño del ranking?

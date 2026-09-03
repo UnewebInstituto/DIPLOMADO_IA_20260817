@@ -1,0 +1,31 @@
+customerID,gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,MultipleLines,InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,StreamingTV,StreamingMovies,Contract,PaperlessBilling,PaymentMethod,MonthlyCharges,TotalCharges
+9450-TRJUU,Male,0,No,No,35,Yes,Yes,Fiber optic,No,No,No,No,Yes,No,Month-to-month,No,Electronic check,83.15,2848.45
+5702-KVQRD,Male,0,Yes,No,71,Yes,No,DSL,Yes,No,Yes,Yes,Yes,Yes,Two year,Yes,Electronic check,82.55,5832.65
+4522-XRWWI,Male,0,Yes,No,42,Yes,Yes,DSL,Yes,No,No,Yes,Yes,Yes,One year,No,Credit card (automatic),80.45,3375.9
+2990-OGYTD,Female,0,Yes,No,67,Yes,Yes,DSL,No,Yes,Yes,Yes,Yes,Yes,Two year,No,Bank transfer (automatic),86.15,5883.85
+8107-KNCIM,Male,1,Yes,No,14,Yes,Yes,Fiber optic,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,75.1,1013.35
+4237-CLSMM,Male,0,Yes,No,2,Yes,No,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,Month-to-month,No,Mailed check,20.0,38
+0876-WDUUZ,Female,0,No,No,5,Yes,No,Fiber optic,No,No,No,Yes,No,Yes,Month-to-month,Yes,Credit card (automatic),85.4,425.9
+0512-FLFDW,Female,1,Yes,No,60,Yes,Yes,Fiber optic,No,No,Yes,No,Yes,Yes,One year,Yes,Credit card (automatic),100.5,6029
+6695-FRVEC,Male,0,Yes,Yes,67,Yes,No,DSL,Yes,No,Yes,Yes,No,No,Two year,Yes,Bank transfer (automatic),60.4,3953.7
+8270-RKSAP,Male,0,No,No,9,Yes,No,Fiber optic,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,70.5,597.9
+9391-DXGGG,Female,1,No,No,44,Yes,No,Fiber optic,No,Yes,Yes,No,No,Yes,One year,No,Credit card (automatic),89.15,3990.75
+1143-NMNQJ,Female,0,No,No,2,Yes,Yes,Fiber optic,No,No,No,No,No,Yes,Month-to-month,Yes,Electronic check,85.7,169.8
+6048-UWKAL,Female,1,Yes,No,69,Yes,Yes,Fiber optic,No,Yes,No,Yes,Yes,Yes,Two year,No,Credit card (automatic),105.4,6998.95
+8777-MBMTS,Female,1,Yes,No,65,Yes,No,Fiber optic,No,Yes,Yes,Yes,Yes,Yes,Two year,Yes,Credit card (automatic),105.85,6725.5
+3026-ATZYV,Female,0,Yes,Yes,37,Yes,No,DSL,Yes,Yes,No,No,Yes,Yes,One year,No,Bank transfer (automatic),75.1,2658.8
+3192-NQECA,Male,0,Yes,No,68,Yes,Yes,Fiber optic,No,Yes,Yes,Yes,Yes,Yes,Two year,Yes,Bank transfer (automatic),110.0,7611.85
+2824-DXNKN,Female,0,Yes,Yes,72,Yes,Yes,DSL,Yes,No,Yes,No,Yes,No,Two year,Yes,Bank transfer (automatic),71.45,5025.85
+2480-SQIOB,Male,0,Yes,Yes,4,Yes,No,DSL,No,No,No,No,No,No,Month-to-month,No,Electronic check,44.8,169.65
+8058-INTPH,Female,0,No,No,1,Yes,No,Fiber optic,No,No,No,No,Yes,No,Month-to-month,Yes,Electronic check,79.65,79.65
+8779-YIQQA,Male,0,Yes,Yes,21,Yes,No,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,One year,No,Mailed check,19.8,350.1
+1657-DYMBM,Male,0,Yes,No,53,Yes,No,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,Two year,No,Credit card (automatic),19.9,1110.05
+1986-PHGZF,Male,1,No,No,18,Yes,Yes,DSL,Yes,Yes,No,No,No,No,Month-to-month,Yes,Credit card (automatic),58.4,964.9
+8104-OSKWT,Female,0,No,No,12,Yes,Yes,Fiber optic,Yes,No,No,No,No,No,Month-to-month,Yes,Electronic check,79.8,1001.2
+7895-VONWT,Female,0,No,No,25,No,No phone service,DSL,No,No,Yes,No,Yes,Yes,Month-to-month,Yes,Electronic check,48.25,1293.8
+9068-FHQHD,Female,0,Yes,Yes,40,Yes,No,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,Two year,No,Bank transfer (automatic),20.15,777.35
+7599-NTMDP,Female,0,Yes,Yes,62,No,No phone service,DSL,Yes,Yes,No,Yes,Yes,No,Two year,No,Bank transfer (automatic),48.7,3008.55
+0237-YFUTL,Female,0,Yes,No,50,Yes,Yes,Fiber optic,Yes,Yes,No,Yes,Yes,Yes,Month-to-month,Yes,Bank transfer (automatic),109.65,5405.8
+1194-SPVSP,Male,0,No,No,1,Yes,No,No,No internet service,No internet service,No internet service,No internet service,No internet service,No internet service,Month-to-month,No,Bank transfer (automatic),19.65,19.65
+9586-JGQKH,Female,0,Yes,No,64,Yes,Yes,Fiber optic,No,Yes,No,Yes,Yes,Yes,Two year,Yes,Bank transfer (automatic),105.4,6794.75
+0872-JCPIB,Male,0,No,No,17,Yes,Yes,DSL,Yes,No,No,No,No,Yes,Month-to-month,No,Bank transfer (automatic),65.75,1111.2
