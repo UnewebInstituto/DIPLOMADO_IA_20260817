@@ -1,0 +1,4 @@
+
+Del archivo anexo verifica formato de fecha, elimina filas con valores nulos en columnas clave.
+Crea una columna auxiliar “Semana” o “Mes” para poder comparar el período actual vs. el anterior.
+Crear una hoja “Resumen.csv” con una tabla dinámica: ventas totales, ticket promedio y unidades vendidas por período.

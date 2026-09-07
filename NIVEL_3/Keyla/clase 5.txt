@@ -1,0 +1,59 @@
+Python 3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)] on win32
+Enter "help" below or click "Help" above for more information.
+import pandas as pd
+pd.
+SyntaxError: invalid syntax
+df = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
+Traceback (most recent call last):
+  File "<pyshell#2>", line 1, in <module>
+    df = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
+  File "C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_3\Keyla\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_3\Keyla\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 300, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_3\Keyla\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1645, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_3\Keyla\.venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1904, in _make_engine
+    self.handles = get_handle(
+  File "C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_3\Keyla\.venv\Lib\site-packages\pandas\io\common.py", line 930, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: 'WA_Fn-UseC_-Telco-Customer-Churn.csv'
+df=pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
+df
+      customerID  gender  ...  TotalCharges Churn
+0     7590-VHVEG  Female  ...         29.85    No
+1     5575-GNVDE    Male  ...        1889.5    No
+2     3668-QPYBK    Male  ...        108.15   Yes
+3     7795-CFOCW    Male  ...       1840.75    No
+4     9237-HQITU  Female  ...        151.65   Yes
+...          ...     ...  ...           ...   ...
+7038  6840-RESVB    Male  ...        1990.5    No
+7039  2234-XADUH  Female  ...        7362.9    No
+7040  4801-JZAZL  Female  ...        346.45    No
+7041  8361-LTMKD    Male  ...         306.6   Yes
+7042  3186-AJIEK    Male  ...        6844.5    No
+
+[7043 rows x 21 columns]
+sample_df = df.sample(n=150, random_state=42)
+sample_df
+      customerID  gender  ...  TotalCharges Churn
+185   1024-GUALD  Female  ...          24.8   Yes
+2715  0484-JPBRU    Male  ...        996.45    No
+3825  3620-EHIMZ  Female  ...        1031.7    No
+1807  6910-HADCM  Female  ...         76.35   Yes
+132   8587-XYZSF    Male  ...        3260.1    No
+...          ...     ...  ...           ...   ...
+2402  7623-HKYRK    Male  ...        111.65    No
+3668  1353-GHZOS    Male  ...       1374.35    No
+6340  3323-CPBWR    Male  ...       2085.45    No
+429   6152-ONASV  Female  ...        3975.7    No
+5735  9251-AWQGT  Female  ...         935.9    No
+
+[150 rows x 21 columns]
+sample_df.to_csv(".historial_churn_copilot.csv", index=false)
+Traceback (most recent call last):
+  File "<pyshell#7>", line 1, in <module>
+    sample_df.to_csv(".historial_churn_copilot.csv", index=false)
+NameError: name 'false' is not defined. Did you mean: 'False'?
+sample_df.to_csv(".historial_churn_copilot.csv", index=False)
+quit()

@@ -1,0 +1,26 @@
+Python 3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)] on win32
+Enter "help" below or click "Help" above for more information.
+import pandas as pd
+df= pd.read_csv("Clase3/WA_Fn-UseC_-Telco-Customer-Churn.csv")
+sample_df= df.sample (N=150, random_state=42)
+Traceback (most recent call last):
+  File "<pyshell#2>", line 1, in <module>
+    sample_df= df.sample (N=150, random_state=42)
+TypeError: NDFrame.sample() got an unexpected keyword argument 'N'. Did you mean 'n'?
+sample_df= df.sample (n=150, random_state=42)
+sample_df
+      customerID  gender  SeniorCitizen  ... MonthlyCharges TotalCharges  Churn
+185   1024-GUALD  Female              0  ...          24.80         24.8    Yes
+2715  0484-JPBRU    Male              0  ...          25.25       996.45     No
+3825  3620-EHIMZ  Female              0  ...          19.35       1031.7     No
+1807  6910-HADCM  Female              0  ...          76.35        76.35    Yes
+132   8587-XYZSF    Male              0  ...          50.55       3260.1     No
+...          ...     ...            ...  ...            ...          ...    ...
+2402  7623-HKYRK    Male              0  ...          19.70       111.65     No
+3668  1353-GHZOS    Male              0  ...          59.75      1374.35     No
+6340  3323-CPBWR    Male              0  ...          96.90      2085.45     No
+429   6152-ONASV  Female              0  ...          58.25       3975.7     No
+5735  9251-AWQGT  Female              0  ...          20.00        935.9     No
+
+[150 rows x 21 columns]
+sample_df.to_csv(".historial_churn_copilot.csv", index=False)
