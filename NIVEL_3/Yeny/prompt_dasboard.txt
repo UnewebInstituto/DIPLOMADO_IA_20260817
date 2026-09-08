@@ -1,0 +1,14 @@
+Actúa como analista de datos. Con las siguientes cifras de este
+período y el anterior contenidas en resumen.csv, redacta un resumen ejecutivo de 3-4 líneas en lenguaje natural, dirigido a un gerente sin conocimientos técnicos, explicando qué cambió y por qué podría ser relevante. No inventes
+causas que no estén en los datos.
+
+En el período de Mayo 2005, las ventas totales crecieron un 75.0% alcanzando los $457,861.06 (frente a $261,633.29 en abril), impulsadas principalmente por un aumento del 55.6% en el volumen de órdenes cerradas (pasando de 9 a 14) y un alza del 65.4% en las unidades vendidas. Este resultado es relevante porque el crecimiento del negocio vino acompañado de un incremento del 12.5% en el ticket promedio por orden (hasta $32,704.36), lo que demuestra que el repunte del volumen de facturación se debió tanto a la captura de más transacciones como a un mayor valor promedio por cliente en este mes.
+
+
+Alertas a producir:
+
+prompt 1:
+Genera a partir de resumen, un nuevo archivo resumen_alerta1.csv, con una nueva columna de nombre "Alerta", con un mensaje indicando la caída si el ticket promedio cae más de 20% respecto al período anterior
+
+prompt 2:
+Genera a partir de resumen, un nuevo archivo resumen_alerta2.csv, con una nueva columna de nombre "Alerta", con un mensaje indicando la caída si las ventas totales caen más de 15% 

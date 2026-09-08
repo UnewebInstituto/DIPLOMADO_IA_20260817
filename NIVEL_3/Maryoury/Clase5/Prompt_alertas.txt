@@ -1,0 +1,3 @@
+Genera a partir de resumen, un nuevo archivo resumen_alerta.csv, con una nueva columna de nombre "Alerta" con un mensaje indicando la caida si el ticket promedio cae mas de 20% respecto al periodo anterior
+
+Genera a partir de resumen, un nuevo archivo resumen_alerta2.csv, con una nueva columna de nombre "Alerta" con un mensaje indicando la caida si el ticket promedio cae mas de 15% respecto al periodo anterior
