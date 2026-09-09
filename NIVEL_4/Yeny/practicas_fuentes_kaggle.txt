@@ -1,0 +1,25 @@
+Aquí tienes las más relevantes, organizadas por práctica:
+
+**P1 — Análisis de contratos (cláusulas de penalización y vencimiento)**
+- CUAD – Contract Understanding Atticus Dataset: https://www.kaggle.com/datasets/theatticusproject/atticus-open-contract-dataset-aok-beta — 510+ contratos comerciales reales con más de 41 tipos de cláusulas anotadas por abogados (ideal para practicar extracción de cláusulas de riesgo).
+- Legal Contract Dataset (CUAD + ContractNLI procesado): https://www.kaggle.com/datasets/changethan/legal-contract-dataset
+- Legal-Clause-Dataset (350+ cláusulas estándar): https://www.kaggle.com/datasets/bahushruth/legalclausedataset
+
+**P2 — 100 reseñas de Google (sentimiento y reputación)**
+- Google Maps Restaurant Reviews: https://www.kaggle.com/datasets/denizbilginn/google-maps-restaurant-reviews — 1.100 reseñas reales de restaurantes en Google Maps, con texto y calificación; puedes tomar una muestra de 100.
+- Customer Sentiment Dataset:  — 25.000 reseñas de clientes en varias plataformas, con etiqueta de sentimiento ya asignada (útil para comparar contra la clasificación de Claude).
+
+**P3 — Síntesis ejecutiva de informes de 50+ páginas**
+- Annual Reports: https://www.kaggle.com/datasets/samarthagarwal23/annual-reports — memorias anuales corporativas completas en PDF, tamaño ideal para probar la ventana de 200k tokens.
+- OpenAI Summarization Corpus (TL;DR, CNN, Daily Mail): https://www.kaggle.com/datasets/thedevastator/openai-summarization-corpus — útil si prefieres textos más cortos para practicar el flujo antes de pasar a un informe completo.
+
+**P4 — Traducción/adaptación de materiales de marketing (inglés, francés, portugués)**
+- E-Commerce Product Descriptions Dataset: https://www.kaggle.com/datasets/piyushkumar509/random-products-and-their-descriptions — descripciones de producto listas para transcrear a varios idiomas.
+- eCommerce Item Data: https://www.kaggle.com/datasets/cclark/product-item-data — 500 SKUs con descripciones, buen tamaño para elegir 3 piezas.
+- High-Quality Multilingual Translation Data: https://www.kaggle.com/datasets/thedevastator/high-quality-multilingual-translation-data — si quieres verificar tus traducciones contra pares ya alineados en varios idiomas.
+
+**P5 — eBook profesional (30-40 páginas)**
+Esta práctica no depende de un dataset (el contenido se redacta con Claude), pero si quieres una base de datos/información real para fundamentar el eBook, te sirven como fuente de contenido:
+- Annual Reports (mismo enlace que P3) — si el eBook es de tipo informe sectorial o de negocio.
+- Marketing & E-Commerce Analytics Dataset: https://www.kaggle.com/datasets/geethasagarbonthu/marketing-and-e-commerce-analytics-dataset — si el eBook trata sobre marketing digital o comportamiento del consumidor.
+

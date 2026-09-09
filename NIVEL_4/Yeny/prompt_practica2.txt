@@ -1,0 +1,21 @@
+Del archivo anexo selecciona product_category igual a "fashion" y platform igual a "amazon"
+Clasifica cada reseña adjunta en una tabla con las columnas: sentimiento general 
+(positivo/negativo/neutro/mixto), aspectos mencionados, sentimiento por aspecto, y una frase textual que 
+justifique la clasificación. No infieras aspectos que no estén mencionados explícita o implícitamente en el 
+texto."  
+
+Actúa como asistente de análisis contractual. Lee el contrato adjunto y extrae en una tabla: (1) tipo de cláusula, (2) texto citado textualmente, (3) página o sección, (4) nivel de riesgo (bajo/medio/alto) para la parte que representamos, (5) acción recomendada. Si algún campo no aparece en el documento, indica 'no especificado' en vez de inferirlo.
+Traduce al castellano, los textos citados.
+
+
+**Narrativa del consumidor** (resumida en mis palabras): El consumidor denuncia que ERC está reportando información inexacta e injusta en su perfil crediticio, lo cual afecta su capacidad de obtener crédito. Afirma haber enviado dos cartas por correo certificado con acuse de recibo exigiendo la corrección, la primera recibida y firmada a inicios de 2021, sin obtener respuesta ni corrección tras 91 días (13 semanas). Insiste en que ERC se niega a eliminar la información incorrecta pese a sus reclamos formales.
+
+En esencia, es una queja típica de disputa de exactitud crediticia con demora en la investigación por parte de ERC, más allá del plazo legal de 30 días.
+
+
+Redacta en nombre de ERC, una respuesta pública a esta reseña negativa siguiendo la estructura: agradecimiento, validación específica del problema mencionado, responsabilidad sin excusas, acción concreta ofrecida, invitación a continuar por canal privado. Tono profesional y cálido, máximo 80 palabras, sin usar frases genéricas como 'lamentamos los inconvenientes'.
+
+respuesta generada:
+Estimado cliente:
+
+Gracias por tomarse el tiempo de escribirnos. Entendemos su frustración: recibimos sus dos cartas certificadas y no le dimos respuesta dentro del plazo que usted merecía, ni corregimos la información en su reporte a tiempo. Eso fue un error nuestro, sin justificación. Ya asignamos su caso a un especialista para revisar y corregir los datos reportados esta semana. Por favor escríbanos a [correo/línea directa] con su número de caso para darle seguimiento personalizado de inmediato.

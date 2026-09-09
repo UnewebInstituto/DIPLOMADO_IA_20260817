@@ -1,0 +1,15 @@
+Del archivo anexo selecciona product_category igual a "electronics" y platform igual a "amazon". Clasifica cada reseña adjunta en una tabla con las columnas: sentimiento general (positivo/negativo/neutro/mixto), aspectos mencionados, sentimiento por aspecto, y una frase textual que justifique la clasificación. No infieras aspectos que no estén mencionados explícita o implícitamente en el texto. 
+
+Del archivo anexo genera una tabla con las columnas: nom restaurant, positivos, negativos, neutro y mixto, donde estas ultimas cuatro columnas representan los sentimiento generales del producto o servicio recibido por parte de los clientes
+
+Actúa como asistente de análisis contractual. Lee el contrato adjunto y extrae en una tabla: (1) tipo de 
+cláusula, (2) texto citado textualmente, (3) página o sección, (4) nivel de riesgo (bajo/medio/alto) para la 
+parte que representamos, (5) acción recomendada. Si algún campo no aparece en el documento, indica 'no especificado' en vez de inferirlo.
+Traduce al castellano los textos citados
+
+
+PROMT PRACTICA 4
+Redacta en nombre de ERC, una respuesta pública a esta reseña negativa siguiendo la estructura: agradecimiento, validación específica del problema mencionado, responsabilidad sin excusas, acción concreta ofrecida, invitación a continuar por canal privado. Tono profesional y cálido, máximo 80 palabras, sin usar frases genéricas como 'lamentamos los inconvenientes'.
+
+RESPUESTA 
+Gracias por tomarse el tiempo de detallar su experiencia. Entendemos su frustración: presentó dos cartas certificadas solicitando corrección de información inexacta en su reporte crediticio, y pasaron más de 90 días sin respuesta de nuestra parte, algo que no debió ocurrir. Asumimos la responsabilidad por esta demora. Ya hemos escalado su caso para revisión inmediata y corrección de los datos reportados. Por favor contáctenos directamente al [correo/teléfono de soporte] con su número de complaint_id 4273987 para darle seguimiento personalizado.

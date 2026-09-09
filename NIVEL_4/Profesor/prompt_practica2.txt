@@ -1,0 +1,100 @@
+Análisis de sentimientos.
+
+Del archivo anexo selecciona product_category igual a "electronics" y platform igual a "amazon". Clasifica cada reseña adjunta en una tabla con las columnas: sentimiento general (positivo/negativo/neutro/mixto), aspectos mencionados, sentimiento por aspecto, y una frase textual que
+justifique la clasificación. No infieras aspectos que no estén mencionados explícita o implícitamente en el texto. 
+
+
+Del archivo anexo , clasifica cada reseña adjunta en una tabla con las columnas: sentimiento general (positivo/negativo/neutro/mixto), aspectos mencionados, sentimiento por aspecto, y una frase textual que
+justifique la clasificación. No infieras aspectos que no estén mencionados explícita o implícitamente en el texto. 
+
+Del archivo anexo, genera una tabla con las columnas: nombre del restaurant, positivos, negativos, neutro y mixto, donde esta últimas cuatro columnas respresentan los sentimientos generales del producto o servicio recibido por parte de los clientes.
+
+
+Análisis de Contratos.
+Actúa como asistente de análisis contractual. Lee el contrato adjunto y extrae en una tabla: (1) tipo de cláusula, (2) texto citado textualmente, (3) página o sección, (4) nivel de riesgo (bajo/medio/alto) para la parte que representamos, (5) acción recomendada. Si algún campo no aparece en el documento, indica 'no especificado' en vez de inferirlo.
+Traduce al castellano, los textos citados.
+
+
+
+Análisis de sentimiento de la marca **Pavlova Caracas** (`@pavlovacaracas`) en Instagram:
+
+| Clasificación | Sentimiento General | Justificación Analítica de Mercadeo |
+| --- | --- | --- |
+| **Puntaje Global** | **Positivo Predominante (80% - 85%)** | Alto nivel de engagement, fidelización de clientes y fuerte *word-of-mouth* visual centrado en la calidad y estética del producto. |
+| **Desglose** | **Positivo** | Destacan elogios constantes a la calidad del merengue, presentación estética (*instagrammable*), frescura de las frutas (fresas), propuesta *gluten-free* y la experiencia en sus tiendas físicas de El Hatillo y Chacao. |
+|  | **Neutro** | Consultas operativas diarias en DM y comentarios: solicitud de precios, menú, cotizaciones para eventos, horarios y disponibilidad de *delivery*. |
+|  | **Mixto / Negativo** | Fricción puntual en la percepción de precios (considerados altos para el mercado local), demoras ocasionales en horas pico o detalles con la logística de *delivery*. |
+
+---
+
+### Referencias de Respaldo
+
+1. **El Estímulo (Bienmesabe) – Reportaje sobre la historia y posicionamiento de Pavlova Caracas:**
+* *Aporte:* Resalta el valor de marca centrado en productos 100% *gluten-free*, hechos al día y sin procesos industriales, lo que genera alta satisfacción, valoración positiva y fidelización en comentarios y mensajes directos de clientes.
+* *Fuente:* [El Estímulo - Bienmesabe](https://elestimulo.com/bienmesabe/dulces/2025-11-05/pavlova-caracas-historia/)
+
+
+2. **Ocean Drive Venezuela / MisRevistas – Cobertura sobre la experiencia y expansión comercial:**
+* *Aporte:* Documenta la recepción positiva de la marca por parte de los consumidores caraqueños, impulsando la apertura de sedes físicas (El Hatillo y Chacao) gracias a la alta demanda manifestada en redes sociales.
+* *Fuente:* [Ocean Drive - Qué se cocina en Caracas](https://www.misrevistas.com/oceandrive/notas/27758/que-se-cocina)
+
+
+3. **Perfil Oficial de Instagram (`@pavlovacaracas`):**
+* *Aporte:* Los *comments* y interacciones directas reflejan la dinámica de sentimiento: interacción positiva orientada a la estética/sabor del producto versus comentarios neutros/mixtos enfocados en la consulta de tarifas de *delivery* y precios de presentaciones personalizadas.
+* *Fuente:* [Instagram - @pavlovacaracas](https://www.instagram.com/pavlovacaracas/)
+
+En Kaggle existen varios conjuntos de datos enfocados en reclamos de clientes, fallas de servicio y temas conexos como análisis de sentimiento o detección de fuga (*churn*).
+
+| Dataset / Tema | Descripción del Contenido | Casos de Uso Principales |
+| --- | --- | --- |
+| **Consumer Complaint Database (CFPB)** | Registro público de reclamos de consumidores en EE. UU. sobre productos financieros, cobranzas y fallas de servicio. Incluye texto del reclamo, empresa y respuesta. | * Clasificación de texto (NLP)<br>
+
+<br>* Análisis de causa raíz<br>
+
+<br>* Predicción de resolución de disputas |
+| **Customer Support on Twitter** | +3 millones de tuits y respuestas de soporte al cliente de marcas como Apple, Amazon, Uber y aerolíneas, atendiendo quejas e interrupciones de servicio. | * Análisis de sentimiento<br>
+
+<br>* Automatización de respuestas (Chatbots)<br>
+
+<br>* Medición de tiempos de respuesta |
+| **Telco Customer Churn** | Datos sobre clientes de telecomunicaciones que abandonan la empresa debido a insatisfacción con el servicio, cargos no reconocidos o fallas técnicas. | * Predicción de cancelación (*churn*)<br>
+
+<br>* Identificación de factores clave de insatisfacción |
+| **Airline Customer Satisfaction / Complaints** | Encuestas e historial de quejas sobre demoras, cancelación de vuelos, pérdida de equipaje e incumplimiento de itinerarios en aerolíneas. | * Modelos de clasificación de insatisfacción<br>
+
+<br>* Priorización de compensaciones o reclamos |
+| **Ecommerce Customer Service Complaints** | Transacciones y tickets de soporte técnico/postventa por entregas tardías, productos defectuosos o incumplimiento de reembolsos. | * Categorización automática de tickets<br>
+
+<br>* Detección de patrones de fallas logísticas |
+
+*************************************************************
+
+Narrativa del consumidor, para dar respuesta empática:
+## Registro 429 (ID de queja: 4273987)
+
+- **Fecha de recepción**: 6/4/2021
+- **Producto**: Credit reporting, credit repair services, or other personal consumer reports
+- **Subproducto**: Credit reporting
+- **Problema**: La investigación de la compañía de reportes crediticios sobre un problema existente
+- **Subproblema**: La investigación tomó más de 30 días
+- **Estado**: Illinois (IL), código postal 60504
+- **Canal de envío**: Web
+- **Consentimiento del consumidor**: Otorgado (por eso se incluye la narrativa completa)
+- **Respuesta de la empresa**: "Closed with explanation" (cerrado con explicación)
+- **Respuesta oportuna**: Sí (TRUE)
+- **Disputado por el consumidor**: No especificado (vacío)
+
+**Narrativa del consumidor** (resumida en mis palabras): El consumidor denuncia que ERC está reportando información inexacta e injusta en su perfil crediticio, lo cual afecta su capacidad de obtener crédito. Afirma haber enviado dos cartas por correo certificado con acuse de recibo exigiendo la corrección, la primera recibida y firmada a inicios de 2021, sin obtener respuesta ni corrección tras 91 días (13 semanas). Insiste en que ERC se niega a eliminar la información incorrecta pese a sus reclamos formales.
+
+En esencia, es una queja típica de disputa de exactitud crediticia con demora en la investigación por parte de ERC, más allá del plazo legal de 30 días.
+
+
+
+prompt:
+Redacta en nombre de ERC, una respuesta pública a esta reseña negativa siguiendo la estructura: agradecimiento, validación específica del problema mencionado, responsabilidad sin excusas, acción concreta ofrecida, invitación a continuar por canal privado. Tono profesional y cálido, máximo 80 palabras, sin usar frases genéricas como 'lamentamos los inconvenientes'.
+
+Respuesta:
+
+Estimado(a) cliente:
+
+Gracias por tomarse el tiempo de contarnos lo sucedido. Confirmamos que nuestra investigación sobre la información en su reporte crediticio superó el plazo de 30 días que la ley exige, y eso no fue aceptable de nuestra parte. Ya hemos escalado su caso a nuestro equipo de cumplimiento para corregir el registro de inmediato. Por favor, escríbanos a nuestro canal de atención directa con su número de queja para darle seguimiento personalizado hasta resolverlo.

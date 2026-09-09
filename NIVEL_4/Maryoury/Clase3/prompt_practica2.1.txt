@@ -1,0 +1,2 @@
+Del archivo anexo selecciona product_category igual a "electronics" y platform igual a "amazon". Clasifica cada reseña adjunta en una tabla con las columnas: sentimiento general (positivo/negativo/neutro/mixto), aspectos mencionados, sentimiento por aspecto, y una frase textual que
+justifique la clasificación. No infieras aspectos que no estén mencionados explícita o implícitamente en el texto. 
