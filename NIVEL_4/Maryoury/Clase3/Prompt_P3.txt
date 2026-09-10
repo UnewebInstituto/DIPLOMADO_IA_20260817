@@ -1,0 +1,63 @@
+Del documento anexo dame un mapa con la siguiente estructura: índice reconstruido con las secciones principales y su ubicación aproximada. 
+
+respuesta
+169 pages, ASX Crown Resorts 2021 Annual Report. Let me check if there's a built-in table of contents (outline) and also extract text to find section headers.
+
+Reconstruí el índice a partir del contenido impreso ("Contents") en la página 4 del PDF, cruzándolo con la ubicación real de cada sección dentro del archivo (los folios impresos del reporte no coinciden 1:1 con la numeración de páginas del PDF, porque hay portada, comunicado de ASX y la propia página de contenidos antes de que arranque la numeración interna).
+
+Sección	Página impresa (folio del reporte)	Página del PDF
+Letter from the Board	2	5
+About Crown	6	9
+Crown's Resort Portfolio	7	10
+International Interests	10	13
+Crown Digital	11	14
+Financial Summary	12	15
+Regulatory Update and Remediation Plan	14	17
+Australian Resorts Business Update	16	19
+Corporate Responsibility	22	25
+Corporate Governance Statement	33	36
+Directors' Statutory Report	49	52
+Remuneration Report	73	76
+Auditor's Independence Declaration	96	99
+Independent Auditor's Report	97	100
+Financial Report	104	107
+Directors' Declaration	160	163
+Shareholder Information	161	164
+Additional Information	163	166
+Corporate Information	164	167
+
+Notas:
+
+El PDF tiene 169 páginas en total; las últimas 1-2 son contraportada sin numerar.
+Verifiqué cada arranque de sección buscando el título exacto como primera línea de página (no solo el índice impreso), así que las ubicaciones en la columna "Página del PDF" corresponden al inicio real del contenido, no a una simple resta de offset.
+Dentro de "Financial Report" hay subsecciones (Estado de resultados, situación financiera, flujo de caja, notas) que empiezan poco después de la página 107; si querés ese desglose más fino, lo puedo sacar también.
+
+Prompt 2 Practica 3
+Dame un resumen extendido (una página por cada gran sección del informe) con una  cita de página para cada dato cuantitativo relevante.
+
+
+Prompt 3
+A partir del resumen extendido dame una una síntesis ejecutiva de una sola página: máximo 400 palabras, con los tres a cinco hallazgos más relevantes y una conclusión. 
+
+Respuesta
+
+Crown Resorts Limited (ASX: CWN) — Síntesis ejecutiva FY21
+
+Hallazgos principales:
+
+1. Colapso financiero impulsado por la pandemia. Los ingresos estatutarios cayeron 31,3% a US$1.536,8 millones, el EBITDA reportado se desplomó 77,4% a US$114,1 millones y el grupo registró una pérdida neta de US$261,6 millones, sin pago de dividendos. El impacto se concentró en los cierres operativos: 160 días sin juego en Crown Melbourne y 27 en Crown Perth.
+
+2. Crisis regulatoria sin precedentes. Crown enfrentó simultáneamente la Bergin Inquiry (NSW), la Comisión Real de Victoria y la Comisión Real de Perth, además de una investigación de AUSTRAC por incumplimientos AML/CTF. La respuesta fue una renovación casi total del liderazgo: de 11 directores listados en 2020, solo dos permanecían, y ninguno de los cuatro altos ejecutivos anteriores seguía en el cargo.
+
+3. Incertidumbre material sobre la continuidad del negocio. El auditor (KPMG) señaló explícitamente una "material uncertainty related to Going Concern", vinculada a covenants financieros sobre US$420 millones de deuda girada. Crown debió negociar waivers y extender vencimientos con sus bancos para sostener la liquidez (US$390 millones en caja disponible).
+
+4. Crown Sydney, una apuesta a futuro sin resolver. Tras cuatro años y más de 7,8 millones de horas de construcción, el nuevo resort de seis estrellas abrió solo sus operaciones no relacionadas con el juego; la autorización de la ILGA para operar el casino seguía pendiente al cierre del ejercicio, dejando la principal fuente de ingresos futura sin confirmar.
+
+5. Interés corporativo pese a la crisis. Crown recibió múltiples propuestas de adquisición o recapitalización (Blackstone a A$12,35/acción, Star y Oaktree), evidenciando que el mercado seguía valorando los activos subyacentes del grupo por encima de su deteriorado desempeño operativo y reputacional.
+
+Conclusión:
+
+El FY21 fue un ejercicio de ruptura para Crown Resorts: una crisis financiera derivada de la pandemia se superpuso a una crisis existencial de gobernanza y licencia social, que obligó a un recambio casi completo del Consejo y la alta gerencia. La viabilidad de la recuperación no depende solo de la reactivación turística, sino de tres variables interrelacionadas que quedaron abiertas al cierre del informe: la obtención de la licencia de juego para Crown Sydney, la ejecución efectiva del Plan de Remediación ante los reguladores, y el desenlace de las propuestas de control corporativo — todo ello bajo la sombra de una opinión de auditoría con incertidumbre material sobre la continuidad del negocio.
+
+Prompt 4
+Constrasta el resumen extendido con las sistesis ejecutivas, a fin de determinar ambiguedades en esta ultima. Dame tu concluison, acerca de la consistencia de la sintesis en cuestion

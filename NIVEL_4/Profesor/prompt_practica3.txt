@@ -1,0 +1,59 @@
+(1ro.)
+Del documento anexo dame un mapa, con la siguiente estructura: índice
+reconstruido con las secciones principales y su ubicación aproximada.
+
+Respuesta al 1ro.:
+Aquí está el índice reconstruido del informe **Crown Resorts Limited – Annual Report 2021** (169 páginas), con la paginación tal como aparece impresa en el documento y su ubicación real dentro del archivo PDF (hay un desfase constante de +3 páginas, por las páginas de portada previas al índice).
+
+| Sección | Página impresa | Página real en el PDF |
+|---|---|---|
+| Letter from the Board | 2 | 5 |
+| About Crown | 6 | 9 |
+| Crown's Resort Portfolio | 7 | 10 |
+| International Interests | 10 | 13 |
+| Crown Digital | 11 | 14 |
+| Financial Summary | 12 | 15 |
+| Regulatory Update and Remediation Plan | 14 | 17 |
+| Australian Resorts Business Update | 16 | 19 |
+| Corporate Responsibility | 22 | 25 |
+| Corporate Governance Statement | 33 | 36 |
+| Directors' Statutory Report | 49 | 52 |
+| Remuneration Report | 73 | 76 |
+| Auditor's Independence Declaration | 96 | 99 |
+| Independent Auditor's Report | 97 | 100 |
+| Financial Report | 104 | 107 |
+| Directors' Declaration | 160 | 163 |
+| Shareholder Information | 161 | 164 |
+| Additional Information | 163 | 166 |
+| Corporate Information | 164 | 167 |
+
+Notas:
+- Verifiqué el desfase (+3) contra varias secciones distribuidas en todo el documento (Remuneration Report, Independent Auditor's Report, Directors' Declaration), y se mantiene constante en todo el archivo.
+- El PDF no trae un outline/bookmark completo utilizable como mapa (solo tiene marcadores internos para la sección de Remuneración y algunos anclajes de edición de Word), así que este índice se reconstruyó directamente desde la página de "Contents" del documento (página real 4).
+
+(2do.)
+Dame un resumen extendido (una página por cada gran sección del informe) con una cita de página para cada dato cuantitativo relevante.
+
+(3ro.)
+A partir del resumen extendido, dame una síntesis ejecutiva de
+una sola página: máximo 400 palabras, con los tres a cinco hallazgos más relevantes y una conclusión.
+
+Respuesta 3ro.:
+# Crown Resorts Limited — Síntesis ejecutiva (Informe Anual 2021)
+
+**Hallazgo 1 — Deterioro financiero severo.** Crown cerró el ejercicio con una pérdida neta después de impuestos de $261,6 millones (frente a una ganancia de $79,5 millones en F20), ingresos estatutarios de $1.536,8 millones (-31,3%) y un EBITDA reportado de $114,1 millones (-77,4%). No se declararon dividendos en el año.
+
+**Hallazgo 2 — Crisis regulatoria sin precedentes.** El grupo enfrentó simultáneamente la Bergin Inquiry (informe publicado en febrero de 2021, que cuestionó la idoneidad de Crown Sydney para operar), la Royal Commission de Victoria y la del casino de Perth, además de una investigación formal de AUSTRAC por incumplimientos en materia de lavado de activos. Esto derivó en una renovación casi total del liderazgo: nueve directores dejaron el Consejo desde octubre de 2020 y ninguno de los cuatro ejecutivos clave (KMP) listados en 2020 permanecía en el cargo.
+
+**Hallazgo 3 — Disrupción operativa por COVID-19.** Las operaciones de juego de Crown Melbourne estuvieron cerradas 160 días del ejercicio y las de Crown Perth 27 días, con ocupaciones hoteleras deprimidas (39% en Melbourne, 67% en Perth, 31% en Sydney). El impacto fue asimétrico: Crown Perth logró un EBITDA reportado de $231,8 millones (+50,4%), mientras Crown Melbourne y Crown Sydney registraron fuertes caídas o pérdidas.
+
+**Hallazgo 4 — Crown Sydney: apertura parcial y aporte de caja no operativo.** El resort abrió sus operaciones no relacionadas con el juego en diciembre de 2020, pero el inicio del juego seguía sujeto a la aprobación de idoneidad de ILGA. La venta de las residencias "Crown Residences" aportó aproximadamente $650 millones en ingresos, siendo clave para sostener la liquidez del grupo pese a las pérdidas operativas del resort.
+
+**Hallazgo 5 — Tensión de liquidez y negocio en marcha.** Al cierre, la deuda neta era de $893 millones y la liquidez total de $560,8 millones, con un flujo de caja operativo negativo de $14,0 millones. El propio informe financiero revela una incertidumbre material sobre el negocio en marcha, condicionada a la evolución de la pandemia y al desenlace de los procesos regulatorios.
+
+## Conclusión
+
+El ejercicio 2021 fue, para Crown, un año de ruptura más que de continuidad: un colapso financiero impulsado por la pandemia coincidió con un cuestionamiento regulatorio existencial sobre su idoneidad para operar en sus tres jurisdicciones. La compañía respondió con una renovación radical de gobierno y un Plan de Remediación en curso, pero su recuperación seguirá supeditada a dos factores externos que no controla: el fin de las restricciones sanitarias y el resultado de las Royal Commissions aún pendientes.
+
+(4to.)
+Constrasta el resumen extendido con las sistesis ejecutiva, a fin de determinar ambiguedades en esta última. Dame tu conclusión, acerca de la consistencia de la sintesis en cuestion.
