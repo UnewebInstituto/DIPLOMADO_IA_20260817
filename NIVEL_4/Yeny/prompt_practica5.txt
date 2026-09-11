@@ -1,0 +1,19 @@
+prompt 1:
+Se quiere un ebook acerca de Medida de Ingreso en SAP: caso Directores, dirigido al personal de selección de Recursos Humanos, su objetivo es describir el procedimiento para el registro de contratación de los nuevo directores, con un tono no técnico sino procedimental. Genera entre 3 y 5 propuestas de índice, tomando en cuenta el contenido del archivo anexo.
+
+respuesta prompt 1
+Perfecto, vamos con la Propuesta 2. Quedo atento a tus indicaciones para cada sección.
+
+Como referencia, este sería el índice que vamos a desarrollar:
+
+1. Introducción al proceso de ingreso de Directores en SAP
+2. Los dos escenarios posibles: ingreso nuevo vs. reingreso
+3. Procedimiento común: datos y validaciones iniciales
+4. Caso A: Director de ingreso nuevo (Status 02) — paso a paso
+5. Caso B: Director que reingresa (Status 01) — paso a paso
+6. Diferencias clave entre ambos casos (tabla resumen)
+7. Cierre y buenas prácticas
+
+¿Por cuál sección quieres que empecemos?
+
+prompt 2

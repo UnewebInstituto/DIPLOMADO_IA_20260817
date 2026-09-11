@@ -1,0 +1,34 @@
+**Checklist final de verificación**
+
+Antes de dar por cerrado el proceso de Medida de Ingreso, se recomienda que el personal de Selección repase este checklist para confirmar que no falte ningún dato ni quede ningún paso pendiente. Está organizado según el caso trabajado.
+
+**Checklist común a ambos casos**
+
+- [ ] La fecha de inicio registrada coincide con la acordada con el Director.
+- [ ] La posición o cargo asignado corresponde exactamente al pactado.
+- [ ] Los datos personales (nombres, apellidos, fecha de nacimiento, nacionalidad) coinciden con los documentos legales del Director.
+- [ ] El número de cédula fue verificado contra el documento físico.
+- [ ] El RIF fue verificado y está vigente.
+- [ ] Los datos bancarios (banco, tipo de cuenta, número de cuenta) fueron confirmados con el Director.
+- [ ] La dirección de habitación registrada está actualizada.
+
+**Checklist adicional — Caso A (Director nuevo)**
+
+- [ ] Se confirmó que el Director no contaba con ningún registro previo en el sistema.
+- [ ] Todos los datos fueron cargados desde cero, sin omitir ninguna pantalla del proceso.
+
+**Checklist adicional — Caso B (Director que reingresa)**
+
+- [ ] Se localizó el número de registro (SAP) correcto correspondiente al historial anterior del Director.
+- [ ] La nueva medida quedó vinculada a ese número de referencia.
+- [ ] Los datos heredados del registro anterior fueron revisados y, de ser necesario, actualizados.
+- [ ] Se registró el tipo de contrato correspondiente a este nuevo ingreso.
+- [ ] Se localizó y eliminó el registro pendiente asociado al vínculo laboral anterior.
+
+**Antes de cerrar el expediente**
+
+- [ ] No queda ninguna pantalla o pestaña del proceso sin completar.
+- [ ] Toda la información fue revisada por una segunda persona del equipo de Selección, cuando sea posible.
+- [ ] Se conserva copia de los documentos legales entregados por el Director (cédula, RIF, datos bancarios) como respaldo del expediente.
+
+Si al recorrer este checklist se detecta algún dato faltante o inconsistente, se recomienda corregirlo antes de considerar cerrado el registro, evitando así reprocesos posteriores en nómina o en la gestión del expediente del Director.

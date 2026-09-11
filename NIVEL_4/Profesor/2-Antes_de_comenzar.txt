@@ -1,0 +1,25 @@
+**Antes de comenzar: información que Selección debe tener lista**
+
+Antes de iniciar el registro en el sistema, es fundamental que el personal de Selección reúna previamente toda la información del Director. Tener estos datos completos y verificados evita interrupciones a mitad del proceso y reduce el riesgo de errores en el expediente.
+
+A continuación se detalla la información que debe recopilarse, organizada según el tipo de caso.
+
+**Información necesaria para cualquier caso (nuevo ingreso o reingreso):**
+
+- **Fecha de inicio** de la relación laboral, confirmada y acordada con el Director.
+- **Posición o cargo** al que se incorpora dentro de la estructura organizativa de la empresa.
+- **Datos personales completos**: nombres y apellidos tal como aparecen en sus documentos legales, fecha de nacimiento, nacionalidad y estado civil.
+- **Cédula de identidad**, vigente y legible.
+- **RIF (Registro de Información Fiscal)**, vigente.
+- **Datos bancarios**: entidad bancaria, tipo de cuenta y número de cuenta donde se procesarán sus pagos.
+- **Dirección de habitación** actualizada.
+
+**Información adicional necesaria únicamente si el Director ya tuvo un registro previo (reingreso):**
+
+- **Número de identificación (SAP) del registro anterior** del Director en el sistema. Este dato es indispensable, ya que el nuevo registro se construye tomando como referencia el historial existente.
+- **Datos del tipo de contrato** correspondientes a esta nueva incorporación, ya que aunque se reutiliza parte del historial, el tipo de contrato debe registrarse de forma independiente para este nuevo ingreso.
+
+**Recomendación práctica**
+
+Se sugiere que Selección solicite estos datos al candidato con antelación a la fecha de inicio, y que verifique que la cédula y el RIF coincidan exactamente con los documentos originales antes de iniciar el registro. Cualquier inconsistencia detectada en esta etapa —por ejemplo, un número de cédula mal transcrito— es mucho más fácil de corregir antes de cargar la información en el sistema que después.
+

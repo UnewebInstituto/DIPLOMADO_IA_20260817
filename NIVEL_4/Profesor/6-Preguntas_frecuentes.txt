@@ -1,0 +1,33 @@
+**Preguntas frecuentes**
+
+**1. ¿Cómo sé si debo usar el Caso A o el Caso B para un Director?**
+Debes revisar si la persona ya tuvo alguna vez una relación laboral registrada en la empresa. Si nunca ha trabajado antes en la organización, corresponde el Caso A (ingreso nuevo). Si ya existe un registro anterior a su nombre, corresponde el Caso B (reingreso), y ese registro previo debe ubicarse antes de continuar.
+
+**2. ¿Qué pasa si no encuentro el número de registro anterior del Director para un reingreso?**
+No debe continuarse el proceso como si fuera un ingreso nuevo sin antes confirmar esta información. Se recomienda verificar el nombre completo y la cédula del Director con otras fuentes internas (por ejemplo, expedientes archivados) antes de decidir cómo proceder, ya que registrar el caso incorrecto puede generar duplicidad de información en el sistema.
+
+**3. ¿Es necesario cargar el tipo de contrato en el Caso A (Director nuevo)?**
+No. Ese dato no se registra en el ingreso de un Director nuevo bajo este procedimiento; solo aplica en el Caso B (reingreso).
+
+**4. ¿Qué ocurre si me equivoco en la relación laboral (01 o 02) al asignar la posición?**
+Este dato distingue si se trata de un ingreso nuevo o un reingreso, por lo que un error aquí puede generar inconsistencias en el expediente del Director. Si se detecta el error después de haber avanzado en el proceso, debe reportarse de inmediato para su corrección antes de continuar con los siguientes pasos.
+
+**5. ¿Por qué es necesario eliminar un registro en el Caso B, si no se hace en el Caso A?**
+Porque en el reingreso, el sistema conserva un registro asociado al vínculo laboral anterior del Director que ya no debe permanecer activo una vez que se formaliza la nueva incorporación. Este ajuste evita que convivan datos del vínculo anterior con los del nuevo ingreso.
+
+**6. ¿Qué debo hacer si los datos personales heredados en un reingreso ya no están actualizados (por ejemplo, cambió su estado civil o su dirección)?**
+Deben actualizarse en el momento de la verificación, dentro del mismo proceso. No se debe dejar información desactualizada solo porque proviene de un registro anterior.
+
+**7. ¿Puedo completar el proceso en varias sesiones, o debe hacerse de corrido?**
+Es preferible completarlo de corrido, siguiendo el orden establecido en este manual, ya que varias pantallas dependen de que la anterior haya quedado correctamente cargada. Si por algún motivo debe interrumpirse, es importante anotar en qué paso se quedó antes de continuar.
+
+**8. ¿Qué hago si detecto un error después de haber cerrado el registro?**
+No debe intentarse corregir por cuenta propia si el registro ya fue cerrado. Debe reportarse el caso según el canal interno definido por la organización para ajustes posteriores al ingreso, indicando con precisión el dato incorrecto y el Director afectado.
+
+**9. ¿La cédula y el RIF deben cargarse siempre, en ambos casos?**
+Sí. En el Caso A se cargan por primera vez; en el Caso B se verifican, y se actualizan si es necesario, pero en ambos casos son datos obligatorios del proceso.
+
+**10. ¿Qué importancia tiene el checklist del capítulo 5?**
+Es la última oportunidad de detectar datos faltantes o inconsistentes antes de que el registro del Director quede formalmente cerrado. Usarlo de manera sistemática, en cada caso, reduce significativamente los reprocesos posteriores en nómina y en la gestión del expediente.
+
+---

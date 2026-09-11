@@ -1,0 +1,17 @@
+1. Introducción: ¿qué es la Medida de Ingreso y cuándo se aplica?
+2. Antes de comenzar: información que Selección debe tener lista
+3. Caso A – Ingreso de un Director nuevo
+   3.1 Registro de la medida
+   3.2 Ubicación en la estructura organizativa
+   3.3 Datos personales
+   3.4 Identificación legal y fiscal (Cédula y RIF)
+   3.5 Datos bancarios
+   3.6 Dirección
+4. Caso B – Reingreso de un Director (ya existe registro previo)
+   4.1 Localizar el registro existente
+   4.2 Registrar la nueva medida usando el número de referencia
+   4.3 Verificación de datos heredados
+   4.4 Datos del tipo de contrato
+   4.5 Ajuste final: eliminación de un registro pendiente
+5. Checklist final de verificación
+6. Preguntas frecuentes
