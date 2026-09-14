@@ -1,0 +1,1 @@
+tengo desarrollado un flujo de trabajo en el cual quiero establecer un condicional, si en el asunto del correo electronico la palabra URGENTE en una columna de la hoja googlesheet se escribir la nota URGENTE y si no coloca OK

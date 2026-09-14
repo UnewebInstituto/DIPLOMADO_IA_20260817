@@ -1,0 +1,32 @@
+Prompt Zapier
+Tengo desarrollado un flujo de trabajo, en el cual quiero establecer un condicional, si en el asunto del correo recibido aparece la palabra urgente, en una columna de la hoja de Google Sheet se escribe la nota URGENTE y si no coloca OK.
+
+
+
+Respuesta:
+¡Perfecto! Entiendo que necesitas agregar un condicional a tu flujo de trabajo para verificar si la palabra "urgente" aparece en el asunto del correo, y luego escribir "URGENTE" u "OK" en Google Sheets según corresponda.
+
+Hay dos enfoques principales en Zapier para hacer esto:
+
+Opción 1: Usar Formatter by Zapier (Recomendado para este caso)
+Es la más simple porque siempre escribes en Google Sheets, pero el valor depende de la condición:
+
+Después de recibir el correo (o en tu paso actual), agrega un paso Formatter by Zapier
+Usa la acción "Utilities" → "If/Then"
+Configura:
+Condition: El campo "Subject" del correo contiene "urgente"
+Then: Escribe "URGENTE"
+Else: Escribe "OK"
+Luego, en tu paso de Google Sheets, usa el valor de salida del Formatter en la columna deseada
+Opción 2: Usar Paths by Zapier (Para lógica más compleja)
+Si necesitas acciones completamente diferentes en cada rama:
+
+Agrega Paths by Zapier después del correo
+Crea dos caminos:
+Path 1: Si el asunto contiene "urgente" → escribe "URGENTE" en Google Sheets
+Path 2: Si el asunto NO contiene "urgente" → escribe "OK" en Google Sheets
+¿Cuál es tu situación actual?
+
+¿Ya tienes un paso que escribe en Google Sheets?
+¿Dónde quieres insertar este condicional en tu flujo?
+Te guío paso a paso una vez me confirmes, o puedo enviarte directamente al editor para configurar esto. 👇

@@ -1,0 +1,26 @@
+PROMPT:
+Tengo desarrollado un flujo de trabajo, en el cual quiero establecer un condicional, si en el asunto del correo recibido aparece la palabra urgente, en una columna de la hoja de Google Sheet se escribe la nota URGENTE y si no coloca OK.
+
+RESPUESTA:
+
+Perfecto. Entiendo lo que necesitas. Quieres agregar **lógica condicional** a tu flujo: si el asunto contiene "urgente" → escribir "URGENTE", si no → escribir "OK".
+
+Esto se hace con **Paths by Zapier**, que es una característica que permite ramificar tu Zap según condiciones específicas.
+
+Aquí está el flujo que necesitas:
+
+1. **Trigger**: Nuevo correo recibido (Gmail o similar)
+2. **Path 1**: Si el asunto contiene "urgente" → escribir "URGENTE" en Google Sheets
+3. **Path 2**: Si no contiene "urgente" → escribir "OK" en Google Sheets
+
+**Sin embargo, hay una limitación con tu plan actual:**
+
+Los Paths by Zapier requieren **[Upgrade to Professional](https://zapier.com/app/planbuilder/plans?utm_source=copilot&utm_medium=nudge&utm_campaign=editor_copilot-upgrade-prompt-plan-limitation&plan_required=Professional&conversationId=d1018897-93a7-469d-9736-6d48298cacaa&is_copilot_open=true)**. Tu plan Free solo permite Zaps de 2 pasos sin ramificaciones.
+
+**Tus opciones:**
+
+1. **[Upgrade a Professional](https://zapier.com/app/planbuilder/plans?utm_source=copilot&utm_medium=nudge&utm_campaign=editor_copilot-upgrade-prompt-plan-limitation&plan_required=Professional&conversationId=d1018897-93a7-469d-9736-6d48298cacaa&is_copilot_open=true)** ahora y usar Paths en tu Zap actual
+2. Abrir tu Zap en el editor y empezar a configurar las Paths (cuando hagas upgrade, estarán listas)
+3. **[Upgrade más tarde](https://zapier.com/app/planbuilder/plans?utm_source=copilot&utm_medium=nudge&utm_campaign=editor_copilot-upgrade-prompt-plan-limitation&plan_required=Professional&conversationId=d1018897-93a7-469d-9736-6d48298cacaa&is_copilot_open=true)** cuando estés listo
+
+¿Cuál prefieres? Si quieres hacer el upgrade, puedo guiarte paso a paso por la configuración de las Paths en tu Zap.
