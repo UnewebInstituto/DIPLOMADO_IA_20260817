@@ -1,0 +1,28 @@
+Lo que veo en las tres capturas es clave: arriba en amarillo dice **"This Zap was disabled because it uses paid features that are no longer available once your trial expired."**
+
+Ahí está la causa raíz de tu problema. **"Paths" (Rutas) es una función premium** de Zapier — solo está disponible en planes de pago (Professional o superior). Cuando tu período de prueba (trial) terminó, Zapier no eliminó el paso de Paths, pero **dejó de ejecutar su lógica de evaluación real**, porque ya no tienes acceso a esa función. El resultado es que el Zap "cae" siempre en la primera ruta configurada (Path A) como comportamiento por defecto, sin evaluar de verdad si el condicional de Path B (`Subject Does not contain "urgente"`) se cumple o no.
+
+Es decir: tus reglas están **bien configuradas** (Path A: contiene "urgente" / Path B: no contiene "urgente" — son mutuamente excluyentes, como deben ser). El problema no es de lógica, es de **licencia/plan**.Si esto es para tu **práctica P1 del curso** (Gmail → Claude clasifica urgencia → Notion), te recomiendo la **Opción B** (Filter + Zaps separados), porque:
+
+- Se mantiene 100% dentro del **plan gratuito** de Zapier (500 tareas/mes, sin necesidad de tarjeta ni upgrade).
+- Es perfecto como ejercicio pedagógico: le enseña al estudiante la diferencia entre **Filter** (corta el flujo) y **Paths** (ramifica el flujo), que es justo el tipo de contraste conceptual útil en un módulo introductorio.
+- Evita que el Zap quede "atascado" en estado disabled por temas de facturación, algo confuso de depurar para quien recién aprende.
+
+¿Quieres que te arme la estructura completa de los dos Zaps (con los pasos exactos de Gmail → Filter → Sheets/Notion) para reemplazar este diseño con Paths?
+
+Los resultados de terceros son bastante inconsistentes entre sí, así que voy a verificar directamente en la página oficial de Zapier.Consulté directamente la página oficial de Zapier (los blogs de terceros traían cifras desactualizadas o contradictorias). Esto es lo vigente:Algunos detalles importantes que confirman lo que vimos en tu Zap:
+
+- **El precio escala según el volumen de tareas.** Los montos mostrados ($19.99, $69) son el punto de entrada más bajo de cada tier; a más tareas/mes, el precio sube (puede llegar a varios miles de dólares en Enterprise con millones de tareas).
+- **"Filters & Paths" requiere plan Professional o superior** — justo la función que estaba bloqueada en tu captura. El plan Free solo permite Zaps de 2 pasos (1 trigger + 1 acción), por eso Paths (que necesita múltiples ramas) no funciona ahí.
+- **Zapier ya no tiene el tier "Starter"** — fue descontinuado; ahora la estructura es Free → Professional → Team → Enterprise.
+- **Todo Zapier nuevo obtiene 14 días de prueba gratis del plan Professional** sin tarjeta de crédito (esto explica el mensaje "trial expired" que viste).
+- **Filter by Zapier y Path by Zapier no consumen tareas** — el costo de tu automatización depende solo de las acciones que se ejecutan (ej. crear fila en Sheets), no de la lógica condicional en sí.
+
+Para tu contenido del curso (Nivel 5), esto es útil aclarar: los estudiantes pueden practicar Paths gratis solo durante el trial de 14 días, después necesitan Professional (~$20/mes) o usar la alternativa con Filter + Zaps separados que vimos antes.
+
+
+El motivo por el que Zapier te muestra **"Your zap would not have continued"** es que las reglas 2 y 3 tienen el operador **"(Text) Is not in"** pero con el campo de comparación **vacío** (`Enter text or insert data...`). Cuando ese campo queda en blanco, Zapier no tiene con qué comparar, así que la condición nunca se cumple — y como todas las reglas están unidas con **AND**, basta que una falle para que el filtro bloquee el correo por completo, sin importar el resultado de la regla 1.
+
+Además, el operador que elegiste no es el correcto para lo que quieres lograr. **"Is not in"** sirve para excluir una lista específica de valores (ej. "que el asunto no sea exactamente X, Y o Z"), no para verificar que el campo simplemente **exista o no esté vacío**.
+
+Para lograr justo lo que describes —filtrar por la etiqueta "Soporte" y evitar correos vacíos o de sistema (sin remitente o sin asunto)— debes usar el operador **"(Text) Exists"**, que no requiere ningún valor de comparación:Un detalle adicional: **Filter by Zapier** (a diferencia de Paths) no ramifica el flujo — si la condición falla, simplemente **detiene el Zap ahí** para ese correo (no ejecuta ninguna acción posterior). Eso es justo lo que dice el aviso amarillo: "tu Zap no habría continuado", es decir, se hubiera frenado sin llegar a la acción de creación de fila/ticket. Con las tres reglas corregidas usando `Exists`, el filtro dejará pasar únicamente correos con etiqueta "Soporte" que además tengan remitente y asunto reales.
