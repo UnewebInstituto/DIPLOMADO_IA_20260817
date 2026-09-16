@@ -1,0 +1,102 @@
+Como experto en **Make** (la plataforma de automatización visual de flujos de trabajo), te comparto la estructura tarifaria oficial de la plataforma.
+
+Make organiza sus planes basándose en un modelo flexible donde puedes elegir tanto el **volumen de operaciones/créditos mensuales** que necesitas (desde 10,000 créditos base) como la modalidad de pago (**mensual** o **anual**, esta última con un descuento aproximado del 15%).
+
+---
+
+### 1. Plan Free (Gratuito)
+
+* **Tarifa:** **$0 / mes**
+* **Créditos incluidos:** Hasta **1,000 operaciones/créditos al mes**.
+* **Características principales:** Constructor visual de flujos sin código, acceso a más de 3,000 aplicaciones, uso de *routers* y filtros, y un intervalo mínimo de 15 minutos entre ejecuciones. Ideal para pruebas y proyectos personales.
+
+### 2. Plan Core
+
+* **Tarifa base (10,000 créditos/mes):** **$12 / mes** (pago mensual) o aprox. **$10.59 / mes** con facturación anual.
+* **Características principales:** Escenarios activos ilimitados, control de ejecución programada **minuto a minuto**, mayores límites de transferencia de datos y acceso completo a la API de Make. Es el plan de entrada ideal para freelancers y pequeños negocios.
+
+### 3. Plan Pro
+
+* **Tarifa base (10,000 créditos/mes):** **$21 / mes** (pago mensual) o aprox. **$18.82 / mes** con facturación anual.
+* **Características principales:** Todo lo del plan Core con prioridad en la ejecución de escenarios, variables personalizadas, opciones avanzadas de IA (como la conexión a tus propios proveedores de IA mediante API key) y herramientas de monitoreo en tiempo real optimizadas.
+
+### 4. Plan Teams
+
+* **Tarifa base (10,000 créditos/mes):** **$38 / mes** (pago mensual) o aprox. **$34.12 / mes** con facturación anual.
+* **Características principales:** Diseñado para la colaboración en equipo. Incluye todo lo del plan Pro, administración de múltiples usuarios con diferentes roles, y la capacidad de crear y compartir escenarios de forma colaborativa dentro de la organización.
+
+### 5. Plan Enterprise
+
+* **Tarifa:** **Personalizada** (requiere contacto con el departamento de ventas).
+* **Características principales:** Orientado a grandes corporaciones. Ofrece funciones de seguridad avanzadas, soporte técnico 24/7, integraciones empresariales exclusivas, funciones personalizadas, protección contra sobreuso (*overage protection*) y acuerdos de nivel de servicio (SLA).
+
+---
+
+### Factores a tener en cuenta:
+
+* **Escalabilidad de Créditos:** Si tus flujos de trabajo crecen, puedes escalar el volumen de créditos en cualquiera de los planes de pago (pasando de 10k a 20k, 40k, 100k+, hasta varios millones de créditos al mes), lo cual ajustará proporcionalmente la tarifa final.
+* **Conectividad de IA:** Recuerda que en los planes de pago puedes integrar directamente tus propias credenciales o claves API de proveedores de Inteligencia Artificial (como OpenAI, Anthropic, etc.) o aprovechar las capacidades nativas de agentes y módulos inteligentes de la plataforma.
+
+¿Estás planificando automatizar algún flujo de trabajo o IA en específico para evaluar qué volumen de créditos se adapta mejor a tus necesidades?
+
+
+Para excluir correos de sistema de Gmail (fallos de entrega, alertas de seguridad, advertencias) puedes combinar dos enfoques: filtrar por **remitente** conocido y por **palabras clave típicas del asunto**. Como el paso "Filter by Zapier" solo soporta lógica AND entre reglas de un mismo grupo, necesitas usar **grupos "Or"** para cubrir varios patrones de exclusión a la vez.
+
+**Remitentes típicos de sistema en Gmail a excluir (From Email):**
+- `mailer-daemon@googlemail.com`
+- `noreply@google.com` / `no-reply@accounts.google.com`
+- `security-noreply@google.com`
+- `googlecommunityteam-noreply@google.com`
+
+**Palabras clave típicas en el Subject a excluir:**
+- "Delivery Status Notification" / "Mail delivery failed" / "Undelivered Mail"
+- "Security alert" / "Alerta de seguridad" / "Critical security alert"
+- "New sign-in" / "Nuevo inicio de sesión"
+- "Suspicious activity" / "Actividad sospechosa"
+
+**Cómo estructurarlo en el Filter:**Una corrección importante sobre el mecanismo: en Zapier, los **grupos "Or"** no se combinan con AND respecto al grupo principal como sugerí en el paso 2 — en realidad, **el Zap continúa si el grupo AND principal se cumple, O si cualquier grupo "Or" se cumple** (es decir, los grupos son alternativas entre sí, no filtros adicionales obligatorios). Por eso, si tu objetivo es "excluir alertas de sistema" además de tu condición principal de "Soporte", la forma correcta es **no usar grupos Or para las exclusiones**, sino añadir esas reglas de exclusión (`Subject Does not contain "security alert"`, etc.) directamente **dentro del mismo grupo AND principal**, junto a tus otras tres reglas — así todas deben cumplirse simultáneamente para que el correo pase.
+
+Los grupos "Or" solo te sirven si quisieras decir algo como: *"deja pasar el correo si el asunto contiene 'Soporte' O si el remitente es soporte@tuempresa.com"* — rutas alternativas de aceptación, no de exclusión.
+
+Buen trabajo con la lista separada por comas — el campo se ve exactamente como debía quedar (el wrap a varias líneas es solo por el ancho de la caja; internamente sigue siendo un solo string separado por comas). Esa parte quedó bien resuelta. ✅
+
+Pero hay un problema de **estructura/lógica** en cómo quedaron organizados los dos grupos de reglas:
+
+**Lo que tienes ahora:**
+- Grupo 1 (`And`): `Subject Exists`
+- Grupo 2 (`Or continue if`): `From Email Is in [5 remitentes de sistema]`
+
+Como el segundo grupo dice **"Or continue if"**, Zapier evalúa esto como: **el Zap continúa si (Subject Existe) O (el remitente está en la lista de sistema)**. Esto significa que si un correo viene de `noreply@google.com`, el Zap **SÍ continuará** — justo lo contrario de lo que buscas, porque estás usando `Is in` (incluir) en un grupo `Or` (alternativa de paso), en vez de excluirlo.Con esto, el filtro final quedará como una sola regla lógica: *"continuar solo si el asunto contiene 'Soporte', el asunto existe, Y el remitente NO está en la lista de correos de sistema"* — sin ambigüedad de grupos alternativos.
+
+REMITENTE:
+
+mailer-daemon@googlemail.com, noreply@google.com,no-reply@accounts.google.com,security-noreply@google.com,googlecommunityteam-noreply@google.com
+
+ASUNTO:
+
+Delivery Status Notification,Mail delivery failed,Undelivered Mail,Security alert,Alerta de seguridad,Critical security alert,New sign-in,Nuevo inicio de sesión,Suspicious activity,Actividad sospechosa
+
+
+PROMPT PARA CLAUDE
+
+Eres un asistente de soporte técnico. Analiza el siguiente correo recibido y realiza dos tareas:
+
+1. Clasifica la urgencia del mensaje en una de estas tres categorías exactas: Alta, Media o Baja.
+   - Alta: el remitente reporta una falla crítica, sistema caído, pérdida de datos o urgencia explícita.
+   - Media: reporta un problema funcional pero no bloqueante, o hace una solicitud con fecha límite cercana.
+   - Baja: es una consulta general, agradecimiento, o no requiere acción inmediata.
+
+2. Escribe un resumen de una sola línea (máximo 15 palabras) que capture el punto principal del correo.
+
+Asunto del correo: /Subject
+Cuerpo del correo: /Body Plain
+
+CAMPOS A RELLENAR:
+
+Rellena los campos del correo de notificación interna
+Configura el correo de notificación así: 
+'To': tu propio correo o el de tu equipo de soporte (ej. soporte-interno@tuempresa.com); 
+'Subject': algo como 'URGENTE: nuevo correo de alta prioridad — /Subject' (usa '/' para insertar el asunto original del paso 1); 
+'Body': incluye el resumen generado por la IA y un enlace o referencia al correo original, ej. 'Se recibió un correo de urgencia ALTA. Resumen: /resumen. Remitente original: /From Email. Revisar cuanto antes.'
+
+

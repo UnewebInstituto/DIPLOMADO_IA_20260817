@@ -1,0 +1,4 @@
+Delivery Status Notification,Mail delivery failed,Undelivered Mail,
+Security alert,Alerta de seguridad,Critical security alert,
+New sign-in,Nuevo inicio de sesión,
+Suspicious activity,Actividad sospechosa
