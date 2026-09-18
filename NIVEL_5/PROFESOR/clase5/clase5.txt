@@ -1,0 +1,177 @@
+URL PARA EL FORMULARIO DE CAPTURA DE DATOS:
+
+https://forms.gle/RgmhQJyQinNo2NJM6
+
+
+PROMPT PARA AI BY ZAPIER:
+
+Actúa como el asistente de onboarding de la organización. Tu tarea es escribir un mensaje de bienvenida personalizado para una persona que acaba de registrarse.
+
+DATOS DEL USUARIO:
+- Nombre: [Nombre]
+- Empresa o contexto: [Empresa o contexto]
+- Interés principal: [Interés principal]
+
+INSTRUCCIONES:
+1. Saluda a la persona por su nombre.
+2. Menciona de forma explícita su interés principal, usando sus propias palabras tal como las escribió.
+3. En una frase, explica cómo podemos ayudarle o acompañarle con ese interés.
+4. Haz una referencia natural a su empresa o contexto, sin repetirlo de forma mecánica.
+5. Tono cálido, cercano y profesional.
+6. Extensión máxima: 90 palabras.
+7. Cierra invitándola a responder a este mensaje si tiene dudas.
+
+REGLAS DE SALIDA:
+- Escribe siempre en español.
+- Devuelve ÚNICAMENTE el texto del mensaje, sin asunto, sin comillas, sin títulos y sin explicaciones adicionales.
+- No inventes datos, cargos, servicios, precios ni promesas que no aparezcan en los datos del usuario.
+- Si algún dato viene vacío, omite esa referencia sin mencionarlo.
+
+Salida de AI By Zapier:
+Field Description:
+
+Mensaje de bienvenida personalizado en español, máximo 90 palabras, que menciona explícitamente el interés principal del usuario.
+
+
+
+Practica 04 (Recomendación Claude):
+# Práctica 2: reporte semanal automático con Claude
+
+**Stack:** Schedule by Zapier → Formatter → Google Sheets → AI by Zapier → Gmail.
+
+## 1. Hoja de cálculo
+
+Crea la hoja "Métricas semanales" con estas columnas. Formatea la columna A como **texto plano** para que la búsqueda coincida exactamente.
+
+| A: Semana (lunes) | B: Leads | C: Tickets resueltos | D: Ventas (USD) | E: Var. Leads % | F: Var. Tickets % | G: Var. Ventas % |
+|---|---|---|---|---|---|---|
+| 2026-08-17 | 42 | 118 | 3,200 | | | |
+| 2026-08-24 | 47 | 124 | 3,650 | | | |
+| 2026-08-31 | 51 | 121 | 3,400 | | | |
+| 2026-09-07 | 45 | 133 | 4,100 | | | |
+| 2026-09-14 | 58 | 140 | 4,750 | | | |
+
+Las variaciones se calculan con fórmulas en la hoja, porque los modelos de IA pueden fallar en aritmética y así los porcentajes son exactos. En **E2** escribe y arrastra hasta G (ajustando la columna):
+
+```
+=IFERROR(ROUND((B2-B1)/B1*100,1),"")
+
+FORMULA ACTUALIZADA
+
+=SI.ERROR(REDONDEAR((B3-B2)/B2*100,1))
+
+ÚLTIMA VERSIÓN
+
+=(B3-B2)/B2*100
+```
+
+En la primera semana queda vacío, y eso cubre el caso "si el dato está disponible".
+
+## 2. Trigger programado
+
+- **App:** Schedule by Zapier
+- **Evento:** Every Week
+- **Day of the week:** Lunes
+- **Time of day:** 8:00 a. m.
+- **Timezone:** la tuya
+
+Con el Zap corriendo cada lunes, el "lunes de la semana anterior" siempre es la fecha de hoy menos 7 días.
+
+## 3. Leer los datos de la semana
+
+**Paso 3a: Formatter → Date/Time → Add/Subtract Time**
+- **Input:** `{{zap_meta_human_now}}`
+- **Expression:** `-7 days`
+- **To Format:** `YYYY-MM-DD`
+
+**Paso 3b: Google Sheets → Lookup Spreadsheet Row**
+- **Spreadsheet / Worksheet:** la hoja "Métricas semanales"
+- **Lookup Column:** Semana (lunes)
+- **Lookup Value:** la salida del Formatter
+- **Create row if it doesn't exist:** No
+
+Al probarlo, el trigger toma la fecha actual y no cae en lunes, así que el Formatter no devolverá una fecha de tu tabla. Para la prueba, escribe temporalmente `2026-09-14` como Lookup Value y cámbialo por el campo del Formatter antes de publicar.
+
+## 4. Análisis con AI by Zapier
+
+Crea **tres Output Fields** de tipo texto, todos *Required*: `Tendencias`, `Variacion` y `Recomendacion`. Tener un solo campo de texto, como aprendiste en la práctica anterior, es lo que evita que el modelo devuelva solo datos estructurados, y aquí necesitas tres para poder componer el reporte. Inserta los datos con `/`.
+
+```
+Actúa como analista de operaciones. Analiza las métricas de la semana y redacta un análisis breve en español.
+
+MÉTRICAS DE LA SEMANA ([Semana (lunes)]):
+- Leads generados: [Leads] (variación vs. semana anterior: [Var. Leads %] %)
+- Tickets resueltos: [Tickets resueltos] (variación: [Var. Tickets %] %)
+- Ventas: [Ventas (USD)] USD (variación: [Var. Ventas %] %)
+
+INSTRUCCIONES:
+1. Tendencias: en máximo 2 frases, describe qué métricas mejoraron o empeoraron y cómo se relacionan entre sí.
+2. Variacion: resume en 1 frase las variaciones usando exactamente los porcentajes proporcionados. No recalcules ni inventes cifras.
+3. Recomendacion: propone UNA acción concreta y medible para la próxima semana, basada en los datos.
+
+REGLAS:
+- Si una variación viene vacía, indica que no hay semana anterior con qué comparar.
+- No inventes datos, causas ni información que no aparezca arriba.
+- Tono profesional y directo. Máximo 100 palabras en total.
+- Devuelve cada parte en su campo de salida correspondiente.
+```
+
+## 5. Componer el reporte
+
+En **Gmail → Send Email**, con *Body Type* en HTML, combina datos crudos y análisis directamente en el cuerpo:
+
+```html
+<h2>Reporte semanal: semana del [Semana (lunes)]</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;">
+  <tr style="background:#f2f2f2;">
+    <th>Métrica</th><th>Valor</th><th>Variación</th>
+  </tr>
+  <tr><td>Leads generados</td><td>[Leads]</td><td>[Var. Leads %] %</td></tr>
+  <tr><td>Tickets resueltos</td><td>[Tickets resueltos]</td><td>[Var. Tickets %] %</td></tr>
+  <tr><td>Ventas (USD)</td><td>[Ventas (USD)]</td><td>[Var. Ventas %] %</td></tr>
+</table>
+
+<h3>Tendencias</h3>
+<p>[Tendencias]</p>
+
+<h3>Variación</h3>
+<p>[Variacion]</p>
+
+<h3>Recomendación</h3>
+<p><b>[Recomendacion]</b></p>
+```
+
+- **To:** tu correo (o el del equipo)
+- **Subject:** `Reporte semanal: semana del [Semana (lunes)]`
+
+Alternativa en Slack: **Send Channel Message** con el mismo contenido en texto con formato Markdown de Slack (`*negrita*`).
+
+## 6. Verificar la recepción
+
+1. Pulsa **Test step** en cada acción y revisa que ningún campo salga vacío.
+2. Comprueba en el correo (incluida la carpeta de spam) que:
+   - la tabla se ve bien;
+   - las cifras coinciden con la fila 2026-09-14 de la hoja;
+   - las variaciones son las de la hoja (por ejemplo, Leads +28,9 %) y no las recalculó la IA;
+   - la recomendación es una sola acción concreta.
+3. Restaura el Lookup Value dinámico y **publica** el Zap.
+4. Confirma la primera ejecución real el lunes en **Zap runs** (historial del Zap).
+
+## Estructura final
+
+```
+1. Schedule by Zapier: cada lunes 8:00
+2. Formatter: fecha − 7 días
+3. Google Sheets: Lookup Spreadsheet Row
+4. AI by Zapier: Tendencias / Variacion / Recomendacion
+5. Gmail: Send Email (HTML)
+```
+
+## Mejoras opcionales
+
+- Un Filter tras el Lookup que detenga el Zap si la fila no existe, con un correo de aviso "faltan datos de la semana".
+- Pasar a la IA las últimas 4 semanas (Lookup Spreadsheet Rows Advanced) para un análisis de tendencia más sólido.
+- Registrar cada envío en otra hoja, igual que en la práctica anterior.
+
+¿Quieres la versión equivalente en Make o una rúbrica de evaluación para esta práctica?

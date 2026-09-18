@@ -1,0 +1,39 @@
+tengo desarrollado un flujo de trabajo, el cual quiero establecer un condicional, si en el asusto aparece la palabra urgente, una columna de la hoja em google sheet escribe la nota urgente y si no coloca ok
+
+Perfecto. Basándome en la documentación, aquí está lo que necesitas hacer:
+
+Solución: Usar Paths para tu condición
+Tu flujo necesita:
+
+Path A: Si el asunto contiene "urgente" → escribe "urgente"
+Path B: Si el asunto NO contiene "urgente" → escribe "ok"
+Pasos:
+Abre tu Zap existente y ve a dónde quieres agregar la lógica condicional.
+
+Agrega un paso de "Paths":
+
+Haz clic en el + para agregar un paso
+Busca y selecciona Paths by Zapier
+Se crearán automáticamente "Path A" y "Path B"
+Configura Path A (si contiene "urgente"):
+
+En las reglas de Path A, selecciona Custom rules
+Campo: Subject (del correo/trigger)
+Condición: Contains
+Valor: urgente
+Agrega la acción: Update Google Sheet → columna con valor "urgente"
+Configura Path B (si NO contiene "urgente"):
+
+En las reglas de Path B, selecciona Fallback (o Custom rules con "Does not contain")
+Si eliges Custom rules:
+Campo: Subject
+Condición: Does not contain
+Valor: urgente
+Agrega la acción: Update Google Sheet → columna con valor "ok"
+Punto importante:
+Las Paths no cuentan hacia tu límite de tareas — solo los pasos dentro de cada rama consumen tareas
+Las ramas se ejecutan secuencialmente de izquierda a derecha
+¿Tu Zap ya tiene un trigger (qué inicia todo) y un paso donde actualizas Google Sheets? Si me confirmas eso, puedo guiarte más específicamente sobre dónde insertar las Paths.
+
+¿Necesitas ayuda para llevarlo al Zap Editor para hacer los cambios?
+
