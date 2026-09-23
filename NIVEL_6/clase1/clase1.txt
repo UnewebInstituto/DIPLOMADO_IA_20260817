@@ -2,5 +2,90 @@ https://nodejs.org/en
 
 https://nodejs.org/en/download
 
+file:///C:/Profesores/HENRY_DUQUE/DIPLOMADO_IA_20260817/NIVEL_6/Guia_Nivel6_Automatizacion_Avanzada_n8n.pdf
 
+file:///C:/Profesores/HENRY_DUQUE/DIPLOMADO_IA_20260817/NIVEL_6/Guia_Nivel6_n8n_Local_Node.pdf
+
+http://localhost:5671
+http://localhost:5672
+http://localhost:5673
+http://localhost:5674
+http://localhost:5675
+http://localhost:5676
+http://localhost:5677
+http://localhost:5678
+
+(Sólo 1)
+docker volume create n8n_data
+
+-- docker run -it --rm --name n8n -p 5677:5678 \
+docker run -d --restart always --name n8n-estacion-1 -p 5671:5678 \
+ -e GENERIC_TIMEZONE="America/Caracas" \
+ -v n8n_data:/home/node/.n8n \
+ docker.n8n.io/n8nio/n8n
+
+(Varios)
+# 1. Actualizar la imagen base
+docker pull docker.n8n.io/n8nio/n8n:latest
+
+# 2. Bucle para actualizar del 1 al 8 (ajusta el rango y puertos según tu configuración)
+for i in {1..8}; do
+  docker stop n8n-estacion-$i
+  docker rm n8n-estacion-$i
+  docker run -d --restart always --name n8n-estacion-$i -p $((5670 + i)):5678 \
+  -e GENERIC_TIMEZONE="America/Caracas" \
+  -v n8n_data_$i:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n
+done
+
+
+
+//// PRIMERA VEZ ////
+
+# 1. Descargar la imagen
+docker pull docker.n8n.io/n8nio/n8n:latest
+
+# 2. Bucle limpio solo para crear las 8 estaciones
+for i in {1..8}; do
+  docker run -d --restart always --name n8n-estacion-$i -p $((5670 + i)):5678 \
+  -e GENERIC_TIMEZONE="America/Caracas" \
+  -v n8n_data_$i:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n
+done
+
+
+
+/// recomendación ////
+
+for i in {1..8}; do
+  docker run -d --restart always --name n8n-estacion-$i -p $((5670 + i)):5678 \
+  -e GENERIC_TIMEZONE="America/Caracas" \
+  -v n8n_data_$i:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n
+done
+
+
+Comando para realizar en casa u oficina para la 
+instalación de n8n desde la termina GIT BASH en
+visual studio code
+(Sólo 1 estación)
+
+docker volume create n8n_data
+
+docker run -d --restart always --name n8n-estacion-1 -p 5671:5678 \
+ -e GENERIC_TIMEZONE="America/Caracas" \
+ -v n8n_data:/home/node/.n8n \
+ docker.n8n.io/n8nio/n8n
+
+1: Maryoury 5671 
+2: Yeny     5672
+3: Keyla    5673
+4: Manuel   5674
+5: Jhuliet  5675
+
+...
+8: Profesor 5678
+
+Desde el navegador web
+http://localhost:5678
 
