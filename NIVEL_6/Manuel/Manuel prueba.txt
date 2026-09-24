@@ -1,0 +1,19 @@
+# Esta prueba se debe hacer desde la
+# consola de powershell
+
+$response = Invoke-RestMethod -Method Post -Uri "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" -Headers @{ "x-goog-api-key" = "TU_API_KEY" } -ContentType "application/json" -Body '{"contents": [{"parts": [{"text": "Hola Gemini, dame una respuesta larga para probar la visualización."}]}]}'
+
+# Muestra solo el texto generado por la IA
+$response.candidates.content.parts.text
+
+**********************************************************
+
+$response = Invoke-RestMethod -Method Post -Uri "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" -Headers @{ "x-goog-api-key" = "TU_API_KEY" } -ContentType "application/json" -Body '{"contents": [{"parts": [{"text": "Hola Gemini, que es N8N."}]}]}'
+
+# Muestra solo el texto generado por la IA
+$response.candidates.content.parts.text
+****************
+curl -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
+  -H "Content-Type: application/json" \
+  -H "x-goog-api-key: TU_API_KEY" \
+  -d '{"contents": [{"parts": [{"text": "Hola Gemini, qué es n8n."}]}]}'

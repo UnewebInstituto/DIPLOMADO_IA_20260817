@@ -1,0 +1,19 @@
+# Esta prueba se debe hacer desde la
+# consola de powershell
+
+-- Actualizar con la API Key--
+
+$response = Invoke-RestMethod -Method Post -Uri "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" -Headers @{ "x-goog-api-key" = "TU_API_KEY" } -ContentType "application/json" -Body '{"contents": [{"parts": [{"text": "Hola Gemini, dime que es n8n."}]}]}'
+
+# Muestra solo el texto generado por la IA
+$response.candidates.content.parts.text
+
+OPCIÓN VÍA TERMINAL GITBASH:
+
+curl -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
+  -H "Content-Type: application/json" \
+  -H "x-goog-api-key: TU_API_KEY" \
+  -d '{"contents": [{"parts": [{"text": "Hola Gemini, qué es n8n."}]}]}'
+
+
+   "text": "¡Hola! **n8n** (que se pronuncia *\"n-eight-n\"* o *\"en-ocho-en\"*) es una **herramienta de automatización de flujos de trabajo** (*workflow automation*). \n\nPara que te hagas una idea rápida: es una alternativa muy potente y de código abierto a plataformas populares como **Zapier** o **Make** (antes Integromat).\n\nSu objetivo principal es **conectar diferentes aplicaciones y servicios entre sí** para que trabajen juntos y automaticen tareas repetitivas sin que tengas que intervenir manualmente.\n\nAquí te detallo sus características clave:\n\n### 1. ¿Cómo funciona?\nFunciona mediante un sistema visual de **nodos** (de ahí el nombre: *nodemation*):\n*   **Disparador (Trigger):** El evento que inicia el flujo (ej. *\"Llega un nuevo correo a Gmail\"* o *\"Alguien llena un formulario en mi web\"*).\n*   **Acciones:** Lo que pasa después (ej. *\"Guarda los datos en Google Sheets\"*, *\"Envía un mensaje por Slack al equipo\"* y *\"Crea una tarea en Notion\"*).\nTú solo tienes que conectar los nodos arrastrando líneas en una pantalla.\n\n### 2. ¿Qué lo hace especial frente a Zapier o Make?\n*   **Es autoalojable (*Self-hosted*):** Puedes instalar n8n en tu propio servidor de forma **gratuita** (usando Docker, por ejemplo). Esto significa que no tienes límites de tareas mensuales impuestos por planes de pago y que **tienes el control total de tus datos** (ideal para temas de privacidad).\n*   **Muy flexible para desarrolladores:** Aunque es visual (*no-code*), si necesitas hacer algo muy complejo, te permite escribir código en **JavaScript o Python** dentro de cualquier paso del flujo, o hacer llamadas directas a APIs (HTTP Requests).\n*   **Integración nativa con Inteligencia Artificial:** En sus versiones recientes, n8n se ha convertido en una de las mejores herramientas para crear **agentes de IA**, ya que se integra de forma nativa con OpenAI, LangChain, bases de datos vectoriales, etc.\n\n### 3. Ejemplo práctico de uso\nImagina este flujo automático:\n1. Un cliente compra un producto en tu tienda online (**Shopify**).\n2. n8n detecta la compra y genera una factura con sus datos.\n3. Envía la factura por correo al cliente (**Gmail**).\n4. Le pide a **ChatGPT** que analice qué tipo de cliente es según su compra.\n5. Avisa a tu equipo de ventas por **Telegram** con el resumen que hizo la IA.\n\n### ¿Tiene costo?\n*   **Versión gratuita (Community):** La descargas y la instalas tú mismo en tu ordenador o servidor. Es prácticamente gratis (solo pagas el costo de tu servidor si usas uno).\n*   **n8n Cloud:** Un servicio de suscripción mensual donde ellos se encargan de alojarlo y mantenerlo, para que no tengas que configurar servidores."

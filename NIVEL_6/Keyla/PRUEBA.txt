@@ -1,0 +1,67 @@
+# Esta prueba se debe hacer desde la
+# consola de PowerShell
+
+# En PowerShell 5.1, Gemini requiere TLS 1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+$apiKey = "TU_API_KEY"
+$body = @{
+    contents = @(
+        @{
+            parts = @(
+                @{ text = "Hola Gemini, que es n8n." }
+            )
+        }
+    )
+} | ConvertTo-Json -Depth 10 -Compress
+
+$response = Invoke-RestMethod -Method Post `
+    -Uri "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$apiKey" `
+    -Headers @{ "Content-Type" = "application/json" } `
+    -Body $body
+
+# Muestra solo el texto generado por la IA
+$response.candidates[0].content.parts[0].text
+
+
+
+**************************************************************
+OPCIÓN VÍA TERMINAL GITBASH:
+
+# Nota: la API key ha sido removida por seguridad. Si la clave real quedó expuesta,
+# revócala inmediatamente desde Google Cloud Console → API & Services → Credentials.
+
+curl -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
+    -H "Content-Type: application/json" \
+    -H "x-goog-api-key: YOUR_API_KEY" \
+    -d '{"contents": [{"parts": [{"text": "Hola Gemini, qué es n8n."}]}]}'
+
+# Ejemplos: reintentos con exponencial backoff (recomendado para 503 temporales)
+
+# Bash (Git Bash / Linux / macOS)
+for i in 0 1 2 3 4; do
+    curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
+        -H "Content-Type: application/json" \
+        -H "x-goog-api-key: YOUR_API_KEY" \
+        -d '{"contents":[{"parts":[{"text":"Hola Gemini, qué es n8n."}]}]}' && break
+    sleep $((2**i))
+done
+
+# PowerShell (Windows)
+$apiKey = "YOUR_API_KEY"
+$body = '{"contents":[{"parts":[{"text":"Hola Gemini, qué es n8n."}]}]}'
+$max=5
+for ($i=0;$i -lt $max;$i++) {
+    try {
+        $resp = Invoke-RestMethod -Method Post -Uri "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=$apiKey" -Headers @{ "Content-Type" = "application/json" } -Body $body -ErrorAction Stop
+        $resp.candidates[0].content.parts[0].text; break
+    } catch {
+        Start-Sleep -Seconds ([math]::Pow(2,$i))
+    }
+}
+
+# Alternativa: si `gemini-3.8-flash` está saturado, usar temporalmente `gemini-2.5-flash`:
+curl -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent" \
+    -H "Content-Type: application/json" \
+    -H "x-goog-api-key: YOUR_API_KEY" \
+    -d '{"contents": [{"parts": [{"text": "Hola Gemini, qué es n8n."}]}]}'
