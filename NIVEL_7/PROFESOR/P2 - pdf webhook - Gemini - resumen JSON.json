@@ -1,0 +1,127 @@
+{
+  "name": "P2 - pdf webhook - Gemini - resumen JSON",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analizar-pdf",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8af51582-0f9f-40f1-8d9b-f901475e08d5",
+      "name": "Webhook",
+      "webhookId": "3dc08e9f-02bd-4435-b619-321fd23ecf8a",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "iwaJ3gFe7pB1niMC",
+          "name": "API Key Endpoint PDF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7a2624b8-46bc-43e6-9d50-1cf9bb005983",
+              "leftValue": "{{ $binary.data?.mimeType }}",
+              "rightValue": "application/pdf",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "81186c0b-4690-4014-b33e-06bf0b020f05",
+              "leftValue": "={{ Number($json.headers['content-length']) }}",
+              "rightValue": 10485760,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "b8b8a64f-c0b1-40f2-8284-9852a8dbba85",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"error\": \"Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        96
+      ],
+      "id": "06b25fc2-68b5-4127-80cc-d7cd78b5a207",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "89a48c8c-4de0-430b-8209-4126a7c8b918",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9b4b4c15b27519e8b463397173ea8ba5e73d292c8cb1a182dceb1b6a2a49990b"
+  },
+  "nodeGroups": [],
+  "id": "1y4hHDxSx8eTYQMP",
+  "tags": []
+}

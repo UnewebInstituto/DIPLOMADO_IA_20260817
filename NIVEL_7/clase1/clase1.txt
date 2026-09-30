@@ -1,0 +1,41 @@
+https://mermaid.js.org/
+
+SLACK.
+
+¡Hola! Como experto en **Slack**, estaré encantado de explicarte todo el potencial de esta potente plataforma de colaboración.
+
+Slack es mucho más que una simple aplicación de mensajería: es el **centro neurálgico de la comunicación y el trabajo en equipo** para organizaciones de todos los tamaños. Su principal propósito es **reunir a las personas, las herramientas y la información en un mismo lugar**, haciendo que el trabajo sea más transparente, organizado y eficiente.
+
+---
+
+### ¿Para qué sirve Slack? (Principales funciones y beneficios)
+
+* **Organización por Canales (`#`):** En lugar de hilos de correo interminables o chats caóticos, Slack utiliza canales temáticos que pueden organizarse por proyectos, departamentos, clientes o temas de interés general. Esto permite que la información sea accesible y transparente para todos los involucrados.
+* **Centralización de Herramientas (Integraciones):** Se integra con más de 2,600 aplicaciones de terceros (como Google Drive, GitHub, Jira, Trello, Zoom y Salesforce). Puedes recibir notificaciones, crear tareas o actualizar archivos directamente desde Slack sin necesidad de cambiar de pestaña.
+* **Comunicación Sincrónica y Asincrónica:** Ofrece llamadas de voz y video (`Huddles`) rápidas y fluidas para resolver dudas al instante, así como mensajes de texto, clips de audio y video grabados para cuando los miembros del equipo trabajan en distintos horarios o zonas horarias.
+* **Búsqueda y Memoria Colectiva:** Todo lo que se comparte en Slack (conversaciones, archivos, enlaces) queda indexado en un motor de búsqueda sumamente potente. Si alguien se incorpora a un proyecto nuevo, puede leer el historial del canal y ponerse al día en cuestión de minutos.
+* **Automatización de Procesos (Workflows):** Cuenta con un creador de flujos de trabajo integrado (`Workflow Builder`) que permite automatizar tareas rutinarias, como solicitudes de vacaciones, reportes de estado o la bienvenida a nuevos empleados, sin necesidad de saber programar.
+* **Seguridad y Escalabilidad:** Ofrece controles de nivel empresarial para proteger los datos corporativos, gestión de identidades y cumplimiento normativo, permitiendo conectar tanto a equipos internos como a socios o clientes externos de forma segura mediante **Slack Connect**.
+
+En resumen, Slack sirve para **romper los silos de información**, reducir drásticamente el uso del correo electrónico interno y alinear a los equipos para que puedan avanzar mucho más rápido.
+
+¿Te gustaría saber cómo configurar una integración específica o diseñar canales eficientes para algún proyecto en particular?
+
+API KEY END POINT PDF
+0123456789ABCDEF0123456789abcdef0123456789abcdef01234
+
+
+http://localhost:5678/webhook-test/analizar-pdf
+
+
+Dos condiciones con AND:
+
+{{ $binary.data?.mimeType }} is equal to application/pdf
+{{ Number($json.headers['content-length']) }} is less than 10485760
+
+{ "error": "Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'." }
+
+
+curl -X POST "http://localhost:5678/webhook-test/analizar-pdf" \
+     -H "X-API-Key: MY_KEY" \
+     -F "data=@carta.pdf"

@@ -1,0 +1,54 @@
+import { createHmac } from 'crypto';
+
+export default defineComponent({
+  async run({ webhooks, $el, $json, $headers, $req, $response }) {
+    const apiKey = '0123456789ABCDEF0123456789abcdef0123456789abcdef01234';
+
+    const authHeader = $headers['x-api-key'] || $headers['X-API-Key'] || $headers['X-Api-Key'];
+    if (!authHeader || authHeader !== apiKey) {
+      return {
+        statusCode: 401,
+        body: { error: 'API key inválida.' }
+      };
+    }
+
+    const file = $req?.body?.data || $req?.files?.data || $json?.data || $json?.binary?.data;
+
+    if (!file) {
+      return {
+        statusCode: 400,
+        body: { error: "Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'." }
+      };
+    }
+
+    const mimeType = file.mimeType || file.mimetype || $json?.binary?.data?.mimeType;
+    const size = Number(file.size || file.length || $json?.headers?.['content-length'] || 0);
+
+    if (mimeType !== 'application/pdf') {
+      return {
+        statusCode: 400,
+        body: { error: "Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'." }
+      };
+    }
+
+    if (size > 10 * 1024 * 1024) {
+      return {
+        statusCode: 400,
+        body: { error: "Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'." }
+      };
+    }
+
+    return {
+      statusCode: 200,
+      body: {
+        ok: true,
+        message: 'PDF válido',
+        file: {
+          mimeType,
+          size,
+          name: file.filename || file.name || 'archivo.pdf'
+        }
+      }
+    };
+  }
+});

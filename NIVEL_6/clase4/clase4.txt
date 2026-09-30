@@ -35,6 +35,15 @@ docker stop n8n-estacion-5
 docker rm n8n-estacion-5
 docker run -d --name n8n-estacion-5 -p 5675:5678 -e WEBHOOK_URL=http://localhost:5675/ -v n8n_data_5:/home/node/.n8n n8nio/n8n
 
+
+docker stop n8n-estacion-6
+docker rm n8n-estacion-6
+docker run -d --name n8n-estacion-6 -p 5676:5678 -e WEBHOOK_URL=http://localhost:5676/ -v n8n_data_6:/home/node/.n8n n8nio/n8n
+
+docker stop n8n-estacion-7
+docker rm n8n-estacion-7
+docker run -d --name n8n-estacion-7 -p 5677:5678 -e WEBHOOK_URL=http://localhost:5677/ -v n8n_data_7:/home/node/.n8n n8nio/n8n
+
 EDIT FIELDS
 
 {{ $json.from?.text || $json.From || $json.from }}

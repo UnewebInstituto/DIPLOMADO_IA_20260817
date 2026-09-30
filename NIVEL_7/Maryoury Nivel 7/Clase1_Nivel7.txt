@@ -1,0 +1,12 @@
+
+Dos condiciones con AND:
+
+{{ $binary.data?.mimeType }} is equal to application/pdf
+{{ Number($json.headers['content-length']) }} is less than 10485760
+
+{ "error": "Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'." }
+
+
+curl -X POST "http://localhost:5678/webhook-test/analizar-pdf" \
+     -H "X-API-Key: MY_KEY" \
+     -F "data=@carta.pdf"

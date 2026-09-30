@@ -1,0 +1,28 @@
+P2 — Pipeline: PDF por webhook → análisis con Claude → resumen 
+JSON 
+Objetivo: exponer un endpoint que reciba un PDF y devuelva un análisis estructurado en JSON.   
+Tiempo: 2 h. 
+Arquitectura 
+[Webhook POST /analizar-pdf (Header Auth)] -> [IF: mime = application/pdf y tamano ok] 
+Nivel 6 — Automatización Avanzada: n8n, APIs y Flujos Complejos 
+Página 21 de 27 
+       | si                                                 | no -> [Respond: 400 + mensaje]        v [Extract From File: Move File to Base64 String]        v [HTTP Request: Claude (document + tool use)]        v [Code: validar esquema y calcular coste]        v [Respond to Webhook: JSON]  
+Paso a paso 
+1. Webhook: método POST, path analizar-pdf, Authentication: Header Auth (crea una clave 
+propia para quien consuma el endpoint), Respond: Using "Respond to Webhook" node. En 
+Options define el nombre de la propiedad binaria (por ejemplo data). 2. Probar con la URL de test: usa la URL de prueba mientras editas y la URL de producción 
+solo con el workflow activo (son distintas). 3. IF: valida el tipo MIME y el tamaño del archivo; si no cumple, responde 400 con un mensaje 
+claro. 4. Extract From File: operación "Move File to Base64 String" sobre la propiedad data. 5. HTTP Request a Claude: envía el bloque document base64 (ver apartado 2.3) y define un 
+esquema con tool use: titulo, tipo_documento, resumen (máx. 100 palabras), puntos_clave 
+(arreglo), entidades (personas, organizaciones, fechas, montos), idioma y confianza. 6. Code: valida que existan los campos obligatorios; agrega tokens y costo_usd de usage. 7. Respond to Webhook: devuelve el JSON final con código 200. 
+Prueba del endpoint 
+curl -X POST "https://TU-N8N/webhook/analizar-pdf" \   -H "X-API-Key: TU_CLAVE" \   -F "data=@contrato_ejemplo.pdf"  
+Ejemplo de respuesta esperada 
+{   "titulo": "Contrato de prestacion de servicios",   "tipo_documento": "contrato",   "resumen": "Acuerdo entre A y B para ...",   "puntos_clave": ["Vigencia 12 meses", "Pago mensual", "Clausula de confidencialidad"],   "entidades": { "personas": [], "organizaciones": ["A C.A.", "B S.A."],                  "fechas": ["2026-01-15"], "montos": [1200] },   "idioma": "es", "confianza": 0.92,   "tokens": { "entrada": 5400, "salida": 380 } }  
+Criterios de éxito 
+• El endpoint rechaza llamadas sin clave y archivos que no son PDF. 
+• La respuesta siempre es JSON válido con los campos obligatorios. 
+• Se prueba con al menos tres PDFs distintos (digital, escaneado y de varias páginas). 
+Extensión opcional: guarda el hash del archivo y el resultado en PostgreSQL para devolver 
+resultados previos sin volver a pagar por la IA.   Entregable: workflow JSON, comando curl y tres 
+respuestas de ejemplo
