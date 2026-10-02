@@ -7,6 +7,16 @@ Dos condiciones con AND:
 { "error": "Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'." }
 
 
-curl -X POST "http://localhost:5678/webhook-test/analizar-pdf" \
+curl -X POST "http://localhost:5671/webhook-test/analizar-pdf" \
      -H "X-API-Key: MY_KEY" \
+     -F "data=@carta.pdf"
+
+
+     -- Actualizar el número de puerto de c/u
+-- 
+API KEY END POINT PDF
+0123456789ABCDEF0123456789abcdef0123456789abcdef01234
+
+curl -X POST "http://localhost:5671/webhook-test/analizar-pdf" \
+     -H "X-API-Key: 0123456789ABCDEF0123456789abcdef0123456789abcdef01234" \
      -F "data=@carta.pdf"
