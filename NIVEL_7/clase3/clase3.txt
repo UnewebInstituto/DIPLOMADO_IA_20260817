@@ -1,0 +1,22 @@
+CRM: Gestión de Relación con el Cliente
+ERP: Planificación de recursos de la Empresa. 
+Por ejemplo: SAP.
+
+Conectores.
+ 
+A otras API (Interface de Programación de Aplicaciones)
+A BBDD (Bases de Datos)
+    - SQL (Relacionales, por ejemplo PostgreSQL)
+    - NO SQL (Documentos JSON)
+A Modelos de IA
+
+LLAMADO A LA URL (webhook):
+
+curl -X POST http://localhost:5678/webhook-test/agente-articulo \
+  -H "Content-Type: application/json" \
+  -d '{"tema": "energía solar en Venezuela"}'
+  
+  Google AI Studio,
+
+  https://aistudio.google.com
+

@@ -1,0 +1,9 @@
+P2 — Agente autónomo en n8n: investiga, redacta y publica 
+Objetivo: un flujo sin intervención que, dado un tema, investiga, redacta y publica. 
+Pasos 1. Trigger: Schedule o Webhook con {tema}. 2. Investigador: nodo AI Agent (Gemini) con herramienta de búsqueda (HTTP Request a una API de 
+búsqueda) → devuelve 5 hechos con fuente. 3. Redactor: nodo Gemini con system prompt de estilo → artículo de 400 palabras usando solo los hechos. 4. Revisor: segundo nodo Gemini valida (¿todo tiene fuente? ¿tono correcto?) y responde JSON 
+{"aprobado": true|false, "motivo": ""}. 5. Nodo IF: si aprobado → WordPress (publicar); si no → reintento (máx. 2) y luego aviso a Slack. 6. Registrar cada ejecución en una hoja/tabla de logs. 
+Prompt del revisor (ejemplo) 
+Eres un revisor editorial. Recibes un borrador y sus fuentes. Responde solo JSON: {"aprobado": boolean, 
+"motivo": string}. Rechaza si hay afirmaciones sin fuente. 
+Entregable: JSON exportado del workflow + captura de una ejecución exitosa y una rechazada. 

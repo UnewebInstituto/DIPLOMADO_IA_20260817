@@ -20,3 +20,74 @@ API KEY END POINT PDF
 curl -X POST "http://localhost:5671/webhook-test/analizar-pdf" \
      -H "X-API-Key: 0123456789ABCDEF0123456789abcdef0123456789abcdef01234" \
      -F "data=@carta.pdf"
+
+
+     https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent
+
+
+
+     {{ JSON.stringify({   contents: [{     parts: [       { inline_data: { mime_type: "application/pdf", data: $json.pdf_base64 } },       { text: "Analiza este documento y devuelve el resultado siguiendo el esquema. El resumen debe tener máximo 100 palabras. Las fechas en formato ISO YYYY-MM-DD. La confianza es un número de 0 a 1 según la legibilidad y certeza de la extracción." }     ]   }],   generationConfig: {     temperature: 0.2,     responseMimeType: "application/json",     thinkingConfig: { thinkingBudget: 0 },     responseSchema: {       type: "OBJECT",       properties: {         titulo: { type: "STRING" },         tipo_documento: { type: "STRING", description: "contrato, factura, informe, carta u otro" },         resumen: { type: "STRING", description: "Máximo 100 palabras" },         puntos_clave: { type: "ARRAY", items: { type: "STRING" } },         entidades: {           type: "OBJECT",           properties: {             personas: { type: "ARRAY", items: { type: "STRING" } },             organizaciones: { type: "ARRAY", items: { type: "STRING" } },             fechas: { type: "ARRAY", items: { type: "STRING" } },             montos: { type: "ARRAY", items: { type: "NUMBER" } }           },           required: ["personas", "organizaciones", "fechas", "montos"]         },         idioma: { type: "STRING", description: "Código ISO 639-1" },         confianza: { type: "NUMBER" }       },       required: ["titulo","tipo_documento","resumen","puntos_clave","entidades","idioma","confianza"]     }   } }) }}
+
+
+     const resp = $input.first().json;
+
+// Precios USD por millón de tokens (Gemini 2.5 Flash). AJÚSTALOS si cambias de modelo.
+const PRECIO_ENTRADA = 0.30;
+const PRECIO_SALIDA = 2.50; // la salida incluye los tokens de razonamiento
+
+const falla = (status, msg, extra = {}) =>
+  [{ json: { status, body: { error: msg, ...extra } } }];
+
+// 1. ¿Bloqueado o sin candidatos?
+if (resp.promptFeedback?.blockReason) {
+  return falla(422, "Gemini bloqueó el documento", { motivo: resp.promptFeedback.blockReason });
+}
+const candidato = resp.candidates?.[0];
+const texto = candidato?.content?.parts?.[0]?.text;
+if (!texto) {
+  return falla(502, "Gemini no devolvió contenido", { finishReason: candidato?.finishReason });
+}
+if (candidato.finishReason === 'MAX_TOKENS') {
+  return falla(502, "Respuesta truncada por límite de tokens");
+}
+
+// 2. Parsear el JSON (llega como texto)
+let r;
+try {
+  r = JSON.parse(texto.replace(/```json|```/g, '').trim());
+} catch (e) {
+  return falla(502, "La respuesta de Gemini no es JSON válido");
+}
+
+// 3. Validar campos obligatorios
+const obligatorios = ['titulo','tipo_documento','resumen','puntos_clave','entidades','idioma','confianza'];
+const faltan = obligatorios.filter(c => r[c] === undefined || r[c] === null);
+if (faltan.length) {
+  return falla(502, "Campos faltantes", { campos: faltan });
+}
+
+// 4. Tokens y coste
+const u = resp.usageMetadata || {};
+const entrada = u.promptTokenCount ?? 0;
+const salida = (u.candidatesTokenCount ?? 0) + (u.thoughtsTokenCount ?? 0);
+const costo = (entrada * PRECIO_ENTRADA + salida * PRECIO_SALIDA) / 1_000_000;
+
+return [{ json: {
+  status: 200,
+  body: {
+    ...r,
+    tokens: { entrada, salida },
+    costo_usd: Number(costo.toFixed(6))
+  }
+}}];
+
+
+{{ JSON.stringify($json.body) }}
+
+{{ $binary.data?.mimeType }}
+application/pdf
+
+{{ Number($json.headers['content-length']) }}
+10485760
+
+{{ JSON.stringify({   contents: [{     parts: [       { inline_data: { mime_type: "application/pdf", data: $json.pdf_base64 } },       { text: "Analiza este documento y devuelve el resultado siguiendo el esquema. El resumen debe tener máximo 100 palabras. Las fechas en formato ISO YYYY-MM-DD. La confianza es un número de 0 a 1 según la legibilidad y certeza de la extracción." }     ]   }],   generationConfig: {     temperature: 0.2,     responseMimeType: "application/json",     thinkingConfig: { thinkingBudget: 0 },     responseSchema: {       type: "OBJECT",       properties: {         titulo: { type: "STRING" },         tipo_documento: { type: "STRING", description: "contrato, factura, informe, carta u otro" },         resumen: { type: "STRING", description: "Máximo 100 palabras" },         puntos_clave: { type: "ARRAY", items: { type: "STRING" } },         entidades: {           type: "OBJECT",           properties: {             personas: { type: "ARRAY", items: { type: "STRING" } },             organizaciones: { type: "ARRAY", items: { type: "STRING" } },             fechas: { type: "ARRAY", items: { type: "STRING" } },             montos: { type: "ARRAY", items: { type: "NUMBER" } }           },           required: ["personas", "organizaciones", "fechas", "montos"]         },         idioma: { type: "STRING", description: "Código ISO 639-1" },         confianza: { type: "NUMBER" }       },       required: ["titulo","tipo_documento","resumen","puntos_clave","entidades","idioma","confianza"]     }   } }) }}
