@@ -1,0 +1,76 @@
+curl -X POST http://localhost:5678/webhook-test/agente-articulo \
+  -H "Content-Type: application/json" \
+  -d '{"tema": "Venezuela Politica y Petroleo"}'
+
+
+  https://www.tavily.com/?utm_term=tavily%20api&utm_campaign=NORAM_-_Brand-Brand_General&utm_source=google&utm_medium=paid-search&matchtype=e&device=c&utm_content=799226621417_&gad_source=1&gad_campaignid=23618630592&gbraid=0AAAABB_ZBWoFY5VctYA0MnIGxgPAz47Dl&gclid=CjwKCAjw25fWBhAVEiwAMopNjjcnMk8Wk2_Z8oErTJXUh2GWqCK6qJGbpScAQE8umYuPVC4QconlsBoCIggQAvD_BwE
+
+
+  https://api.tavily.com/search
+
+
+  Bearer
+
+
+     {
+     "query": "{{ $fromAI('consulta', 'Consulta de búsqueda en la web', 'string') }}",
+     "max_results": 5
+   }
+
+
+PRUEBA PARA DESCARTAR:
+
+
+
+curl -X POST https://api.tavily.com/search \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer MY-API-KEY" \
+-d '{"query": "Petroleo en Venezuela", "max_results": 5}'
+
+curl -i -X POST https://api.tavily.com/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer MY-API-KEY" \
+  -d '{"query": "test", "max_results": 1}'
+
+
+  https://serper.dev/
+
+
+  https://google.serper.dev/search
+
+Modo Expression
+
+{
+    "q": "{{ $fromAI('consulta', 'Consulta de búsqueda en la web', 'string') }}",
+    "num": 5
+}
+
+
+curl -i -X POST https://google.serper.dev/search \
+  -H "X-API-KEY: MY-API-CjwKCAjw25fWBhAVEiwAMopNjjcnMk8Wk2_Z8oErTJXUh2GWqCK6qJGbpScAQE8umYuPVC4QconlsBoCIggQAvD_BwE" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "Petroleo en Venezuela", "num": 5}'
+
+
+  Cada resultado de búsqueda trae el campo "link": úsalo como la fuente de cada hecho.
+SIEMPRE usa la herramienta de búsqueda antes de responder.
+
+
+Eres un investigador. Dado un tema, usa la herramienta de búsqueda
+y devuelve EXACTAMENTE 5 hechos verificables, cada uno con su URL
+de fuente. No inventes datos que no estén en los resultados.
+Cada resultado de búsqueda trae el campo "link": úsalo como la fuente de cada hecho.
+SIEMPRE usa la herramienta de búsqueda antes de responder.
+
+   {
+     "hechos": [
+       {
+         "hecho": "Texto del hecho verificable",
+         "fuente": "https://url-de-la-fuente.com"
+       }
+     ]
+   }
+
+      {{ $('Edit Fields').item.json.tema }}
+
+         {{ JSON.stringify($json.output.hechos) }}

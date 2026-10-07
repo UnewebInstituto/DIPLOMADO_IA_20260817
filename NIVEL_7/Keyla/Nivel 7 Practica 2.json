@@ -1,0 +1,252 @@
+{
+  "name": "Nivel 7 Practica 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "=agente-articulo",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "53626023-e168-4703-a47d-290dc41f570b",
+      "name": "Webhook",
+      "webhookId": "54ad26c3-021c-40a9-9b65-6ec19b3a94fe"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "01b8089d-5e82-4df0-b0b8-804b365c4641",
+              "name": "tema",
+              "value": "={{ $json.body.tema }}",
+              "type": "string"
+            },
+            {
+              "id": "ce8668a1-38d5-4884-937f-0a2506b5ca8a",
+              "name": "Intentos",
+              "value": "=0",
+              "type": "number"
+            },
+            {
+              "id": "e6a83d6e-229e-41ad-85eb-af3aa28710c8",
+              "name": "feedback",
+              "value": "=\"\"",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        320,
+        -192
+      ],
+      "id": "463def27-72b4-4896-bedb-2a98b2485009",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        64
+      ],
+      "id": "1f221768-44bb-4441-b9fe-e2cd72d81049",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Wbx47O6kI20O7wd2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tema:{{ $json.tema }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Eres un investigador. Dado un tema, usa la herramienta de búsqueda\ny devuelve EXACTAMENTE 5 hechos verificables, cada uno con su URL\nde fuente. No inventes datos que no estén en los resultados.\nCada resultado de búsqueda trae el campo \"link\": úsalo como la fuente de cada hecho.\nSIEMPRE usa la herramienta de búsqueda antes de responder."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        544,
+        -192
+      ],
+      "id": "b2f05992-5f1f-4cab-87af-6481fc4a2482",
+      "name": "Investigador"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://google.serper.dev/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"q\": \"{{ $fromAI('consulta', 'Consulta de búsqueda en la web', 'string') }}\",\n    \"num\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        640,
+        128
+      ],
+      "id": "cadf89e8-2953-4960-a5af-a1979fdbed33",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "J6nbhVhyfiq52tH9",
+          "name": "Serper API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "   {\n     \"hechos\": [\n       {\n         \"hecho\": \"Texto del hecho verificable\",\n         \"fuente\": \"https://url-de-la-fuente.com\"\n       }\n     ]\n   }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        112
+      ],
+      "id": "73d674b8-1795-4589-8891-81f07cec27bd",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "759d9fe8-a577-46d5-93a1-7794ae18c644",
+              "name": "tema",
+              "value": "=   {{ $('Edit Fields').item.json.tema }}",
+              "type": "string"
+            },
+            {
+              "id": "86624456-646b-4ece-ab28-adc711b050ba",
+              "name": "hechos",
+              "value": "={{ JSON.stringify($json.output.hechos) }}",
+              "type": "string"
+            },
+            {
+              "id": "9800b7f8-50af-4212-ae6a-6b43bbedfbbc",
+              "name": "fee",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        800,
+        -192
+      ],
+      "id": "229e643e-428b-4e92-93da-042c55770bda",
+      "name": "Preparar Datos"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Investigador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Investigador",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "Investigador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Investigador",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Investigador": {
+      "main": [
+        [
+          {
+            "node": "Preparar Datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "68e326ef-96d8-4d9b-a100-ea95c9cefdeb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1613b7b3aa75a3628ddeb4c4bf8c0efafc2fc52386e95beefc200f77ac68ce03"
+  },
+  "nodeGroups": [],
+  "id": "90FLGxZJTKQWDcRt",
+  "tags": []
+}

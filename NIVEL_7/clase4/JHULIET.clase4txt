@@ -1,0 +1,16 @@
+curl -X POST http://localhost:5675/webhook-test/agente-articulo \
+  -H "Content-Type: application/json" \
+  -d '{"tema": " Venezula Politica y Petroleo"}'
+
+  curl -i -X POST https://google.serper.dev/search \
+  -H "X-API-KEY: 767d04024f1dd5f7393843ed854c0721876260b8" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "Petroleo en Venezuela", "num": 5}'
+
+
+https://serper.dev/api-keys
+
+
+API KEY:
+
+

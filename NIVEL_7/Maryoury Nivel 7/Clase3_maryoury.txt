@@ -1,3 +1,4 @@
-curl -X POST http://localhost:5671/webhook-test/agente-articulo \
-  -H "Content-Type: application/json" \
-  -d '{"tema": "energía solar en Venezuela"}'
+
+
+
+

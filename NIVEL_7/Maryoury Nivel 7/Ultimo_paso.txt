@@ -1,2 +1,22 @@
 
 {{ JSON.stringify($json.body) }}
+
+curl -X POST https://api.tavily.com/search 
+  -H "Content-Type: application/json" 
+  -H "Authorization: Bearer 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 
+  -d "{\"query\": \"Petroleo en Venezuela\", \"max_results\": 5}"
+
+  curl -X POST https://api.tavily.com/search \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer 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" \
+-d '{"query": "Petroleo en Venezuela", "max_results": 5}'
+curl -X POST http://localhost:5678/webhook-test/agente-articulo \
+  -H "Content-Type: application/json" \
+  -d '{"tema": "Venezuela Politica y Petroleo"}'
+  -H "Content-Type: application/json" \
+  -d '{"tema": "Venezuela Politica y Petroleo"}'
+
+
+  curl -X POST http://localhost:5671/webhook-test/agente-articulo \
+  -H "Content-Type: application/json" \
+  -d '{"tema": "Venezuela Politica y Petroleo"}'

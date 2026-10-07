@@ -1,0 +1,271 @@
+{
+  "name": "NIVEL 7 Practica 2 - Investiga,redacta y publica",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": " agente-articulo",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -768,
+        -288
+      ],
+      "id": "25438f84-9e70-4388-818a-8f56b9fab1b1",
+      "name": "Webhook",
+      "webhookId": "cca3ede6-1521-4f17-a4c6-5591bd704f71"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73cd9c32-8e9f-409d-95f6-5dd2b4af5338",
+              "name": "body.tema",
+              "value": "= {{ $json.body.tema }}",
+              "type": "string"
+            },
+            {
+              "id": "3491aa15-4505-4529-8dbf-25a20d14a6ce",
+              "name": "intentos",
+              "value": "0",
+              "type": "string"
+            },
+            {
+              "id": "f2f5cd42-89d2-4b27-9548-a06fbb91a32f",
+              "name": "feedback",
+              "value": "¨¨",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -592,
+        -288
+      ],
+      "id": "192ed3fb-b226-4618-bae5-e9862fa6cb5d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        112,
+        -352
+      ],
+      "id": "6fbe87bf-de2b-474c-a3ed-d34fba7738c1",
+      "name": "When chat message received",
+      "webhookId": "4bfecf0a-96a0-4c63-ac3f-b9e4db405456"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -560,
+        -96
+      ],
+      "id": "509f70d6-fc25-48ad-bf06-c17f44a69813",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Sgk0Li2hsOblSa70",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tema: {{ $json.body.tema }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Eres un investigador. Dado un tema, usa la herramienta de búsqueda\ny devuelve EXACTAMENTE 5 hechos verificables, cada uno con su URL\nde fuente. No inventes datos que no estén en los resultados.\nCada resultado de búsqueda trae el campo \"link\": úsalo como la fuente de cada hecho.\nSIEMPRE usa la herramienta de búsqueda antes de responder."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -448,
+        -288
+      ],
+      "id": "12d97765-d768-43cd-ab52-160980a392d9",
+      "name": "Investigador"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://google.serper.dev/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "= {\n    \"q\": \"{{ $fromAI('consulta', 'Consulta de búsqueda en la web', 'string') }}\",\n    \"num\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        -224,
+        16
+      ],
+      "id": "74175c03-b715-4699-88c3-a7fd89e7d1a6",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "acS1whOnIVFYS5jL",
+          "name": "Serper  API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\"hechos\": [\n{\n\"hecho\": \"Texto del hecho verificable\",\n\"fuente\": \"https://url-de-la-fuente.com\"\n  }\n ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        -144
+      ],
+      "id": "ad88e941-3262-4a45-bdb2-92fdde02f13f",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5edb41ae-4d10-409c-9522-87781984a72f",
+              "name": "tema",
+              "value": "={{ $('Edit Fields').item.json.tema }}",
+              "type": "string"
+            },
+            {
+              "id": "c55457cd-bd49-4323-a108-e928ea5d8a8b",
+              "name": "hechos",
+              "value": "=         {{ JSON.stringify($json.output.hechos) }}",
+              "type": "string"
+            },
+            {
+              "id": "48498458-8aac-4a01-933d-39078d470411",
+              "name": "feeback",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -80,
+        -288
+      ],
+      "id": "0468d43c-3198-4c8a-8a83-346646ae3c53",
+      "name": "Preparar datos"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Investigador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Investigador",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "Investigador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Investigador",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Investigador": {
+      "main": [
+        [
+          {
+            "node": "Preparar datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "db718ccf-8777-49b8-a27a-4b07d8f72019",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b6742a92b0c24a3d3ee42bd962481650c63a470f065d6cedd96a65a6d925263"
+  },
+  "nodeGroups": [],
+  "id": "Ii5j9wMnxdWJ0jvF",
+  "tags": []
+}

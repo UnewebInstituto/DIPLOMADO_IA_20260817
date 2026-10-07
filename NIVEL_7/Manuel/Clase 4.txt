@@ -1,0 +1,16 @@
+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
+
+
+curl -X POST https://api.tavily.com/search \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer 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" \
+-d '{"query": "Petroleo en Venezuela", "max_results": 5}'
+
+  curl -i -X POST https://google.serper.dev/search \
+  -H "X-API-KEY: f9d11f78512dcda381f80e2bd6cdeb1aa6d246dd" \
+  -H "Content-Type: application/json" \
+  -d '{"q": "Petroleo en Venezuela", "num": 5}'
+
+    curl -X POST http://localhost:5674/webhook-test/agente-articulo \
+  -H "Content-Type: application/json" \
+  -d '{"tema": "energía solar en Venezuela"}'

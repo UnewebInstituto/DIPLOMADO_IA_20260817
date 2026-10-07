@@ -1,0 +1,263 @@
+{
+  "name": "P2 - PDF webhook - Gemini - resumen JSON",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analizar-pdf",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -448,
+        -176
+      ],
+      "id": "d3de6760-9493-4a43-93ce-28b698aea2f9",
+      "name": "Webhook",
+      "webhookId": "97481438-7713-498b-b05a-4ff835da43f5",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "zrPArTxLMAiW3bPS",
+          "name": "API Key Endpoint PDF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d2705a1a-33f8-49c3-90c4-a8bf38f8739a",
+              "leftValue": "={{ $binary.data?.mimeType }}",
+              "rightValue": "=application/pdf",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "da893837-ab72-426f-9503-26d6cdbbb4b0",
+              "leftValue": "={{ Number($json.headers['content-length']) }}",
+              "rightValue": 10485760,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -272,
+        -16
+      ],
+      "id": "c3b7aa22-ffd0-4063-94cd-3008d758f320",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n   \"error\": \"Archivo inválido: se requiere un PDF de máximo 10 MB en el campo 'data'.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -128,
+        160
+      ],
+      "id": "03fd5b16-19d3-412f-a801-278f1d9177dc",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "destinationKey": " pdf_base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -96
+      ],
+      "id": "330dbee9-b679-4124-9138-29263d326d2a",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({   contents: [{     parts: [       { inline_data: { mime_type: \"application/pdf\", data: $json.pdf_base64 } },       { text: \"Analiza este documento y devuelve el resultado siguiendo el esquema. El resumen debe tener máximo 100 palabras. Las fechas en formato ISO YYYY-MM-DD. La confianza es un número de 0 a 1 según la legibilidad y certeza de la extracción.\" }     ]   }],   generationConfig: {     temperature: 0.2,     responseMimeType: \"application/json\",     thinkingConfig: { thinkingBudget: 0 },     responseSchema: {       type: \"OBJECT\",       properties: {         titulo: { type: \"STRING\" },         tipo_documento: { type: \"STRING\", description: \"contrato, factura, informe, carta u otro\" },         resumen: { type: \"STRING\", description: \"Máximo 100 palabras\" },         puntos_clave: { type: \"ARRAY\", items: { type: \"STRING\" } },         entidades: {           type: \"OBJECT\",           properties: {             personas: { type: \"ARRAY\", items: { type: \"STRING\" } },             organizaciones: { type: \"ARRAY\", items: { type: \"STRING\" } },             fechas: { type: \"ARRAY\", items: { type: \"STRING\" } },             montos: { type: \"ARRAY\", items: { type: \"NUMBER\" } }           },           required: [\"personas\", \"organizaciones\", \"fechas\", \"montos\"]         },         idioma: { type: \"STRING\", description: \"Código ISO 639-1\" },         confianza: { type: \"NUMBER\" }       },       required: [\"titulo\",\"tipo_documento\",\"resumen\",\"puntos_clave\",\"entidades\",\"idioma\",\"confianza\"]     }   } }) }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        416,
+        -160
+      ],
+      "id": "3ee96f32-86c6-44e7-8233-a2ea4f0e7304",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pEdQcIbEjG3yU0AR",
+          "name": "Gemini AI Studio - curso N6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "   const resp = $input.first().json;\n\n// Precios USD por millón de tokens (Gemini 2.5 Flash). AJÚSTALOS si cambias de modelo.\nconst PRECIO_ENTRADA = 0.30;\nconst PRECIO_SALIDA = 2.50; // la salida incluye los tokens de razonamiento\n\nconst falla = (status, msg, extra = {}) =>\n  [{ json: { status, body: { error: msg, ...extra } } }];\n\n// 1. ¿Bloqueado o sin candidatos?\nif (resp.promptFeedback?.blockReason) {\n  return falla(422, \"Gemini bloqueó el documento\", { motivo: resp.promptFeedback.blockReason });\n}\nconst candidato = resp.candidates?.[0];\nconst texto = candidato?.content?.parts?.[0]?.text;\nif (!texto) {\n  return falla(502, \"Gemini no devolvió contenido\", { finishReason: candidato?.finishReason });\n}\nif (candidato.finishReason === 'MAX_TOKENS') {\n  return falla(502, \"Respuesta truncada por límite de tokens\");\n}\n\n// 2. Parsear el JSON (llega como texto)\nlet r;\ntry {\n  r = JSON.parse(texto.replace(/```json|```/g, '').trim());\n} catch (e) {\n  return falla(502, \"La respuesta de Gemini no es JSON válido\");\n}\n\n// 3. Validar campos obligatorios\nconst obligatorios = ['titulo','tipo_documento','resumen','puntos_clave','entidades','idioma','confianza'];\nconst faltan = obligatorios.filter(c => r[c] === undefined || r[c] === null);\nif (faltan.length) {\n  return falla(502, \"Campos faltantes\", { campos: faltan });\n}\n\n// 4. Tokens y coste\nconst u = resp.usageMetadata || {};\nconst entrada = u.promptTokenCount ?? 0;\nconst salida = (u.candidatesTokenCount ?? 0) + (u.thoughtsTokenCount ?? 0);\nconst costo = (entrada * PRECIO_ENTRADA + salida * PRECIO_SALIDA) / 1_000_000;\n\nreturn [{ json: {\n  status: 200,\n  body: {\n    ...r,\n    tokens: { entrada, salida },\n    costo_usd: Number(costo.toFixed(6))\n  }\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -128
+      ],
+      "id": "3b33f478-5ec1-4d89-9e5c-137248b4df28",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json.body) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        784,
+        -160
+      ],
+      "id": "889c88c2-ac62-4ca6-a271-47c3463079fe",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $input.first().json.pdf_base64;\nreturn [{ json: { tipo: typeof b, longitud: b ? b.length : 0 } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -96
+      ],
+      "id": "856b57a3-e5f9-4082-ace3-a5eb3f76abdc",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e9f259d1-cc4e-46d8-a19e-26a7a5539ba0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b6742a92b0c24a3d3ee42bd962481650c63a470f065d6cedd96a65a6d925263"
+  },
+  "nodeGroups": [],
+  "id": "vqWzLcUEnhCImjs5",
+  "tags": []
+}
