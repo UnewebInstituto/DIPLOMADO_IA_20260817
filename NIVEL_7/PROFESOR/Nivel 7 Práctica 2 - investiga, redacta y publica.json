@@ -10,8 +10,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -48,
-        -176
+        -672,
+        -384
       ],
       "id": "98753631-08be-469f-a0a3-286a8ab675cd",
       "name": "Webhook",
@@ -46,25 +46,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        208,
-        -176
+        -432,
+        -384
       ],
       "id": "f0f9adad-aaa9-4b00-bf0e-3ac62f532149",
       "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.5,
-      "position": [
-        976,
-        -176
-      ],
-      "id": "eb54bdbc-866f-487c-920f-0a164d0a1f69",
-      "name": "When chat message received",
-      "webhookId": "edd9b4b7-19b3-4a5b-8175-55e669586afd"
     },
     {
       "parameters": {
@@ -76,8 +62,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        368,
-        32
+        -528,
+        16
       ],
       "id": "175b1a80-6c76-4ef0-9862-83155ef4cdea",
       "name": "Google Gemini Chat Model",
@@ -100,8 +86,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        464,
-        -176
+        -208,
+        -400
       ],
       "id": "e71adf92-6909-4ad3-bb15-3b2219a2db70",
       "name": "Investigador"
@@ -120,7 +106,7 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.5,
       "position": [
-        560,
+        -256,
         80
       ],
       "id": "f673f345-cb7b-48aa-a32d-6e040d46b3e1",
@@ -139,8 +125,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        768,
-        48
+        16,
+        32
       ],
       "id": "17ee2396-1cdc-4e98-9844-2e6dacc59f06",
       "name": "Structured Output Parser"
@@ -174,11 +160,288 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        784,
-        -176
+        224,
+        -384
       ],
       "id": "d8ea7198-d8b8-4cb1-b18e-4445c8212d00",
       "name": "Preparar datos"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Tema: {{ $json.tema }}\nHechos: {{ $json.hechos }}\nCorrecciones del revisor (si hay): {{ $json.feedback }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "   Eres redactor de un blog profesional. Tono cercano pero riguroso.    Escribe un artículo de entre 380 y 420 palabras con título, introducción,    2-3 secciones y cierre. Usa SOLO los hechos entregados; si un dato no    está en los hechos, no lo menciones. Cita la fuente (URL) entre paréntesis    tras cada hecho. Si hay correcciones del revisor, aplícalas.    Devuelve solo el artículo, sin comentarios adicionales."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        480,
+        -368
+      ],
+      "id": "58a79424-4fe1-4342-a2c7-3e0505b10ac7",
+      "name": "Redactor"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        528,
+        -80
+      ],
+      "id": "c79a2fa4-e9ef-4438-b4fe-df6d97866f27",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "x1jQr2NqsoJm27xv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Borrador: {{ $('Redactor').last().json.text }}\n\nFuentes (hechos con su URL): {{ $('Preparar datos').first().json.hechos }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Eres un revisor editorial. Recibes un borrador y sus fuentes. Responde solo JSON: {\"aprobado\": boolean, \"motivo\": string}. Rechaza si hay afirmaciones sin fuente, si hay datos que no aparecen en los hechos entregados, o si el tono no es profesional. Si apruebas, deja \"motivo\" como cadena vacía. Si rechazas, explica en \"motivo\" qué corregir, de forma concreta."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        864,
+        -432
+      ],
+      "id": "2b895a48-fef5-4a99-9970-6af9dfe48084",
+      "name": "Revisor"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "   {\n     \"aprobado\": true,\n     \"motivo\": \"Texto breve con el motivo del rechazo, o vacío si se aprueba\"\n   }",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        -160
+      ],
+      "id": "2c7ac4e7-f46e-4dbd-b8f2-f42fe1c08a24",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        752,
+        -96
+      ],
+      "id": "54259e44-2795-4eef-8a3d-2136096c7fb2",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "x1jQr2NqsoJm27xv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6b3e17c4-b0a5-4f83-be49-0d0f69670d35",
+              "name": "=aprobado",
+              "value": "={{ $json.output.aprobado }}",
+              "type": "boolean"
+            },
+            {
+              "id": "59c034f1-c8b6-41be-86be-d9e91c842401",
+              "name": "=motivo",
+              "value": "={{ $json.output.motivo }}",
+              "type": "string"
+            },
+            {
+              "id": "99430c06-94be-402c-a64a-9fc82c132751",
+              "name": "borrador",
+              "value": "={{ $('Redactor').last().json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "f02362ce-708c-4c90-8301-408881fd3fad",
+              "name": "tema",
+              "value": "={{ $('Preparar datos').first().json.tema }}",
+              "type": "string"
+            },
+            {
+              "id": "3843c828-300d-4ce3-8a26-3d80efc6e769",
+              "name": "intentos",
+              "value": "={{ $runIndex }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1264,
+        -336
+      ],
+      "id": "3818bd75-9721-47ee-aea5-0b1a3771daf8",
+      "name": "Consolidar revisión"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c56e79e0-303e-4eaa-89bc-41ff4f517b02",
+              "leftValue": "={{ $json.aprobado }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1280,
+        -48
+      ],
+      "id": "0332f4b4-e295-457c-b308-239511e1ce3c",
+      "name": "IF aprobado"
+    },
+    {
+      "parameters": {
+        "authType": "oAuth2",
+        "title": "={{ $json.tema }}",
+        "additionalFields": {
+          "content": "={{ $json.borrador.replace(/\\n/g, '<br>') }}",
+          "status": "publish"
+        }
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        -80
+      ],
+      "id": "2e6bf169-de02-4ecc-8f70-23c6a0ebb3af",
+      "name": "Create a post",
+      "credentials": {
+        "wordpressOAuth2Api": {
+          "id": "b755iTT2tMoL6Fmh",
+          "name": "WordPress account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ab9bc1ee-2f97-49bb-af12-af5f83a9ebfe",
+              "leftValue": "={{ $json.intentos }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1504,
+        112
+      ],
+      "id": "ccb8a440-c02c-4916-9334-1313f785ab27",
+      "name": "IF intentos"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "86b5f078-1a78-4c7d-b81e-67337348a671",
+              "name": "tema",
+              "value": "={{ $json.tema }}",
+              "type": "string"
+            },
+            {
+              "id": "9a4aadf8-bb6f-4f11-a834-f526c5d0e6f0",
+              "name": "hechos",
+              "value": "={{ $('Preparar datos').first().json.hechos }}",
+              "type": "string"
+            },
+            {
+              "id": "2292fdc2-b7f2-478f-ab94-af69e66c4bcc",
+              "name": "feedback",
+              "value": "={{ $json.motivo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1824,
+        144
+      ],
+      "id": "6395e7b3-1cde-4525-8722-ca8a28809119",
+      "name": "Preparar reintento"
     }
   ],
   "pinData": {},
@@ -203,11 +466,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "When chat message received": {
-      "main": [
-        []
       ]
     },
     "Edit Fields": {
@@ -253,6 +511,123 @@
           }
         ]
       ]
+    },
+    "Preparar datos": {
+      "main": [
+        [
+          {
+            "node": "Redactor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Redactor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redactor": {
+      "main": [
+        [
+          {
+            "node": "Revisor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Revisor",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Revisor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revisor": {
+      "main": [
+        [
+          {
+            "node": "Consolidar revisión",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidar revisión": {
+      "main": [
+        [
+          {
+            "node": "IF aprobado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF aprobado": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "IF intentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF intentos": {
+      "main": [
+        [
+          {
+            "node": "Preparar reintento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar reintento": {
+      "main": [
+        [
+          {
+            "node": "Redactor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -260,7 +635,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "8f7142c0-1408-4421-a5bd-472c92d8041a",
+  "versionId": "7302207b-ee60-4d84-8b5d-655a0a46bf2e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9b4b4c15b27519e8b463397173ea8ba5e73d292c8cb1a182dceb1b6a2a49990b"

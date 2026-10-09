@@ -1,0 +1,142 @@
+https://hduquetest.wordpress.com
+https://manuestrada4.wordpress.com
+https://keyladosantos.wordpress.com
+https://yenysalinas.wordpress.com
+https://maryouryclavijo.wordpress.com
+https://jhulietag.wordpress.com
+
+
+
+
+Tema: {{ $json.tema }}
+Hechos: {{ $json.hechos }}
+Correcciones del revisor (si hay): {{ $json.feedback }}
+
+
+   Eres redactor de un blog profesional. Tono cercano pero riguroso.
+   Escribe un artículo de entre 380 y 420 palabras con título, introducción,
+   2-3 secciones y cierre. Usa SOLO los hechos entregados; si un dato no
+   está en los hechos, no lo menciones. Cita la fuente (URL) entre paréntesis
+   tras cada hecho. Si hay correcciones del revisor, aplícalas.
+   Devuelve solo el artículo, sin comentarios adicionales.
+
+
+Como experto en n8n, con gusto te explico qué es y cómo funciona el parámetro **Sampling Temperature** (Temperatura de muestreo) que tienes configurado en tu nodo de Google Gemini.
+
+---
+
+### ¿Qué es la Sampling Temperature?
+
+La **Temperatura de Muestreo** es un parámetro que controla el nivel de aleatoriedad, creatividad y variedad en las respuestas generadas por el modelo de inteligencia artificial (`models/gemini-3.5-flash`). Modifica la distribución de probabilidad con la que el modelo selecciona la siguiente palabra (token) en una oración.
+
+---
+
+### ¿Cómo funciona la escala?
+
+* **Valores bajos (cercanos a 0, ej. 0.1 - 0.3):**
+* Vuelven al modelo más determinista, conservador y predecible.
+* La IA elige casi siempre las palabras con mayor probabilidad estadística.
+* **Uso ideal:** Tareas técnicas, extracción de datos estructurados, análisis lógico, programación o procesamiento de JSONs donde la precisión es vital.
+
+
+* **Valores altos (cercanos a 1.0 o superiores):**
+* Incrementan la diversidad, la originalidad y la creatividad.
+* Permiten que el modelo explore combinaciones de palabras menos comunes.
+* **Uso ideal:** Redacción creativa, lluvia de ideas (*brainstorming*), generación de historias o interacciones conversacionales muy abiertas.
+
+
+
+---
+
+### Análisis de tu configuración actual (`0.7`)
+
+* En tu flujo actual, tienes la temperatura establecida en **`0.7`**.
+
+
+* Este valor representa un **punto de equilibrio óptimo** para la mayoría de los casos de uso conversacionales o de asistencia general.
+* Ofrece respuestas naturales y fluidas con suficiente variedad en el vocabulario, sin llegar a ser erráticas ni perder la ilación lógica.
+
+---
+
+### Recomendaciones prácticas
+
+* **Mantén `0.7**` si tu nodo de chat está diseñado para interactuar con usuarios, responder preguntas de soporte o redactar contenido dinámico.
+* **Baja el valor (a `0.1` o `0.2`)** si notas que el modelo se desvía de instrucciones estrictas, inventa datos (alucinaciones) o si necesitas que el resultado sea siempre idéntico ante la misma entrada.
+
+¿Qué tipo de tarea o automatización estás procesando en este flujo de trabajo?
+
+
+
+Borrador: {{ $('Redactor').item.json.text }}
+
+Fuentes (hechos con su URL): {{ $('Preparar datos').item.json.hechos }}
+
+
+Eres un revisor editorial. Recibes un borrador y sus fuentes.
+Responde solo JSON: {"aprobado": boolean, "motivo": string}.
+Rechaza si hay afirmaciones sin fuente, si hay datos que no aparecen en los hechos entregados, o si el tono no es profesional.
+Si apruebas, deja "motivo" como cadena vacía.
+Si rechazas, explica en "motivo" qué corregir, de forma concreta.
+
+
+   {
+     "aprobado": true,
+     "motivo": "Texto breve con el motivo del rechazo, o vacío si se aprueba"
+   }
+
+
+aprobado	Boolean	{{ $json.output.aprobado }}
+
+motivo	String	{{ $json.output.motivo }}
+
+borrador	String	{{ $('Redactor').last().json.text }}
+
+tema	String	{{ $('Preparar datos').first().json.tema }}
+
+intentos	Number	{{ $runIndex }}
+
+
+
+{{ $json.aprobado }}
+
+
+Opción A: WordPress.com con OAuth2
+
+1. Crear la aplicación en WordPress.com
+
+Entra a developer.wordpress.com/apps con tu cuenta y pulsa Create New Application.
+Completa:
+Name: n8n Practica 2
+Description: lo que quieras
+Website URL: http://localhost:5678
+Redirect URLs: http://localhost:5678/rest/oauth2-credential/callback
+Type: Web
+Guarda y copia el Client ID y el Client Secret.
+
+Client ID
+150175
+
+Client Secret
+Pi2h7k5XOEuroPhS7d9ModADOtTwrlq8NPZxVSEnIRUfR55cvkhzoo902kVV0Pcg
+
+
+Title	{{ $json.tema }}
+Content	{{ $json.borrador }} (ver nota de formato)
+   {{ $json.borrador.replace(/\n/g, '<br>') }}
+
+
+Status (en Additional Fields)	publish
+
+
+{{ $json.intentos }}
+
+
+
+tema	String	{{ $json.tema }}
+hechos	String	{{ $('Preparar datos').first().json.hechos }}
+feedback	String	{{ $json.motivo }}
+
+
+{{ $('Redactor').last().json.text }}
+
+{{ $('Preparar datos').first().json.hechos }}

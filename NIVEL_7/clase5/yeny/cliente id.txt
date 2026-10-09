@@ -1,0 +1,5 @@
+cliente id
+150176
+
+cliente secret
+3MOO5nvKuZ616VCl91TFHWeEg02MReUgUlICu8Dwzcwhf3GcNLROj4Z4ci26H9Xt
