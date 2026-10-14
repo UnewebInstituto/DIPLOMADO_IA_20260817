@@ -363,8 +363,8 @@
       "type": "n8n-nodes-base.wordpress",
       "typeVersion": 1,
       "position": [
-        1520,
-        -80
+        1744,
+        -64
       ],
       "id": "2e6bf169-de02-4ecc-8f70-23c6a0ebb3af",
       "name": "Create a post",
@@ -437,11 +437,96 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        1824,
-        144
+        2144,
+        96
       ],
       "id": "6395e7b3-1cde-4525-8722-ca8a28809119",
       "name": "Preparar reintento"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "alertas-agente",
+          "mode": "name"
+        },
+        "text": "=   ⚠️ No se pudo publicar el artículo sobre \"{{ $json.tema }}\".\n   Redacciones intentadas: {{ $json.intentos + 1 }}\n   Motivo del revisor: {{ $json.motivo }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.7,
+      "position": [
+        1808,
+        160
+      ],
+      "id": "f517b050-20a6-46ea-93b8-b615a1eac4fa",
+      "name": "Aviso Slack",
+      "webhookId": "dc0e6908-3b65-4bf1-b2d8-0307bc698cc1",
+      "credentials": {
+        "slackApi": {
+          "id": "bya2KkhVPSbsqqXo",
+          "name": "Slack Agente n8n"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        848,
+        112
+      ],
+      "id": "65fbae3b-b68e-451a-ab1a-26a80d415c21",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4d4b45b9-f982-45a4-9d51-49f9a08e2656",
+              "name": "aprobado",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "89f1b0f0-839e-453f-858e-3ef40859b06c",
+              "name": "motivo",
+              "value": "Afirmación sin fuente en el segundo párrafo",
+              "type": "string"
+            },
+            {
+              "id": "1c0463bb-e0c2-495e-83be-3659921a65dc",
+              "name": "borrador",
+              "value": "Texto de prueba del artículo",
+              "type": "string"
+            },
+            {
+              "id": "f1a4f187-1aea-42dc-b530-cb713b927722",
+              "name": "tema",
+              "value": "Petroleo en Venezuela",
+              "type": "string"
+            },
+            {
+              "id": "17cb4da9-dbf6-40e4-a66f-84d1179438e1",
+              "name": "intentos",
+              "value": 2,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1168,
+        112
+      ],
+      "id": "e960799a-8588-428e-a648-b8000cb0de26",
+      "name": "Simulación rechazo"
     }
   ],
   "pinData": {},
@@ -615,6 +700,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Aviso Slack",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -628,6 +720,33 @@
           }
         ]
       ]
+    },
+    "Aviso Slack": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Simulación rechazo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulación rechazo": {
+      "main": [
+        [
+          {
+            "node": "IF intentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -635,7 +754,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "7302207b-ee60-4d84-8b5d-655a0a46bf2e",
+  "versionId": "1a5bba20-b937-430c-8398-b6ebaf490c79",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "9b4b4c15b27519e8b463397173ea8ba5e73d292c8cb1a182dceb1b6a2a49990b"
