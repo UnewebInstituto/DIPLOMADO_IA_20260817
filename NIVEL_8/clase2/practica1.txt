@@ -1,0 +1,44 @@
+Escenario 
+Una agencia de marketing quiere ofrecer a sus clientes un generador de respuestas a reseñas para 
+negocios locales. Antes de invertir en la conexión con IA, se necesita validar la interfaz y el flujo con un 
+prototipo que simule la respuesta. 
+Objetivos de aprendizaje 
+• Elegir y justificar la plataforma no-code. 
+• Diseñar las pantallas y el modelo de datos de un wrapper. 
+• Construir un flujo funcional con resultado simulado. 
+Desarrollo paso a paso (Bubble) 
+Paso 1. Definir el producto (20 min) 
+• Completar una ficha: usuario objetivo, problema, entrada, salida y diferenciador. 
+• Dibujar en papel o en una herramienta de diseño las 3 pantallas: Inicio, Aplicación e Historial. 
+Paso 2. Crear el modelo de datos (20 min) 
+• Crear el tipo de dato Generation con los campos: usuario (User), resena (texto), tono 
+(texto), respuesta (texto), fecha (fecha). 
+• Crear el conjunto de opciones Tono con valores: Formal, Cercano, Empático. 
+Paso 3. Construir la pantalla de aplicación (40 min) 
+1. Agregar un campo de texto multilínea “Pega aquí la reseña” con límite de 600 caracteres. 2. Agregar un desplegable de Tono conectado al conjunto de opciones. 3. Agregar un selector de calificación (1 a 5). 4. Agregar el botón “Generar respuesta”. 5. Agregar un grupo de resultado oculto, con un texto dinámico y botones “Copiar” y “Regenerar”. 
+Nivel 8 · Desarrollo de Aplicaciones de IA y Wrappers No-Code · Gemini 
+UNEWEB  |  Página 16 
+Paso 4. Programar el flujo con respuesta simulada (30 min) 
+En el workflow del botón, simular la respuesta con un texto fijo que incluya los datos del formulario: 
+Lógica del flujo simulado 
+Evento: Click en "Generar respuesta"   Solo cuando: el campo de reseña no está vacío   Acción 1: Crear una Generation (resena = campo de reseña, tono = desplegable, respuesta = 
+"Gracias por tu reseña de [calificación] estrellas. [Texto simulado en tono [tono]]")   Acción 2: Mostrar el grupo de resultado con la respuesta creada  
+Paso 5. Pantalla de historial (20 min) 
+• Agregar una lista repetidora que muestre las Generations ordenadas por fecha descendente. 
+• Cada fila muestra reseña, tono y respuesta. 
+Paso 6. Prueba y documentación (20 min) 
+• Ejecutar el flujo con 5 reseñas distintas y registrar resultados. 
+• Capturar las 3 pantallas y el modelo de datos. 
+• Redactar la justificación de la plataforma (máximo 150 palabras). 
+Alternativas por plataforma 
+Plataforma Cómo construir el prototipo 
+Glide Tabla Generaciones + componente de formulario + acción “Agregar fila” con 
+respuesta simulada + lista de historial. 
+FlutterFlow Páginas con TextField, DropDown y Button; acción que agrega documento a la 
+colección generations y muestra el resultado. 
+ 
+Entregables 
+• Enlace al prototipo funcional. 
+• Capturas de las 3 pantallas y del modelo de datos. 
+• Ficha del producto y justificación de la plataforma. 
+• Bitácora con 5 pruebas.

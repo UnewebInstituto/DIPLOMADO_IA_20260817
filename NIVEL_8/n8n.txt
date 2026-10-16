@@ -1,0 +1,11 @@
+# 1. Crear el volumen (si no existe previamente)
+docker volume create n8n_data
+
+# 2. Ejecutar el contenedor para la estación 1
+docker run -d \
+  --restart always \
+  --name n8n-estacion-1 \
+  -p 5678:5678 \
+  -e GENERIC_TIMEZONE="America/Caracas" \
+  -v n8n_data:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n
