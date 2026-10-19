@@ -1,0 +1,2 @@
+Desarrollo de la practica.
+1. Agregar un campo de texto multilínea “Pega aquí la reseña” con límite de 600 caracteres. 2. Agregar un desplegable de Tono conectado al conjunto de opciones. 3. Agregar un selector de calificación (1 a 5). 4. Agregar el botón “Generar respuesta”. 5. Agregar un grupo de resultado oculto, con un texto dinámico y botones “Copiar” y “Regenerar”
