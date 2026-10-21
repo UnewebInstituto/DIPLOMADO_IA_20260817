@@ -1,0 +1,85 @@
+Paso 1. Crear el modelo de datos (20 min) 
+• Crear el tipo de dato Generation con los campos: usuario (User), resena (texto), tono 
+(texto), respuesta (texto), fecha (fecha). 
+• Crear el conjunto de opciones Tono con valores: Formal, Cercano, Empático. 
+Paso 2. Construir la pantalla de aplicación (40 min) 
+1. Agregar un campo de texto multilínea “Pega aquí la reseña” con límite de 600 caracteres. 
+2. Agregar un desplegable de Tono conectado al conjunto de opciones. 
+3. Agregar un selector de calificación (1 a 5). 
+4. Agregar el botón “Generar respuesta”. 
+5. Agregar un grupo de resultado oculto, con un texto dinámico y botones “Copiar” y “Regenerar”. 
+
+Paso 3. Programar el flujo con respuesta simulada (30 min) 
+En el workflow del botón, simular la respuesta con un texto fijo que incluya los datos del formulario: 
+Lógica del flujo simulado 
+Evento: Click en "Generar respuesta"   Solo cuando: el campo de reseña no está vacío   Acción 1: Crear una Generation (resena = campo de reseña, tono = desplegable, respuesta = 
+"Gracias por tu reseña de [calificación] estrellas. [Texto simulado en tono [tono]]")   Acción 2: Mostrar el grupo de resultado con la respuesta creada  
+Paso 4. Pantalla de historial (20 min) 
+• Agregar una lista repetidora que muestre las Generations ordenadas por fecha descendente. 
+• Cada fila muestra reseña, tono y respuesta. 
+Paso 5. Prueba y documentación (20 min) 
+• Ejecutar el flujo con 5 reseñas distintas y registrar resultados. 
+• Capturar las 3 pantallas y el modelo de datos. 
+• Redactar la justificación de la plataforma (máximo 150 palabras).
+
+PROMPT 2:
+Estoy realizando las pruebas y quiero que se mejore la interface de usuario, organiza los elementos de la interface, siguiendo las mejores practicas para la  experiencia del usuario
+
+PROMPT 3:
+Reinicia el historial de pruebas.
+
+PROMPT 4:
+En las lista de selección Tono y Calificación, tienen un espacio al desplegarse. Elimina ese valor, que sea la primera opción en cada caso el valor a mostrar.
+
+PROMPT 5:
+La imagen muestra un texto fijo entre corchete, el mismo debería responder a un texto dinámico
+
+PROMPT 6:
+Ya se actualizó la clave, conecta la llamada al botón Generar respuesta
+
+
+https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent
+
+{"contents":[{"parts":[{"text":"<prompt>"}]}]}
+
+
+Responde en español de forma breve a esta reseña: Excelente café y buena atención.
+
+
+Escenario 
+La app ya genera respuestas, pero cualquier persona puede usarla y ver todas las generaciones. Se debe 
+proteger el acceso y garantizar que cada usuario vea únicamente su propio historial, aplicando límites 
+distintos según su plan. 
+Objetivos de aprendizaje 
+• Implementar registro, inicio y cierre de sesión. 
+• Configurar reglas de privacidad que aíslen los datos de cada usuario. 
+• Aplicar límites por plan antes de llamar a la API. 
+Desarrollo paso a paso 
+Paso 1. Ampliar el usuario (15 min) 
+• Agregar al tipo User: plan (conjunto de opciones Plan), creditos, usos_hoy, 
+fecha_ultimo_uso. 
+• Crear el tipo Config con limite_gratis = 5 y limite_pro = 100. 
+Paso 2. Páginas de acceso (40 min) 
+1. Crear la página login con campos de correo y contraseña y botón “Iniciar sesión”. 2. Crear la página registro con correo, contraseña y casilla de aceptación de términos. 3. Crear la opción “Olvidé mi contraseña” con el flujo de restablecimiento. 4. Opcional: agregar inicio de sesión con Google mediante el plugin correspondiente. 
+Nivel 8 · Desarrollo de Aplicaciones de IA y Wrappers No-Code · Gemini 
+UNEWEB  |  Página 22 
+Paso 3. Flujos de autenticación (30 min) 
+Flujos principales 
+Registro:  Registrar usuario (correo, contraseña)            → establecer plan = Gratis, usos_hoy = 0            → ir a la página "app" Login:     Iniciar sesión → ir a la página "app" Logout:    Cerrar sesión → ir a "inicio" Protección: Al cargar la página "app", si el usuario no ha iniciado sesión → ir a "login" 
+ 
+Paso 4. Reglas de privacidad (30 min) 
+• Para Generation: “Cuando el creador es el usuario actual” → puede ver todos los campos y 
+buscar en listas. 
+• Para User: el resto de usuarios no puede ver campos de otros; plan y creditos no se modifican 
+desde el navegador. 
+• Crear la regla por defecto “Todos los demás”: sin acceso. 
+Paso 5. Límite por plan y reinicio diario (25 min) 
+Lógica del límite 
+Antes de llamar a Gemini:   Si fecha_ultimo_uso ≠ hoy → usos_hoy = 0 y fecha_ultimo_uso = hoy   Límite = (plan = Pro) ? limite_pro : limite_gratis   Si usos_hoy >= Límite → mostrar "Alcanzaste tu límite diario" y no llamar a la API 
+ 
+Paso 6. Prueba con dos cuentas (30 min) 
+• Registrar la Cuenta A y la Cuenta B con correos distintos. 
+• Generar 3 respuestas con A y 2 con B. 
+• Verificar que el historial de cada cuenta muestra solo sus propios registros. 
+• Intentar entrar a la página “app” sin sesión y comprobar la redirección. 
+• Superar el límite gratuito con la Cuenta A y confirmar el bloqueo. 
