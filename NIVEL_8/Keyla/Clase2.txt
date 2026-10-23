@@ -1,0 +1,6 @@
+IGNORAR-proj-Lp6EfNd9KUrlUsxSHtURpYoxEcUU6VgDQ7mHHtU32tbzIPLqDeGxnCKQqVkeL3b8oi8_yeC-6nT3BlbkFJTBiRk3BDjcxMEGQq--28yPyWXWURR4nXwBzdlHhN16Ane2xeuTf3KkdwmoNlv6QZPP9FrwFlAA
+
+
+API DE Claude
+https://platform.claude.com/settings/keys
+IGNORAR-ant-usr-1gfldfzhf4U8LDfEv7d4xUu3SNYlPOXCM8lL7gOKwnpqpCHCoqyYh0rcLgWGVlctfGIoiw_wu8Lp6ACOlIN4TaQ3GDHHwAA

@@ -1,0 +1,20 @@
+# Versión de n8n: usa la última estable de https://github.com/n8n-io/n8n/releases
+N8N_VERSION=cambia-por-la-version
+
+# Versión del servicio sandbox (referencia): https://github.com/n8n-io/n8n-sandbox-service/releases
+N8N_SANDBOX_VERSION=cambia-por-la-version-sandbox
+
+# Autenticación de los task runners de n8n (genera un secreto aleatorio)
+N8N_RUNNERS_AUTH_TOKEN=cambia-este-token-runners
+
+# Secretos del servicio sandbox (genéralos con: openssl rand -hex 32)
+SANDBOX_API_KEYS=cambia-esta-api-key
+SANDBOX_API_RUNNER_REGISTRATION_TOKEN=cambia-este-token-de-registro
+SANDBOX_API_RUNNER_API_KEY=cambia-esta-clave-del-runner
+
+# Debe coincidir con un valor de SANDBOX_API_KEYS (así n8n se autentica en el sandbox)
+N8N_SANDBOX_SERVICE_API_KEY=cambia-esta-api-key
+
+# Búsqueda web (SearXNG incluido)
+SEARXNG_SECRET=cambia-este-secreto-searxng
+N8N_INSTANCE_AI_SEARXNG_URL=http://searxng:8080

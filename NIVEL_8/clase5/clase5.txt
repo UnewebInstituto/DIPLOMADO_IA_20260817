@@ -1,0 +1,91 @@
+CASO openai
+Api Key OpenAI 
+https://platform.openai.com/api-keys
+
+IGNORAR-proj-K8ZC-q-pDQDsXEc5_xYqTdsDnbHOuahQqPMxZThXtqB1FIbr-xgoWA00Fq0MkIH0fhWuTU2H7LT3BlbkFJ9Qyghhm_BWJbaedLwcXlxi0M_xQZxegXqiYKONZulld_3JsVRoFC-IEvTmL11FKhU74LonHqAA
+
+
+CASO claude
+Api Key Claude AI
+https://platform.claude.com/settings/keys
+
+IGNORAR-ant-usr-1gcOyGSPoAzy6ygJD-MiCbYE-HhBiD1PuH8Ly1HY35l8jsV7ha-PoQadJs41Z8hc54s8round_TpPI_bxu93AKg0BmM4wAA
+
+
+Caso Self-hosted or OpenAI-compatible endpoint
+
+https://generativelanguage.googleapis.com/v1beta/openai/ 
+
+IGNORAR-Ab8RN6K6Y36Gx4faKTnCMUnT9pNv9BmaYUYpxLlcRsYm9OgmYg
+
+EQUIVALENTE A BUBBLE AI
+
+GLIDE / FULTTER FLOW
+Prompt para Asiste de IA:
+Escenario: Una agencia de marketing quiere ofrecer a sus clientes un generador de respuestas a reseñas para  negocios locales. Antes de invertir en la conexión con IA, se necesita validar la interfaz y el flujo con un prototipo que simule la respuesta.
+Objetivos:
+-Elegir y justificar la plataforma no-code. 
+-Diseñar las pantallas y el modelo de datos de un wrapper. 
+-Construir un flujo funcional con resultado simulado. 
+Crear un modelo de datos, para los campos:
+-resena(texto), tono(texto), respuesta(texto), fecha(fecha)
+Crear el conjunto de opciones Tono con los valores: Formal, Cercano y Empático.
+Construir la pantalla de aplicación:
+1. Agregar un campo de texto multilínea “Pega aquí la reseña” con límite de 600 caracteres. 
+2. Agregar un desplegable de Tono conectado al conjunto de opciones. 
+3. Agregar un selector de calificación (1 a 5). 
+4. Agregar el botón “Generar respuesta”. 
+5. Agregar un grupo de resultado oculto, con un texto dinámico y botones “Copiar” y “Regenerar”. 
+Programar el flujo con respuesta simulada
+En el workflow del botón, simular la respuesta con un texto fijo que incluya los datos del formulario: 
+Lógica del flujo simulado 
+Evento: Click en "Generar respuesta"   
+Solo cuando: el campo de reseña no está vacío  
+Acción 1: Crear una Generation (resena = campo de reseña, tono = desplegable, respuesta = 
+"Gracias por tu reseña de [calificación] estrellas. [Texto simulado en tono [tono]]")   
+Acción 2: Mostrar el grupo de resultado con la respuesta creada.
+Pantalla de historial:
+• Agregar una lista repetidora que muestre las Generations ordenadas por fecha descendente. 
+• Cada fila muestra reseña, tono y respuesta.
+
+
+Genera la respuesta basado en IA, tomando en cuenta la calificación de la reseña.
+
+
+
+Prompt 2:
+
+Ahora procede con la siguiente actualización:
+1)Escenario 
+La app ya genera respuestas, pero cualquier persona puede usarla y ver todas las generaciones. Se debe 
+proteger el acceso y garantizar que cada usuario vea únicamente su propio historial, aplicando límites 
+distintos según su plan. 
+2)Objetivos:
+• Implementar registro, inicio y cierre de sesión. 
+• Configurar reglas de privacidad que aíslen los datos de cada usuario. 
+• Aplicar límites por plan antes de llamar a la API. 
+3)Desarrollo paso a paso 
+Paso 3.1. Ampliar el usuario
+• Agregar al tipo User: plan (conjunto de opciones Plan), creditos, usos_hoy, 
+fecha_ultimo_uso. 
+• Crear el tipo Config con limite_gratis = 5 y limite_pro = 100. 
+Páginas de acceso
+Paso 3.2. Crear la página login con campos de correo y contraseña y botón “Iniciar sesión”. 3.3.3. Crear la página registro con correo, contraseña y casilla de aceptación de términos. 
+3.4  Crear la opción “Olvidé mi contraseña” con el flujo de restablecimiento. 
+3.5. Opcional: agregar inicio de sesión con Google mediante el plugin correspondiente. 
+
+Paso 4. Flujos de autenticación
+Flujos principales 
+Registro:  Registrar usuario (correo, contraseña)            → establecer plan = Gratis, usos_hoy = 0            → ir a la página "app" Login:     Iniciar sesión → ir a la página "app" Logout:    Cerrar sesión → ir a "inicio" Protección: Al cargar la página "app", si el usuario no ha iniciado sesión → ir a "login" 
+ 
+Paso 5. Reglas de privacidad 
+• “Cuando el creador es el usuario actual” → puede ver todos los campos y 
+buscar en listas. 
+• El resto de usuarios no puede ver campos de otros; plan y creditos no se modifican 
+desde el navegador. 
+• Crear la regla por defecto “Todos los demás”: sin acceso. 
+
+Revierte el cambio de acceso con cuenta vía Google y maneja los accesos de forma autonoma a través de la propia App
+
+
+https://www.flutterflow.io/
