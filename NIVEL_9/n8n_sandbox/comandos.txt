@@ -1,0 +1,5 @@
+powershell -ExecutionPolicy Bypass -File .\preparar.ps1
+
+docker compose up -d
+
+docker compose ps -a

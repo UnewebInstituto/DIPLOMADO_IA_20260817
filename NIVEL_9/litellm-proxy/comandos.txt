@@ -1,0 +1,16 @@
+   $gemini = Read-Host "Pega tu GEMINI_API_KEY"
+   $master = "sk-" + (-join ((1..32) | ForEach-Object { '{0:x2}' -f (Get-Random -Max 256) }))
+   $txt = "GEMINI_API_KEY=$gemini`nLITELLM_MASTER_KEY=$master`n"
+   [System.IO.File]::WriteAllText("$PWD\.env", $txt, (New-Object System.Text.UTF8Encoding($false)))
+   Write-Host "Clave maestra para n8n: $master"
+
+
+   docker compose up -d
+
+   docker compose logs litellm --tail 20
+
+   -- DE AQUÍ EN ADELANTE ES INFORMATIVO.
+   -- Modelo anterior
+   -- https://generativelanguage.googleapis.com/v1beta/openai/
+   -- Modelo actual
+   -- http://host.docker.internal:4000/v1

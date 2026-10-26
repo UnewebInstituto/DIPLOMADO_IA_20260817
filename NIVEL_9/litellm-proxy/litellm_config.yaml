@@ -1,0 +1,19 @@
+model_list:
+  # El nombre de la izquierda (model_name) es el que escribirás en n8n.
+  - model_name: gemini-3.5-flash-lite
+    litellm_params:
+      model: gemini/gemini-3.5-flash-lite
+      api_key: os.environ/GEMINI_API_KEY
+
+  # Opción de mayor capacidad para el asistente (verifica que tu cuenta tenga acceso).
+  - model_name: gemini-3.8-flash
+    litellm_params:
+      model: gemini/gemini-3.8-flash
+      api_key: os.environ/GEMINI_API_KEY
+
+litellm_settings:
+  # Ignora parámetros que Gemini no soporte en lugar de devolver error 400
+  drop_params: true
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

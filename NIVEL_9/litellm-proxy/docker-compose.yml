@@ -1,0 +1,17 @@
+# Proxy LiteLLM: n8n habla formato OpenAI con este proxy, y el proxy habla con Gemini.
+
+name: litellm-proxy
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    command: ['--config', '/app/config.yaml', '--port', '4000']
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY}
+    ports:
+      # Solo accesible desde este equipo
+      - '127.0.0.1:4000:4000'
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml:ro
+    restart: unless-stopped

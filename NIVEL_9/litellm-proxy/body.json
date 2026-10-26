@@ -1,0 +1,1 @@
+{"model":"gemini-3.5-flash-lite","stream":true,"tool_choice":"required","messages":[{"role":"user","content":"Carga la skill planning"}],"tools":[{"type":"function","function":{"name":"load_skill","description":"Carga una skill","parameters":{"type":"object","properties":{"skillId":{"type":"string"}},"required":["skillId"]}}}]}

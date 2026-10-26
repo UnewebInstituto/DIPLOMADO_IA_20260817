@@ -1,0 +1,8 @@
+$key = ((Get-Content .env | Select-String "^LITELLM_MASTER_KEY=").Line -split "=", 2)[1]
+
+$json = @'
+{"model":"gemini-3.5-flash-lite","stream":true,"tool_choice":"required","messages":[{"role":"user","content":"Carga la skill planning"}],"tools":[{"type":"function","function":{"name":"load_skill","description":"Carga una skill","parameters":{"type":"object","properties":{"skillId":{"type":"string"}},"required":["skillId"]}}}]}
+'@
+$json | Set-Content body.json -Encoding ascii
+
+curl.exe -s http://localhost:4000/v1/chat/completions -H "Authorization: Bearer $key" -H "Content-Type: application/json" -d "@body.json"
