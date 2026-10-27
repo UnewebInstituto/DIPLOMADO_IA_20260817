@@ -1,0 +1,70 @@
+# Instalar pypdf si no está disponible
+!pip install -q pypdf
+
+import os
+from pypdf import PdfReader
+import chromadb
+from sentence_transformers import SentenceTransformer
+
+# Listas dinámicas para almacenar el contenido extraído
+textos = []
+ids = []
+metadatas = []
+
+# Recorrer los archivos PDF que acabas de subir
+for filename in subidos.keys():
+    print(f"Procesando archivo: {filename}")
+    lector = PdfReader(filename)
+    
+    # Extraer texto página por página
+    for num_pagina, pagina in enumerate(lector.pages):
+        texto_pagina = pagina.extract_text()
+        
+        # Omitir páginas en blanco
+        if texto_pagina and texto_pagina.strip():
+            textos.append(texto_pagina)
+            ids.append(f"{filename}_pag_{num_pagina + 1}")
+            metadatas.append({
+                "fuente": filename, 
+                "pagina": num_pagina + 1
+            })
+
+print(f"\nTotal de páginas extraídas y listas para indexar: {len(textos)}")
+
+# 1) Cargar el modelo de embeddings
+modelo = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+
+# 2) Calcular vectores de todo el contenido de los PDFs
+print("Calculando vectores...")
+vectores_calculados = modelo.encode(textos, normalize_embeddings=True).tolist()
+
+# 3) Configurar ChromaDB (Persistente local en Colab)
+cliente = chromadb.PersistentClient(path="./chroma_db")
+coleccion = cliente.get_or_create_collection(
+    name="manuales",
+    metadata={"hnsw:space": "cosine"},
+)
+
+# 4) Guardar en la base vectorial con upsert
+coleccion.upsert(
+    ids=ids,
+    documents=textos,
+    metadatas=metadatas,
+    embeddings=vectores_calculados,
+)
+print("¡Indexación completada en ChromaDB!")
+
+# 5) Prueba de consulta (asegúrate de cambiar "manual_ti.pdf" por el nombre exacto de tu archivo)
+nombre_archivo_ti = "manual_ti.pdf" # Cambia esto si tu archivo tiene otro nombre exacto
+
+vector_pregunta = modelo.encode(["¿Cómo recupero mi contraseña?"], normalize_embeddings=True).tolist()
+resultado = coleccion.query(
+    query_embeddings=vector_pregunta,
+    n_results=2,
+    where={"fuente": nombre_archivo_ti},
+)
+
+print("\n--- Resultados de la búsqueda en tu PDF ---")
+for doc, meta in zip(resultado["documents"][0], resultado["metadatas"][0]):
+    print(f"\n[Fuente: {meta['fuente']} - Página {meta['pagina']}]")
+    print(doc[:300] + "...") # Muestra un extracto del texto encontrado

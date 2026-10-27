@@ -1,4 +1,6 @@
 FLIKI_IA/
 NotebookLM/
+venv/
+.venv/
 *.zip
 .env

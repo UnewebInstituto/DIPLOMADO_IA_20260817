@@ -1,0 +1,42 @@
+# En Colab, instalar antes (celda aparte): 
+!pip install -q chromadb sentence transformers
+import chromadb 
+from sentence_transformers import SentenceTransformer
+# 1) Modelo de embeddings
+modelo = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+# 2) Textos a indexar
+textos = ["Para restablecer la clave, ingrese a Configuración...",
+          "Las vacaciones se solicitan con 15 días de anticipación..."]
+# 3) Se define aquí la variable con los vectores (misma dimensión y modelo en 
+todo el sistema)
+vectores_calculados = modelo.encode(textos, 
+normalize_embeddings=True).tolist()
+# 4) Base vectorial y colección
+cliente = chromadb.PersistentClient(path="./chroma_db")
+coleccion = cliente.get_or_create_collection(
+    name="manuales",
+    metadata={"hnsw:space": "cosine"},  # distancia coseno
+)
+# upsert permite volver a ejecutar la celda sin errores por IDs duplicados
+coleccion.upsert(
+    ids=["doc1_c0", "doc1_c1"],
+    documents=textos,
+    metadatas=[{"fuente": "manual_ti.pdf", "pagina": 3},
+               {"fuente": "manual_rrhh.pdf", "pagina": 7}],
+    embeddings=vectores_calculados,   # lista de listas, calculada arriba con 
+el mismo modelo
+)
+vector_pregunta = modelo.encode(["¿Cómo recupero mi contraseña?"],
+                                normalize_embeddings=True).tolist()
+resultado = coleccion.query(
+    query_embeddings=vector_pregunta,        # ya es una lista con un vector
+    n_results=2,
+    where={"fuente": "manual_ti.pdf"},       # filtro por metadatos
+)
+print(resultado["documents"][0])
+print(resultado["distances"][0])             # distancia coseno: menor = más 
+parecido
+
+
+
+A través del asistente de GITHUB COPILOT

@@ -1,0 +1,20 @@
+# 1) Instalar dependencias
+!pip install -q chromadb sentence-transformers pypdf
+
+# 2) Subir tus archivos locales de forma interactiva
+from google.colab import files
+from pathlib import Path
+
+# Crear la carpeta de destino en Colab
+pdf_dir = Path("/content/pdfs")
+pdf_dir.mkdir(parents=True, exist_ok=True)
+
+print("📂 Haz clic en el botón de abajo para seleccionar y subir tus dos PDFs desde tu computadora:")
+subidos = files.upload()
+
+# Mover los archivos subidos a la carpeta /content/pdfs
+for nombre_archivo in subidos.keys():
+    origen = Path(nombre_archivo)
+    destino = pdf_dir / nombre_archivo
+    origen.rename(destino)
+    print(f"✅ Archivo guardado en Colab: {destino.name}")

@@ -1,0 +1,144 @@
+# ==========================================
+# CELDA 2: Procesamiento, Indexación y Comparativa de Similitud
+# ==========================================
+from pathlib import Path
+import chromadb
+from sentence_transformers import SentenceTransformer
+from pypdf import PdfReader
+
+# Configuración de rutas y modelo
+MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+db_path = Path("/content/chroma_db")
+pdf_dir = Path("/content/pdfs")
+
+# 1) Extraer texto de PDF
+def extraer_texto_pdf(archivo_pdf: Path) -> str:
+    lector = PdfReader(str(archivo_pdf))
+    textos = []
+    for pagina_num, pagina in enumerate(lector.pages, start=1):
+        texto = pagina.extract_text() or ""
+        texto = " ".join(texto.split())
+        if texto:
+            textos.append(f"[Página {pagina_num}] {texto}")
+    return "\n".join(textos)
+
+# 2) Dividir texto en chunks
+def dividir_texto(texto: str, chunk_size: int = 500, overlap: int = 80):
+    if not texto:
+        return []
+    chunks = []
+    inicio = 0
+    longitud = len(texto)
+
+    while inicio < longitud:
+        fin = min(inicio + chunk_size, longitud)
+        chunk = texto[inicio:fin].strip()
+        if chunk:
+            chunks.append(chunk)
+        if fin == longitud:
+            break
+        inicio += chunk_size - overlap
+
+    return chunks
+
+# 3) Indexar PDFs
+def indexar_pdfs(pdf_dir: Path, db_path: Path):
+    modelo = SentenceTransformer(MODEL_NAME)
+
+    cliente = chromadb.PersistentClient(path=str(db_path))
+    coleccion = cliente.get_or_create_collection(
+        name="manuales",
+        metadata={"hnsw:space": "cosine"}
+    )
+
+    ids = []
+    documentos = []
+    metadatos = []
+
+    archivos_pdf = sorted(pdf_dir.glob("*.pdf"))
+    if not archivos_pdf:
+        raise ValueError(f"⚠️ No se encontraron archivos PDF en: {pdf_dir}")
+
+    for pdf_path in archivos_pdf:
+        texto_completo = extraer_texto_pdf(pdf_path)
+        chunks = dividir_texto(texto_completo)
+
+        for idx, chunk in enumerate(chunks):
+            chunk_id = f"{pdf_path.stem}_{idx:03d}"
+            ids.append(chunk_id)
+            documentos.append(chunk)
+            metadatos.append({
+                "fuente": pdf_path.name,
+                "archivo": pdf_path.stem,
+                "chunk": idx
+            })
+
+    embeddings = modelo.encode(documentos, normalize_embeddings=True).tolist()
+
+    coleccion.upsert(
+        ids=ids,
+        documents=documentos,
+        metadatas=metadatos,
+        embeddings=embeddings
+    )
+
+    print(f"✅ Se indexaron {len(documentos)} chunks desde {len(archivos_pdf)} PDF(s).\n")
+    return coleccion, modelo, archivos_pdf
+
+# ==========================================
+# Ejecución e インデックス (Indexación)
+# ==========================================
+coleccion, modelo, archivos_pdf = indexar_pdfs(pdf_dir, db_path)
+
+# Frases de prueba solicitadas para la comparativa
+frases_prueba = [
+    "Para restablecer la clave, ingrese a Configuración...",
+    "Las vacaciones se solicitan con 15 días de anticipación..."
+]
+
+# Total de chunks en la base de datos para dimensionar la consulta global
+total_chunks = len(coleccion.get()["ids"])
+
+print("=" * 70)
+print("📊 TABLA COMPARATIVA DE SIMILITUD COSENE POR CADA PDF")
+print("=" * 70)
+
+for frase in frases_prueba:
+    print(f"\n🔍 Frase evaluada: \"{frase}\"")
+    print("-" * 70)
+    
+    # Vectorizar la frase
+    vector_frase = modelo.encode([frase], normalize_embeddings=True).tolist()
+    
+    # Consultar todos los documentos para evaluar contra cada PDF
+    resultado = coleccion.query(
+        query_embeddings=vector_frase,
+        n_results=total_chunks
+    )
+    
+    # Encontrar la máxima similitud para cada PDF fuente
+    mejores_por_fuente = {}
+    for doc, dist, meta in zip(resultado["documents"][0], resultado["distances"][0], resultado["metadatas"][0]):
+        fuente = meta.get("fuente", "desconocida")
+        # Similitud coseno = 1 - distancia coseno (a mayor valor, mayor parecido)
+        similitud = 1 - dist
+        
+        if fuente not in mejores_por_fuente or similitud > mejores_por_fuente[fuente]["similitud"]:
+            mejores_por_fuente[fuente] = {
+                "similitud": similitud,
+                "distancia": dist,
+                "fragmento": doc
+            }
+            
+    # Mostrar resultados por cada PDF disponible en la carpeta
+    for pdf_path in archivos_pdf:
+        nombre_pdf = pdf_path.name
+        if nombre_pdf in mejores_por_fuente:
+            data = mejores_por_fuente[nombre_pdf]
+            print(f"  📄 Archivo: {nombre_pdf}")
+            print(f"     🔹 Similitud Coseno : {data['similitud']:.4f}  (Distancia: {data['distancia']:.4f})")
+            print(f"     💬 Fragmento clave  : \"{data['fragmento'][:120]}...\"")
+        else:
+            print(f"  📄 Archivo: {nombre_pdf}")
+            print(f"     ⚠️ Sin coincidencias relevantes indexadas.")
+        print()

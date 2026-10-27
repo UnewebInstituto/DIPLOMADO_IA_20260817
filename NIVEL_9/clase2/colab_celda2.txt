@@ -1,0 +1,4 @@
+from google.colab import files
+
+print("Sube tus archivos PDF (manual_ti.pdf y manual_rrhh.pdf):")
+subidos = files.upload()

@@ -1,0 +1,113 @@
+# 3) Importar librerías restantes
+import chromadb
+from sentence_transformers import SentenceTransformer
+from pypdf import PdfReader
+
+# Configuración de rutas y modelo
+MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+db_path = Path("/content/chroma_db")
+
+# Extraer texto de PDF
+def extraer_texto_pdf(archivo_pdf: Path) -> str:
+    lector = PdfReader(str(archivo_pdf))
+    textos = []
+    for pagina_num, pagina in enumerate(lector.pages, start=1):
+        texto = pagina.extract_text() or ""
+        texto = " ".join(texto.split())
+        if texto:
+            textos.append(f"[Página {pagina_num}] {texto}")
+    return "\n".join(textos)
+
+# Dividir texto en chunks
+def dividir_texto(texto: str, chunk_size: int = 500, overlap: int = 80):
+    if not texto:
+        return []
+    chunks = []
+    inicio = 0
+    longitud = len(texto)
+
+    while inicio < longitud:
+        fin = min(inicio + chunk_size, longitud)
+        chunk = texto[inicio:fin].strip()
+        if chunk:
+            chunks.append(chunk)
+        if fin == longitud:
+            break
+        inicio += chunk_size - overlap
+
+    return chunks
+
+# Indexar PDFs
+def indexar_pdfs(pdf_dir: Path, db_path: Path):
+    modelo = SentenceTransformer(MODEL_NAME)
+
+    cliente = chromadb.PersistentClient(path=str(db_path))
+    coleccion = cliente.get_or_create_collection(
+        name="manuales",
+        metadata={"hnsw:space": "cosine"}
+    )
+
+    ids = []
+    documentos = []
+    metadatos = []
+
+    archivos_pdf = sorted(pdf_dir.glob("*.pdf"))
+    if not archivos_pdf:
+        raise ValueError(f"⚠️ No se encontraron archivos PDF en: {pdf_dir}")
+
+    for pdf_path in archivos_pdf:
+        texto_completo = extraer_texto_pdf(pdf_path)
+        chunks = dividir_texto(texto_completo)
+
+        for idx, chunk in enumerate(chunks):
+            chunk_id = f"{pdf_path.stem}_{idx:03d}"
+            ids.append(chunk_id)
+            documentos.append(chunk)
+            metadatos.append({
+                "fuente": pdf_path.name,
+                "archivo": pdf_path.stem,
+                "chunk": idx
+            })
+
+    embeddings = modelo.encode(documentos, normalize_embeddings=True).tolist()
+
+    coleccion.upsert(
+        ids=ids,
+        documents=documentos,
+        metadatas=metadatos,
+        embeddings=embeddings
+    )
+
+    print(f"✅ Se indexaron {len(documentos)} chunks desde {len(archivos_pdf)} PDF(s).")
+    return coleccion, modelo
+
+# Función de Consulta
+def consultar(coleccion, modelo, pregunta: str, n_results: int = 3, fuente: str = None):
+    embedding = modelo.encode([pregunta], normalize_embeddings=True).tolist()
+
+    if fuente:
+        resultado = coleccion.query(
+            query_embeddings=embedding,
+            n_results=n_results,
+            where={"fuente": fuente}
+        )
+    else:
+        resultado = coleccion.query(
+            query_embeddings=embedding,
+            n_results=n_results
+        )
+
+    return resultado
+
+# Ejecución principal
+coleccion, modelo = indexar_pdfs(pdf_dir, db_path)
+
+pregunta = "¿De qué tratan los documentos?"  # Cámbiala por una pregunta específica de tus textos
+resultado = consultar(coleccion, modelo, pregunta, n_results=3)
+
+print(f"\n🔍 Pregunta: {pregunta}")
+for i, (doc, dist) in enumerate(zip(resultado["documents"][0], resultado["distances"][0]), start=1):
+    fuente = resultado["metadatas"][0][i - 1].get("fuente", "desconocida")
+    print(f"\n[{i}] Fuente: {fuente}")
+    print(f"Texto: {doc}")
+    print(f"Distancia coseno: {dist:.4f}")
