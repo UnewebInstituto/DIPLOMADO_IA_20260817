@@ -4,3 +4,4 @@ venv/
 .venv/
 *.zip
 .env
+NIVEL_9/Keyla/start_app_gemini.bat
