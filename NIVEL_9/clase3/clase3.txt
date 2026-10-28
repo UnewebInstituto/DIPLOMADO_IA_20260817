@@ -128,3 +128,19 @@ La mejor siguiente mejora es:
    - devuelva una respuesta con fuente y páginas
 
 Si quieres, puedo dejarte el siguiente paso ya implementado: una versión RAG completa con FastAPI + OpenAI/Ollama y respuesta con citas de fuente.
+
+
+PROMPT:
+Dame una descripción de la infraestructura, donde
+estamos efectuando el desarrollo de la solución.
+Determina la viabilidad de instalar un motor de IA 
+donde pueda ejecutar un modelo LLM, adecuado al 
+alcance de nuestra solución.
+
+
+PROMPT:
+Dado que tendgo inconvenientes para deplegar Ollama
+vamos con una solución en la nube que nos permita un 
+una solución RAG, como continuación de los desarrollado
+dame sugerencia para motor de IA y LLM, que pueda 
+conectar desde mi instalación actual.

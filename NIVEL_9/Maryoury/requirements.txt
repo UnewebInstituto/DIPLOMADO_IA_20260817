@@ -1,4 +1,6 @@
 chromadb
 sentence-transformers
 pymupdf
+requests
+streamlit
 pytest

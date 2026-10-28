@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -9,9 +10,15 @@ import chromadb
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 
+try:
+    from google import genai
+except ImportError:  # pragma: no cover
+    genai = None
+
 ROOT_DIR = Path(__file__).resolve().parent
 DB_PATH = ROOT_DIR / "chroma_db"
-MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+EMBEDDING_MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+GEMINI_MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 COLLECTION_NAME = "manuales"
 CHUNK_SIZE = 400
 CHUNK_OVERLAP = 80
@@ -120,7 +127,7 @@ def print_results(result: dict[str, Any]) -> None:
     metadatas = result.get("metadatas", [[]])[0]
 
     if not documents:
-        print("No se encontraron resultados relevants.")
+        print("No se encontraron resultados relevantes.")
         return
 
     print("\nResultados relevantes:\n")
@@ -131,15 +138,100 @@ def print_results(result: dict[str, Any]) -> None:
         print("-" * 80)
 
 
+def build_rag_prompt(question: str, result: dict[str, Any]) -> str:
+    documents = result.get("documents", [[]])[0]
+    metadatas = result.get("metadatas", [[]])[0]
+
+    if not documents:
+        return (
+            "No hay contexto suficiente para responder la pregunta. "
+            "Indica que la información no aparece en los documentos indexados."
+        )
+
+    context_parts: list[str] = []
+    for idx, (doc, meta) in enumerate(zip(documents, metadatas), start=1):
+        fuente = meta.get("fuente", "desconocida")
+        pagina = meta.get("pagina", "?")
+        context_parts.append(f"[{idx}] Fuente: {fuente} | Página: {pagina}\n{doc}")
+
+    context = "\n\n".join(context_parts)
+
+    return (
+        "Responde la pregunta usando únicamente el contexto proporcionado. "
+        "Si la respuesta no está en el texto, di claramente que no se encuentra en los documentos.\n\n"
+        f"Pregunta: {question}\n\n"
+        f"Contexto:\n{context}\n\n"
+        "Respuesta breve, útil y basada estrictamente en el contexto."
+    )
+
+
+def answer_with_gemini(question: str, result: dict[str, Any]) -> str:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError(
+            "Falta la variable de entorno GEMINI_API_KEY. "
+            "Configúrela antes de consultar con Gemini."
+        )
+
+    if genai is None:
+        raise RuntimeError(
+            "La librería google-genai no está instalada. "
+            "Instálala con: pip install google-genai"
+        )
+
+    client = genai.Client(api_key=api_key)
+    model_name = os.getenv("GEMINI_MODEL", GEMINI_MODEL_NAME)
+    prompt = build_rag_prompt(question, result)
+    response = client.models.generate_content(
+        model=model_name,
+        contents=prompt,
+    )
+
+    return getattr(response, "text", str(response))
+
+
+def rag_answer(question: str, source: str | None = None, top_k: int = 5, model: SentenceTransformer | None = None) -> dict[str, Any]:
+    if model is None:
+        model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+
+    result = query_collection(question, model, source=source, top_k=top_k)
+    documents = result.get("documents", [[]])[0]
+    metadatas = result.get("metadatas", [[]])[0]
+    citations: list[dict[str, Any]] = []
+
+    for doc, meta in zip(documents, metadatas):
+        citations.append({
+            "fuente": meta.get("fuente", "desconocida"),
+            "pagina": meta.get("pagina", "?"),
+            "texto": doc,
+        })
+
+    answer = ""
+    try:
+        answer = answer_with_gemini(question, result)
+    except (ValueError, RuntimeError):
+        answer = "No se pudo generar la respuesta con Gemini. Revise la llave de API y la conexión con el servicio."
+
+    return {
+        "question": question,
+        "answer": answer,
+        "citations": citations,
+    }
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Motor de búsqueda semántica para manuales PDF.")
+    parser = argparse.ArgumentParser(description="Motor de búsqueda semántica para manuales PDF con soporte RAG en Gemini.")
     parser.add_argument("--query", type=str, help="Pregunta a buscar sobre los documentos.")
     parser.add_argument("--source", type=str, help="Filtro opcional por nombre de archivo PDF, por ejemplo: manual_ti.pdf")
     parser.add_argument("--top-k", type=int, default=3, help="Número de resultados a devolver.")
     parser.add_argument("--reindex", action="store_true", help="Reindexa todos los PDFs disponibles antes de consultar.")
+    parser.add_argument("--model", type=str, default=os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite"), help="Modelo de Gemini a usar.")
     args = parser.parse_args()
 
-    model = SentenceTransformer(MODEL_NAME)
+    if args.model:
+        os.environ["GEMINI_MODEL"] = args.model
+
+    model = SentenceTransformer(EMBEDDING_MODEL_NAME)
 
     if args.reindex or not DB_PATH.exists():
         collection, count = build_index(ROOT_DIR, model)
@@ -148,6 +240,13 @@ def main() -> None:
     if args.query:
         result = query_collection(args.query, model, source=args.source, top_k=args.top_k)
         print_results(result)
+
+        try:
+            answer = answer_with_gemini(args.query, result)
+            print("\nRespuesta generada por Gemini:\n")
+            print(answer)
+        except (ValueError, RuntimeError) as exc:
+            print(f"\nNo se pudo generar la respuesta con Gemini: {exc}")
         return
 
     print("Sistema listo. Usa --query 'tu pregunta' para consultar los PDFs.")

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
 import chromadb
+import google.generativeai as genai
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 
@@ -14,6 +16,7 @@ PDF_DIR = WORKSPACE_DIR
 DB_DIR = WORKSPACE_DIR / "chroma_db"
 MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 COLLECTION_NAME = "manuales"
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 
 
 def get_pdf_files(directory: Path) -> List[Path]:
@@ -157,12 +160,58 @@ def print_results(results: Dict[str, Any]) -> None:
         print(f"- Texto: {document}")
 
 
+def build_rag_prompt(question: str, results: Dict[str, Any]) -> str:
+    documents = results.get("documents", [[]])[0]
+    metadatas = results.get("metadatas", [[]])[0]
+
+    if not documents:
+        raise ValueError("No hay contexto suficiente para responder.")
+
+    context_parts: List[str] = []
+    for index, document in enumerate(documents, start=1):
+        metadata = metadatas[index - 1] if index - 1 < len(metadatas) else {}
+        source = metadata.get("fuente", "Desconocida")
+        page = metadata.get("pagina", "N/A")
+        context_parts.append(f"[{index}] Fuente: {source} | Página: {page}\n{document}")
+
+    context = "\n\n---\n\n".join(context_parts)
+
+    return f"""Responde la pregunta en español usando únicamente el contexto proporcionado.
+    Si la respuesta no aparece en el texto, indica que no hay suficiente evidencia en los documentos.
+    No inventes información.
+
+    CONTEXTO:
+    {context}
+
+    PREGUNTA:
+    {question}
+
+    RESPUESTA:
+    """
+
+
+def ask_gemini(question: str, results: Dict[str, Any], api_key: str | None = None, model_name: str | None = None) -> str:
+    key = api_key or os.getenv("GEMINI_API_KEY")
+    if not key:
+        raise ValueError("No se encontró la clave GEMINI_API_KEY. Configúrala en el entorno o usa --api-key.")
+
+    selected_model = (model_name or os.getenv("GEMINI_MODEL") or GEMINI_MODEL).strip()
+    genai.configure(api_key=key)
+    model = genai.GenerativeModel(selected_model)
+    prompt = build_rag_prompt(question, results)
+    response = model.generate_content(prompt)
+    return response.text.strip()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Búsqueda semántica sobre manuales PDF.")
     parser.add_argument("--reindex", action="store_true", help="Reindexa los PDFs desde cero.")
     parser.add_argument("--query", type=str, help="Pregunta a consultar en la colección.")
     parser.add_argument("--source", type=str, help="Filtra resultados por fuente (nombre del PDF).")
     parser.add_argument("--top-k", type=int, default=3, help="Número máximo de resultados a devolver.")
+    parser.add_argument("--gemini", action="store_true", help="Usa Gemini para responder con base en los fragmentos recuperados.")
+    parser.add_argument("--api-key", type=str, help="Clave API de Google Gemini. También puede usarse la variable GEMINI_API_KEY.")
+    parser.add_argument("--model", type=str, default=os.getenv("GEMINI_MODEL", GEMINI_MODEL), help="Nombre del modelo de Gemini a usar (p. ej. gemini-2.0-flash).")
     args = parser.parse_args()
 
     model = SentenceTransformer(MODEL_NAME)
@@ -177,7 +226,15 @@ def main() -> None:
     if args.query:
         print(f"\nConsulta: {args.query}\n")
         results = search_documents(model, collection, args.query, source=args.source, top_k=args.top_k)
-        print_results(results)
+
+        if args.gemini:
+            answer = ask_gemini(args.query, results, api_key=args.api_key, model_name=args.model)
+            print("Respuesta Gemini:")
+            print(answer)
+            print("\nContexto recuperado:")
+            print_results(results)
+        else:
+            print_results(results)
     else:
         sample_queries = [
             "¿Cómo recupero mi contraseña?",

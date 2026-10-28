@@ -5,10 +5,11 @@ from pathlib import Path
 import streamlit as st
 from sentence_transformers import SentenceTransformer
 
-from pdf_search_app import MODEL_NAME, build_index, generate_answer_from_context, get_pdf_files, search_documents
+from gemini_rag import build_grounded_response
+from pdf_search_app import MODEL_NAME, build_index, get_pdf_files, search_documents
 
 
-st.set_page_config(page_title="Buscador de manuales PDF", layout="wide")
+st.set_page_config(page_title="Asistente documental PDF", layout="wide")
 
 st.markdown(
     """
@@ -25,12 +26,20 @@ st.markdown(
         font-weight: 600;
     }
     .stButton > button:hover { filter: brightness(1.05); }
-    .result-box {
-        background: rgba(255,255,255,0.8);
+    .assistant-box {
+        background: #ffffff;
         border: 1px solid #dbeafe;
-        border-radius: 0.8rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
+        border-radius: 0.9rem;
+        padding: 1rem 1.1rem;
+        margin: 0.5rem 0;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .citation-box {
+        background: #f8fafc;
+        border-left: 4px solid #3b82f6;
+        border-radius: 0.5rem;
+        padding: 0.85rem 1rem;
+        margin-top: 0.7rem;
     }
     </style>
     """,
@@ -43,90 +52,111 @@ def load_app_state() -> None:
         st.session_state.model = SentenceTransformer(MODEL_NAME)
 
     if "collection" not in st.session_state:
-        try:
-            st.session_state.collection = build_index(Path("."), reindex=False)
-        except Exception as exc:  # pragma: no cover - UI error display
-            st.session_state.index_error = str(exc)
-            st.session_state.collection = None
+        st.session_state.collection = None
+        st.session_state.index_error = None
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
 
 load_app_state()
 
-st.title("Buscador semántico de manuales PDF")
-st.caption("Consulta documentos en lenguaje natural sobre los PDFs del directorio actual.")
-
-if "index_error" in st.session_state and st.session_state.collection is None:
-    st.error(f"No se pudo inicializar el índice: {st.session_state.index_error}")
-    st.stop()
+st.title("Asistente documental de manuales")
+st.caption("Consulta los PDFs indexados y obtén respuestas con evidencia y fuente documentada.")
 
 pdf_files = get_pdf_files(Path("."))
 source_options = ["Todos"] + [pdf.name for pdf in pdf_files]
 
-with st.container():
-    left_col, right_col = st.columns([2, 1])
+with st.sidebar:
+    st.subheader("Configuración")
+    if not pdf_files:
+        st.warning("No se encontraron PDFs en el directorio actual.")
+        st.stop()
 
-    with left_col:
-        selected_source = st.selectbox("Filtrar por archivo PDF", source_options)
-
-    with right_col:
-        if st.button("Reindexar PDFs", use_container_width=True):
+    if st.session_state.collection is None:
+        if st.button("Cargar índice de PDFs", use_container_width=True):
             try:
-                st.session_state.collection = build_index(Path("."), reindex=True)
-                st.success("Índice actualizado correctamente.")
+                with st.spinner("Cargando documentos y creando el índice..."):
+                    st.session_state.collection = build_index(Path("."), reindex=False)
+                st.success("Índice cargado correctamente.")
             except Exception as exc:
-                st.error(f"No se pudo reindexar: {exc}")
+                st.session_state.index_error = str(exc)
+                st.error(f"No se pudo cargar el índice: {exc}")
 
-query = st.text_area(
-    "Escribe tu pregunta",
-    value="",
-    placeholder="Ejemplo: ¿Cómo recupero mi contraseña?",
-    height=120,
-)
+    selected_source = st.selectbox("Filtrar por archivo PDF", source_options)
+    if st.button("Reindexar PDFs", use_container_width=True):
+        try:
+            with st.spinner("Reindexando documentos..."):
+                st.session_state.collection = build_index(Path("."), reindex=True)
+            st.success("Índice actualizado correctamente.")
+        except Exception as exc:
+            st.error(f"No se pudo reindexar: {exc}")
 
-if st.button("Buscar", type="primary"):
-    if not query.strip():
-        st.warning("Debes escribir una pregunta antes de buscar.")
-    else:
-        source_filter = None if selected_source == "Todos" else selected_source
+    if pdf_files:
+        st.subheader("Documentos")
+        for pdf in pdf_files:
+            st.write(f"- {pdf.name}")
+
+if "index_error" in st.session_state and st.session_state.index_error and st.session_state.collection is None:
+    st.error(f"No se pudo inicializar el índice: {st.session_state.index_error}")
+    st.stop()
+
+if st.session_state.collection is None:
+    st.info("La base documental aún no está cargada. Pulsa “Cargar índice de PDFs” para inicializarla.")
+    st.stop()
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+prompt = st.chat_input("Pregunta sobre los manuales o políticas documentadas...")
+
+if prompt:
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    source_filter = None if selected_source == "Todos" else selected_source
+    with st.spinner("Buscando evidencia en los documentos..."):
         results = search_documents(
-            query=query,
+            query=prompt,
             collection=st.session_state.collection,
             model=st.session_state.model,
             top_k=5,
             source_filter=source_filter,
         )
-        documents = results.get("documents", [[]])[0]
-        distances = results.get("distances", [[]])[0]
-        metadatas = results.get("metadatas", [[]])[0]
 
-        if not documents:
-            st.info("No se encontraron resultados relevantes para tu consulta.")
-        else:
-            answer = generate_answer_from_context(query, documents)
-            st.subheader("Respuesta sugerida")
-            st.markdown(
-                f"<div class='result-box'><strong>Resumen:</strong><br>{answer}</div>",
-                unsafe_allow_html=True,
-            )
-            st.markdown("---")
+    documents = results.get("documents", [[]])[0]
+    metadatas = results.get("metadatas", [[]])[0]
 
-            for i, (document, distance, metadata) in enumerate(zip(documents, distances, metadatas), start=1):
-                with st.container():
-                    st.markdown(
-                        f"""
-                        <div class='result-box'>
-                            <h4>Resultado {i}</h4>
-                            <p><strong>Fuente:</strong> {metadata.get('fuente', 'desconocida')}</p>
-                            <p><strong>Distancia:</strong> {distance:.4f}</p>
-                            <p>{document[:1200]}</p>
-                        </div>
-                        """,
-                        unsafe_allow_html=True,
-                    )
+    if not documents:
+        response = "No encontré evidencia suficiente en los documentos indexados para responder con seguridad."
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+    else:
+        retrieved = [
+            {"source": metadata.get("fuente", "desconocida"), "content": document}
+            for document, metadata in zip(documents, metadatas)
+        ]
+        grounded = build_grounded_response(prompt, retrieved)
 
-if pdf_files:
-    st.subheader("Archivos PDF disponibles")
-    for pdf in pdf_files:
-        st.write(f"- {pdf.name}")
-else:
-    st.warning("No se encontraron PDFs en el directorio actual.")
+        with st.chat_message("assistant"):
+            st.markdown(f"<div class='assistant-box'>{grounded['answer']}</div>", unsafe_allow_html=True)
+            for citation in grounded["citations"]:
+                source = citation.get("source", "Documento")
+                quote = citation.get("quote", "")
+                st.markdown(
+                    f"<div class='citation-box'><strong>Fuente:</strong> {source}<br><em>\"{quote}\"</em></div>",
+                    unsafe_allow_html=True,
+                )
+
+        assistant_message = "\n\n".join(
+            [grounded["answer"]] + [f"**Fuente:** {c['source']}\n> \"{c['quote']}\"" for c in grounded["citations"]]
+        )
+        st.session_state.messages.append({"role": "assistant", "content": assistant_message})
+
+if not st.session_state.messages:
+    welcome = "Hola. Hazme una pregunta sobre los PDFs cargados y te responderé con evidencia de las fuentes indexadas."
+    st.info(welcome)
+

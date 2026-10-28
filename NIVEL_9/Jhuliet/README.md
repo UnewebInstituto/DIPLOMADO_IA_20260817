@@ -10,6 +10,7 @@ Este proyecto busca documentos PDF usando embeddings semánticos y ChromaDB. Est
 - Generación de embeddings con `SentenceTransformer`
 - Búsqueda semántica con `ChromaDB`
 - Resumen de respuesta basado en los fragmentos más relevantes
+- Integración opcional con Gemini para respuesta generativa basada en contexto RAG
 - Interfaz web con Streamlit
 - API REST con FastAPI
 
@@ -30,6 +31,16 @@ Python 3.11+ recomendado.
 cd "C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_9\Jhuliet"
 .venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
+
+## Configurar Gemini
+
+Crea un archivo `.env` con tu clave de Google AI Studio:
+
+```env
+GOOGLE_API_KEY=tu_clave_aqui
+```
+
+Puedes copiar el ejemplo desde `.env.example`.
 
 ## Ejecutar la interfaz web
 

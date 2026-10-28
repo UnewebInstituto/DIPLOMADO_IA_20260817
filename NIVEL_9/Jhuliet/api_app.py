@@ -5,7 +5,8 @@ from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException
 
-from pdf_search_app import MODEL_NAME, build_index, generate_answer_from_context, get_pdf_files, search_documents
+from gemini_rag import build_grounded_response
+from pdf_search_app import MODEL_NAME, build_index, get_pdf_files, search_documents
 from sentence_transformers import SentenceTransformer
 
 app = FastAPI(title="Buscador semántico de PDFs", version="1.0.0")
@@ -71,12 +72,19 @@ def search(query: str, top_k: int = 5, source: Optional[str] = None) -> Dict[str
             "content": doc,
         })
 
-    answer = generate_answer_from_context(query, documents)
+    grounded = build_grounded_response(
+        query=query,
+        retrieved_documents=[
+            {"source": metadata.get("fuente", "desconocida"), "content": document}
+            for document, metadata in zip(documents, metadatas)
+        ],
+    )
 
     return {
         "query": query,
         "results": formatted,
-        "answer": answer,
+        "answer": grounded["answer"],
+        "citations": grounded["citations"],
     }
 
 
