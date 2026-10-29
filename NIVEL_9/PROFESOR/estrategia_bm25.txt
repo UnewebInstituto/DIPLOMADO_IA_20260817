@@ -1,0 +1,130 @@
+Voy a revisar la lógica actual del RAG para plantearte una lista concreta de cambios para incorporar BM25 sin romper el flujo existente.
+
+## Plan de actualización para incorporar BM25
+
+Para integrar un componente léxico BM25 en este RAG, el cambio principal no es solo “añadir una librería”, sino reestructurar la recuperación para que haga dos búsquedas simultáneas: una semántica y otra léxica, y luego combinar resultados.
+
+### 1) Añadir la dependencia de BM25
+En requirements.txt se debe incluir la librería de ranking léxico, por ejemplo:
+
+- `rank-bm25`
+
+Esto permitirá calcular scores BM25 sobre los fragmentos indexados.
+
+---
+
+### 2) Ajustar la indexación de documentos
+La parte de indexación está en pdf_vector_search.py. Allí hoy solo se guarda el texto de cada chunk y se genera embedding con `SentenceTransformer`.
+
+Para BM25 hay que:
+- conservar cada chunk con su texto original
+- guardar un identificador único por chunk (`fuente`, `pagina`, `chunk`)
+- preparar un corpus de texto para BM25
+- construir el índice BM25 una vez al crear la colección
+
+Necesitarás una estructura similar a:
+- `chunk_id`
+- `texto`
+- `fuente`
+- `pagina`
+- `chunk`
+
+Esto permite que la búsqueda léxica pueda devolver los mismos documentos del RAG vectorial, pero ordenados por coincidencias textuales.
+
+---
+
+### 3) Crear un retriever léxico aparte
+La lógica de recuperación actual está en:
+- app.py para la app de Streamlit
+- rag_gemini.py para el flujo CLI
+
+Hay que añadir una función tipo:
+- `search_bm25(question, collection, top_k)`
+- o `retrieve_hybrid(question, n_results)`
+
+Esa función debe:
+- tokenizar el texto
+- aplicar BM25 al corpus de chunks
+- devolver los mejores `k` fragmentos por relevancia léxica
+- devolver también metadatos de fuente y página
+
+---
+
+### 4) Implementar recuperación híbrida
+La clave del diseño es combinar:
+- búsqueda semántica (embeddings)
+- búsqueda léxica (BM25)
+
+En vez de usar solo el vector search, el flujo debe quedar así:
+1. `query_documents(question)` -> embeddings
+2. `search_bm25(question)` -> lexical score
+3. combinar ambos resultados
+4. deduplicar por chunk ID
+5. ordenar por score combinado
+6. pasar esos fragmentos a Gemini
+
+Esto normalmente se hace con una de estas estrategias:
+- weighted sum
+- Reciprocal Rank Fusion (RRF)
+- score normalization
+
+La recomendación más sólida para este proyecto es RRF o ponderación simple si quieres algo fácil de mantener.
+
+---
+
+### 5) Actualizar el pipeline de la app
+La interfaz principal en app.py y la lógica de backend en rag_gemini.py deben cambiar para que ya no hagan solo una búsqueda densa.
+
+Necesitas:
+- reemplazar `query_documents` por una función híbrida
+- devolver un único conjunto de evidencias ordenadas
+- preservar metadata y distancia para mostrar fuente/página
+
+Esto afecta directamente la parte donde la app muestra:
+- “Evidencia recuperada”
+- “Respuesta generada”
+
+---
+
+### 6) Ajustar el prompt para que el LLM use mejor la evidencia híbrida
+El prompt actual en app.py y rag_gemini.py está pensado para contexto recuperado.
+
+Con BM25:
+- puedes seguir usando el mismo prompt
+- pero la evidencia combinada debe incluir más coincidencias exactas de términos
+- esto ayuda mucho en consultas tipo:
+  - “constancia laboral”
+  - “política de permisos”
+  - “fecha de vencimiento”
+
+En otras palabras, BM25 hará que el sistema responda mejor a búsquedas por palabras clave exactas.
+
+---
+
+### 7) Añadir validación y pruebas
+Antes de cerrar el cambio, conviene verificar:
+- consultas con palabras exactas
+- consultas con sinónimos
+- consultas ambiguas
+- caso sin coincidencias
+- comparación entre solo embeddings vs híbrido
+
+Puedes probarlo con:
+- la misma pregunta de ejemplo
+- varias preguntas reales de manuales
+- ver si los chunks devueltos tienen mejor precisión
+
+---
+
+## Resumen corto
+
+La actualización completa consiste en:
+1. instalar BM25
+2. guardar corpus de chunks en la indexación
+3. construir índice BM25
+4. crear búsqueda léxica
+5. combinar con búsqueda semántica
+6. actualizar app.py y rag_gemini.py
+7. validar con pruebas reales de consultas
+
+Si quieres, puedo darte el siguiente paso: te puedo dejar una propuesta exacta de funciones y estructura de código para integrar BM25 en este proyecto sin romper la app actual.

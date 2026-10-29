@@ -15,8 +15,8 @@ if "messages" not in st.session_state:
 with st.sidebar:
     st.header("Configuración")
     api_key = st.text_input("API Key Gemini", type="password", value=os.getenv("GEMINI_API_KEY", ""))
-    model_name = st.text_input("Modelo Gemini", value=os.getenv("GEMINI_MODEL", "gemini-3.8-flash-lite"))
-    st.caption("La clave puede dejarse como variable de entorno en el sistema.")
+    model_name = st.text_input("Modelo Gemini", value=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"))
+    st.caption("La clave puede dejarse como variable de entorno en el sistema; usa un modelo válido de Gemini como gemini-3.8-flash.")
     if api_key:
         os.environ["GEMINI_API_KEY"] = api_key
     if model_name:
@@ -50,7 +50,7 @@ if prompt:
                     db_path=DB_PATH,
                     top_k=3,
                     api_key=os.getenv("GEMINI_API_KEY"),
-                    model_name=os.getenv("GEMINI_MODEL", "gemini-3.8-flash-lite"),
+                    model_name=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
                 )
             except Exception as exc:
                 answer = (

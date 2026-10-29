@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import chromadb
+from dotenv import load_dotenv
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 
@@ -16,12 +17,22 @@ except ImportError:  # pragma: no cover
     genai = None
 
 ROOT_DIR = Path(__file__).resolve().parent
+load_dotenv(ROOT_DIR / ".env")
+
 DB_PATH = ROOT_DIR / "chroma_db"
 EMBEDDING_MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 GEMINI_MODEL_NAME = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 COLLECTION_NAME = "manuales"
 CHUNK_SIZE = 400
 CHUNK_OVERLAP = 80
+_EMBEDDING_MODEL: SentenceTransformer | None = None
+
+
+def get_embedding_model(model_name: str = EMBEDDING_MODEL_NAME) -> SentenceTransformer:
+    global _EMBEDDING_MODEL
+    if _EMBEDDING_MODEL is None:
+        _EMBEDDING_MODEL = SentenceTransformer(model_name)
+    return _EMBEDDING_MODEL
 
 
 def clean_text(text: str) -> str:
@@ -165,6 +176,32 @@ def build_rag_prompt(question: str, result: dict[str, Any]) -> str:
     )
 
 
+def fallback_answer_from_context(question: str, result: dict[str, Any]) -> str:
+    documents = result.get("documents", [[]])[0]
+    metadatas = result.get("metadatas", [[]])[0]
+
+    if not documents:
+        return (
+            "No hay contexto suficiente para responder la pregunta. "
+            "No aparece información relevante en los documentos indexados."
+        )
+
+    best_doc = str(documents[0]).strip()
+    best_meta = metadatas[0] if metadatas else {}
+    fuente = best_meta.get("fuente", "documento")
+    pagina = best_meta.get("pagina", "?")
+
+    if len(best_doc) > 500:
+        preview = best_doc[:500].rsplit(" ", 1)[0]
+        best_doc = f"{preview}..."
+
+    return (
+        f"Respuesta basada en el contexto recuperado (fuente: {fuente}, página: {pagina}).\n\n"
+        f"{best_doc}\n\n"
+        "La clave GEMINI_API_KEY no está configurada, por lo que la respuesta se genera con el contenido recuperado del documento."
+    )
+
+
 def answer_with_gemini(question: str, result: dict[str, Any]) -> str:
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
@@ -192,7 +229,7 @@ def answer_with_gemini(question: str, result: dict[str, Any]) -> str:
 
 def rag_answer(question: str, source: str | None = None, top_k: int = 5, model: SentenceTransformer | None = None) -> dict[str, Any]:
     if model is None:
-        model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        model = get_embedding_model(EMBEDDING_MODEL_NAME)
 
     result = query_collection(question, model, source=source, top_k=top_k)
     documents = result.get("documents", [[]])[0]
@@ -210,7 +247,7 @@ def rag_answer(question: str, source: str | None = None, top_k: int = 5, model: 
     try:
         answer = answer_with_gemini(question, result)
     except (ValueError, RuntimeError):
-        answer = "No se pudo generar la respuesta con Gemini. Revise la llave de API y la conexión con el servicio."
+        answer = fallback_answer_from_context(question, result)
 
     return {
         "question": question,
@@ -231,7 +268,7 @@ def main() -> None:
     if args.model:
         os.environ["GEMINI_MODEL"] = args.model
 
-    model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+    model = get_embedding_model(EMBEDDING_MODEL_NAME)
 
     if args.reindex or not DB_PATH.exists():
         collection, count = build_index(ROOT_DIR, model)
@@ -247,6 +284,8 @@ def main() -> None:
             print(answer)
         except (ValueError, RuntimeError) as exc:
             print(f"\nNo se pudo generar la respuesta con Gemini: {exc}")
+            print("\nUsando respuesta local basada en el contexto recuperado:\n")
+            print(fallback_answer_from_context(args.query, result))
         return
 
     print("Sistema listo. Usa --query 'tu pregunta' para consultar los PDFs.")

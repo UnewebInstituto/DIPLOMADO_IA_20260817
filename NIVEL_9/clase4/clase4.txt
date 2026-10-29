@@ -1,0 +1,108 @@
+Durante el proceso de ingesta de documentos, el contenido de los mismos cambia, sin embargo se realiza chunking (fragmentación) y nuevo embedding (incrustaciones en la base de datos vectorizada), al realizar RAG como garantizamos que las respuesta correspondan a la versión más recientes de los documentos relacionados.
+
+
+Garantizar que un sistema RAG (*Retrieval-Augmented Generation*) recupere exclusivamente la versión más reciente de un documento tras una actualización es uno de los mayores desafíos de ingeniería en arquitecturas basadas en vectores. A diferencia de las bases de datos relacionales, las bases de datos vectoriales están optimizadas para la similitud semántica, no para la consistencia temporal nativa.
+
+Para resolver este problema y evitar que el modelo responda con fragmentos obsoletos (*stale chunks*), se deben implementar estrategias combinadas a nivel de **ingesta**, **almacenamiento** y **recuperación**:
+
+---
+
+### 1. Identificadores Deterministas y Operaciones *Upsert*
+
+El error más común es tratar la inserción de fragmentos (*chunks*) como un flujo ciego de adición (`insert`).
+
+* **La solución:** Utilizar identificadores únicos y deterministas basados en la ruta o el identificador del documento combinado con el índice del fragmento (por ejemplo: `doc_123_chunk_05`).
+* Al re-ingestar un documento modificado, el sistema debe realizar una operación de **`upsert`** (actualizar o insertar) utilizando esos mismos IDs. Esto sobrescribe automáticamente los vectores antiguos en lugar de acumular duplicados basura en el espacio vectorial.
+
+### 2. Versionamiento y Filtrado por Metadatos (`Metadata Filtering`)
+
+Incluso con *upsert*, si los fragmentos cambian de tamaño (por ejemplo, el *chunking* dinámico genera más o menos fragmentos que antes), pueden quedar vectores huérfanos de la versión anterior.
+
+* **La solución:** Añadir metadatos estrictos a cada vector durante la incrustación, como `doc_id`, `version_number` o un booleano `is_latest: true`.
+* Al ejecutar la consulta RAG, la búsqueda vectorial debe ir acompañada de un **filtro de metadatos** (por ejemplo, en ChromaDB, pgvector o Pinecone):
+
+$$\text{Buscar similitud semántica } \text{WHERE } \text{is\_latest} = \text{true}$$
+
+
+
+De esta forma, los fragmentos desactualizados se vuelven invisibles para el motor de recuperación.
+
+### 3. Borrado Preventivo (*Garbage Collection* o Purga)
+
+Si no se utilizan IDs deterministas, el proceso de actualización debe seguir un flujo transaccional estricto antes de re-indexar:
+
+1. **Detección de cambio:** El pipeline detecta que el documento fuente ha cambiado (mediante un hash SHA-256 del contenido o control de versiones).
+2. **Purga:** Se ejecuta una consulta de eliminación en la base de datos vectorial para borrar todos los vectores que contengan el `doc_id` antiguo.
+3. **Generación:** Se aplica el nuevo *chunking* y se generan los nuevos embeddings.
+4. **Inyección:** Se almacenan los nuevos vectores limpios.
+
+### 4. Ponderación Temporal y Búsqueda Híbrida
+
+En escenarios donde coexisten múltiples versiones históricas válidas pero se prioriza la más reciente, depender únicamente de la distancia de Coseno o Producto Punto puede fallar si un texto antiguo es semánticamente más "parecido" a la pregunta del usuario.
+
+* **La solución:** Implementar **búsqueda híbrida** (combinando BM25/palabras clave con vectores) y aplicar un factor de decaimiento temporal (*temporal decay*). Esto otorga un puntaje de bonificación (*boost*) a los documentos con marcas de tiempo más recientes, asegurando que la frescura influya en el *ranking* final de los fragmentos recuperados.
+
+### 5. Invalidación de Caché de Consultas
+
+Si tu arquitectura RAG utiliza capas de caché (como Redis para almacenar preguntas frecuentes y sus respuestas generadas), cualquier actualización en los documentos debe invalidar inmediatamente las entradas de caché asociadas a los temas o documentos modificados para evitar servir respuestas cacheadas obsoletas.
+
+Para avalar las estrategias descritas en la gestión de frescura y versionamiento en arquitecturas RAG, se pueden tomar como referencia los estándares de ingeniería de la industria y la documentación técnica de plataformas de bases de datos vectoriales:
+
+### 1. Pinecone Architecture & Engineering Documentation (Operaciones `Upsert` y Consistencia)
+
+* **En qué consiste:** La documentación de arquitectura de bases de datos vectoriales detalla que las modificaciones de contenido no deben tratarse como inserciones ciegas, sino como operaciones de **`upsert` basadas en identificadores deterministas** respaldadas por un registro de transacciones (*Write-Ahead Log* o WAL).
+* **Aporte al RAG:** Garantiza que al actualizar un documento, los nuevos vectores sobrescriban de forma atómica a los anteriores en la capa de almacenamiento y en memoria (*memtable*), evitando la acumulación de basura y reduciendo el riesgo de recuperar fragmentos huérfanos.
+
+### 2. Guías de Ingeniería de Producción RAG: Sincronización Incremental y Checksums (*RAG Freshness Strategies*)
+
+* **En qué consiste:** Los patrones de diseño para la sincronización de fuentes de conocimiento en IA sugieren el uso de **metadatos de control de versión y hashes de contenido (como SHA-256)** directamente en los fragmentos (*chunks*).
+* **Aporte al RAG:** Permite que el pipeline de ingesta evalúe si un documento realmente cambió antes de gastar recursos computacionales re-vectorizando todo, además de mantener una trazabilidad auditable de la fecha de actualización de cada fragmento.
+
+### 3. Patrones de Diseño para Bases de Datos Vectoriales: Filtrado por Metadatos (*Enterprise RAG Best Practices*)
+
+* **En qué consists:** Las guías de implementación para motores de búsqueda semántica (como los patrones recomendados para entornos con ChromaDB, pgvector o Weaviate) establecen que la búsqueda vectorial pura debe estar acoplada obligatoriamente a **filtros de metadatos dinámicos**.
+* **Aporte al RAG:** Obliga al motor de recuperación a aplicar restricciones booleanas estrictas (por ejemplo, buscar solo donde `is_latest: true` o mediante un control estricto de `doc_id` y `version`), asegurando que las respuestas del modelo se basen exclusivamente en la versión más reciente, incluso si un fragmento antiguo posee una similitud matemática ligeramente superior.
+
+La **búsqueda híbrida** representa el estándar de oro en los sistemas de recuperación de información modernos (como en arquitecturas RAG avanzadas). Consiste en combinar la precisión de la concordancia exacta de palabras clave (**búsqueda léxica con BM25**) con la comprensión profunda del significado y el contexto (**búsqueda vectorial semántica**).
+
+Ninguna de las dos técnicas por sí sola es infalible; juntas se complementan para compensar sus debilidades mutuas.
+
+---
+
+### 1. Componente Léxico: BM25 (Best Matching 25)
+
+Es la evolución matemática de los sistemas tradicionales de frecuencia de términos (**TF-IDF**).
+
+* **Cómo funciona:** Analiza la frecuencia exacta con la que aparecen las palabras de la consulta en un documento (*Term Frequency*), penalizando documentos excesivamente largos y ajustándolo según la rareza de la palabra en todo el corpus (*Inverse Document Frequency*).
+* **Fortalezas:** Es insuperable buscando **códigos específicos, números de parte, acrónimos, nombres propios** o términos técnicos exactos donde un cambio de una sola letra altera por completo el sentido.
+* **Debilidades:** Es ciega al contexto. Si buscas "vehículo" pero el documento dice "automóvil", BM25 no encontrará una coincidencia directa a menos que aparezca la palabra exacta.
+
+### 2. Componente Vectorial: Búsqueda Semántica
+
+Transforma el texto en vectores numéricos de alta dimensión utilizando modelos de lenguaje (*embeddings*).
+
+* **Cómo funciona:** Calcula la proximidad geométrica (como la **similitud de Coseno**) entre el vector de la pregunta del usuario y los vectores de los fragmentos de documentos en un espacio latente.
+* **Fortalezas:** Comprende **sinónimos, intenciones, paráfrasis y conceptos abstractos**. Entiende que "financiamiento para empresas" y "crédito corporativo" apuntan a la misma idea aunque no compartan palabras.
+* **Debilidades:** Puede fallar al buscar términos extremadamente específicos, códigos alfanuméricos únicos o nombres propios raros donde el modelo vectorial no capturó una representación precisa durante su entrenamiento.
+
+---
+
+### Comparación Técnica
+
+| Dimensión | Búsqueda Léxica (BM25) | Búsqueda Vectorial (Semántica) |
+| --- | --- | --- |
+| **Fundamento** | Estadístico (Frecuencia de palabras) | Geométrico (Espacio vectorial y significado) |
+| **Coincidencia** | Exacta de términos | Conceptual y por sinónimos |
+| **Ideal para** | SKUs, códigos, nombres propios, jerga exacta | Preguntas conceptuales, resúmenes, intenciones |
+| **Sensibilidad a errores** | Alta (un error tipográfico rompe la búsqueda) | Baja (captura la proximidad semántica general) |
+
+---
+
+### 3. El Desafío de la Fusión: ¿Cómo se unen?
+
+Los puntajes de BM25 (basados en frecuencias y frecuencias inversas) y los de vectores (basados en distancias de coseno o productos internos) **no son compatibles directamente**.
+
+Para resolver esto en producción, los motores de búsqueda (como Elasticsearch, OpenSearch, Pinecone o Qdrant) utilizan algoritmos de combinación de listas:
+
+1. **Reciprocal Rank Fusion (RRF):** En lugar de promediar puntajes matemáticos directos, RRF evalúa la **posición (ranking)** que ocupa un documento en ambas listas de resultados y calcula una penalización combinada basada en su orden de aparición.
+2. **Ponderación Lineal Normalizada:** Se normalizan ambos puntajes a una escala de 0 a 1 mediante funciones como *Min-Max* y se aplica un factor de peso ajustable (por ejemplo, 40% BM25 y 60% Vectores según la naturaleza del dominio).

@@ -1,4 +1,5 @@
 import os
+import time
 from typing import Any, Dict, List, Sequence, Tuple
 
 import chromadb
@@ -10,7 +11,21 @@ MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 DB_PATH = os.path.join(os.getcwd(), "chroma_db")
 COLLECTION_NAME = "manuales"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash-lite")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL") or "gemini-3.8-flash"
+
+
+def normalize_gemini_model_name(model_name: str | None) -> str:
+    if not model_name:
+        return GEMINI_MODEL
+
+    normalized = model_name.strip()
+    aliases = {
+        "gemini-3.8-flash-lite": "gemini-3.8-flash",
+        "gemini-2.5-flash": "gemini-3.8-flash",
+        "gemini-2.0-flash": "gemini-3.8-flash",
+        "gemini-1.5-flash": "gemini-3.8-flash",
+    }
+    return aliases.get(normalized, normalized)
 
 
 def chunk_text(text: str, chunk_size: int = 400, overlap: int = 80) -> List[str]:
@@ -161,28 +176,43 @@ def answer_question(question: str, db_path: str = DB_PATH, collection_name: str 
     return answer, evidence
 
 
-def ask_gemini(question: str, context_chunks: Sequence[str], api_key: str | None = None, model_name: str = "gemini-3.8-flash-lite") -> str:
+def ask_gemini(question: str, context_chunks: Sequence[str], api_key: str | None = None, model_name: str = GEMINI_MODEL) -> str:
     key = api_key or GEMINI_API_KEY
     if not key:
         raise ValueError("Falta la variable de entorno GEMINI_API_KEY")
 
-    selected_model = model_name or GEMINI_MODEL or "gemini-3.8-flash-lite"
+    selected_model = normalize_gemini_model_name(model_name or GEMINI_MODEL)
     prompt = build_rag_prompt(question, context_chunks)
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{selected_model}:generateContent?key={key}"
     payload = {
         "contents": [{
             "parts": [{"text": prompt}]
         }]
     }
 
-    response = requests.post(url, json=payload, timeout=60)
-    response.raise_for_status()
-    data = response.json()
+    last_error: Exception | None = None
+    for attempt in range(3):
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{selected_model}:generateContent?key={key}"
+        try:
+            response = requests.post(url, json=payload, timeout=180)
+            if response.status_code == 503 and attempt < 2:
+                time.sleep(2 ** attempt)
+                continue
+            response.raise_for_status()
+            data = response.json()
+            try:
+                return data["candidates"][0]["content"]["parts"][0]["text"]
+            except (KeyError, IndexError, TypeError):
+                raise ValueError(f"No se pudo interpretar la respuesta de Gemini: {data}")
+        except requests.exceptions.RequestException as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(2 ** attempt)
+                continue
+            raise ValueError(f"No se pudo contactar a Gemini con el modelo '{selected_model}': {exc}") from exc
 
-    try:
-        return data["candidates"][0]["content"]["parts"][0]["text"]
-    except (KeyError, IndexError, TypeError):
-        raise ValueError(f"No se pudo interpretar la respuesta de Gemini: {data}")
+    if last_error is not None:
+        raise ValueError(f"No se pudo completar la generación con Gemini: {last_error}")
+    raise ValueError("No se pudo completar la generación con Gemini.")
 
 
 if __name__ == "__main__":

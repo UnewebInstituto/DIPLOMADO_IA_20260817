@@ -3,12 +3,15 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template_string, request
 
-from main import SentenceTransformer, rag_answer
+from main import get_embedding_model, rag_answer
 
 app = Flask(__name__)
 ROOT_DIR = Path(__file__).resolve().parent
+load_dotenv(ROOT_DIR / ".env")
+os.environ.setdefault("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
 HTML_PAGE = """
 <!doctype html>
@@ -158,6 +161,13 @@ HTML_PAGE = """
       const input = document.getElementById('question');
       const messages = document.getElementById('messages');
       const status = document.getElementById('status');
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      function setLoading(isLoading) {
+        submitButton.disabled = isLoading;
+        submitButton.textContent = isLoading ? 'Consultando...' : 'Enviar';
+        input.disabled = isLoading;
+      }
 
       function addMessage(role, text, citations = []) {
         const item = document.createElement('div');
@@ -182,11 +192,16 @@ HTML_PAGE = """
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const question = input.value.trim();
-        if (!question) return;
+        if (!question) {
+          status.textContent = 'Escribe una pregunta antes de enviar.';
+          input.focus();
+          return;
+        }
 
         addMessage('user', question);
         input.value = '';
         status.textContent = 'Buscando en los documentos...';
+        setLoading(true);
 
         try {
           const response = await fetch('/ask', {
@@ -205,6 +220,9 @@ HTML_PAGE = """
         } catch (error) {
           addMessage('assistant', 'Ocurrió un error: ' + error.message);
           status.textContent = 'Hubo un problema al consultar el asistente.';
+        } finally {
+          setLoading(false);
+          input.focus();
         }
       });
     </script>
@@ -228,7 +246,7 @@ def ask():
 
     model = None
     try:
-        model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+        model = get_embedding_model()
     except Exception:
         model = None
 
@@ -241,4 +259,4 @@ def ask():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=False)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=False, threaded=True)

@@ -58,6 +58,34 @@ def get_pdf_files(directory: Path) -> List[Path]:
     return sorted(directory.glob("*.pdf"))
 
 
+def _should_rebuild_index(collection: chromadb.Collection, pdf_files: List[Path]) -> bool:
+    if not pdf_files:
+        return False
+
+    source_mtimes: Dict[str, int] = {}
+    stored = collection.get(include=["metadatas"]).get("metadatas", [])
+    for metadata in stored:
+        if not isinstance(metadata, dict):
+            continue
+        source = metadata.get("fuente")
+        mtime = metadata.get("mtime")
+        if not source:
+            continue
+        if isinstance(mtime, (int, float)):
+            source_mtimes[source] = max(source_mtimes.get(source, -1), int(mtime))
+
+    current_sources = {pdf.name for pdf in pdf_files}
+    if set(source_mtimes) != current_sources:
+        return True
+
+    for pdf_path in pdf_files:
+        expected_mtime = int(pdf_path.stat().st_mtime)
+        if source_mtimes.get(pdf_path.name) != expected_mtime:
+            return True
+
+    return False
+
+
 def build_index(directory: Path, collection_name: str = COLLECTION_NAME, reindex: bool = False) -> chromadb.Collection:
     model = SentenceTransformer(MODEL_NAME)
     client = chromadb.PersistentClient(path=str(DB_PATH))
@@ -66,7 +94,11 @@ def build_index(directory: Path, collection_name: str = COLLECTION_NAME, reindex
         metadata={"hnsw:space": "cosine"},
     )
 
-    if reindex:
+    pdf_files = get_pdf_files(directory)
+    if not pdf_files:
+        raise FileNotFoundError(f"No se encontraron archivos PDF en: {directory}")
+
+    if reindex or _should_rebuild_index(collection, pdf_files):
         existing_ids = collection.get(include=[]).get("ids", [])
         if existing_ids:
             collection.delete(ids=existing_ids)
@@ -82,6 +114,7 @@ def build_index(directory: Path, collection_name: str = COLLECTION_NAME, reindex
     for pdf_path in pdf_files:
         full_text = extract_text_from_pdf(pdf_path)
         chunks = chunk_text(full_text)
+        pdf_mtime = int(pdf_path.stat().st_mtime)
 
         for index, chunk in enumerate(chunks):
             doc_id = f"{pdf_path.stem}_{index}"
@@ -91,6 +124,7 @@ def build_index(directory: Path, collection_name: str = COLLECTION_NAME, reindex
                 "fuente": pdf_path.name,
                 "categoria": "manual",
                 "pagina": index + 1,
+                "mtime": pdf_mtime,
             })
 
     if not all_documents:
