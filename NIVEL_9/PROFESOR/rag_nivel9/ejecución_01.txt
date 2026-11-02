@@ -1,0 +1,95 @@
+Para la Práctica 1, todo se ejecuta desde la carpeta raíz `rag_nivel9/`, con el entorno virtual activado y los documentos ya copiados en `documentos/`.
+
+## 0. Preparación (una sola vez)
+
+```bash
+cd rag_nivel9
+
+python -m venv venv
+source venv/bin/activate          # Windows (cmd):        venv\Scripts\activate
+                                  # Windows (PowerShell): venv\Scripts\Activate.ps1
+
+pip install sentence-transformers chromadb rank-bm25 pypdf numpy anthropic
+```
+
+## 1. Verificar la estructura
+
+Antes de ejecutar, confirme que existan estos archivos:
+
+```
+rag_nivel9/
+├── documentos/          ← sus PDF, TXT o MD
+├── utils.py             ← Paso 1
+├── p1_embeddings.py     ← Paso 2
+└── p1_buscar.py         ← Paso 3
+```
+
+Listado rápido:
+
+```bash
+ls documentos/            # Windows: dir documentos
+```
+
+## 2. Paso 2: generar y guardar los embeddings
+
+```bash
+python p1_embeddings.py
+```
+
+Qué debe ver:
+- `Total de chunks: N`
+- Una barra de progreso del modelo.
+- `Forma de la matriz: (N, 384)`
+
+Qué genera (en `rag_nivel9/`):
+- `embeddings.npy` (matriz de vectores)
+- `chunks.json` (texto y metadatos de cada chunk)
+
+La primera ejecución descarga el modelo `paraphrase-multilingual-MiniLM-L12-v2` (unos 470 MB), así que necesita conexión a internet; las siguientes ya lo usan desde caché.
+
+## 3. Paso 3: búsqueda semántica interactiva
+
+```bash
+python p1_buscar.py
+```
+
+Escriba preguntas en la consola; con Enter vacío sale. Muestra los 3 fragmentos más similares con su puntaje de similitud coseno.
+
+## 4. Paso 4: experimentos guiados
+
+Los experimentos 3 y 4 requieren modificar parámetros y volver a ejecutar:
+
+**Experimento 4 (tamaño del chunk).** En `p1_embeddings.py`, cambie la llamada:
+
+```python
+chunks = preparar_chunks("documentos", tamano=400)    # luego tamano=1200
+```
+
+y ejecute de nuevo:
+
+```bash
+python p1_embeddings.py
+python p1_buscar.py
+```
+
+Para no perder los resultados de cada corrida, renombre los archivos antes de la siguiente:
+
+```bash
+mv embeddings.npy embeddings_400.npy
+mv chunks.json chunks_400.json
+```
+
+(Windows: `ren embeddings.npy embeddings_400.npy`.) Antes de volver a `p1_buscar.py` con otra versión, restaure los nombres originales `embeddings.npy` y `chunks.json`, o cambie las rutas dentro del script.
+
+**Experimento 3 (otro modelo).** Cambie el modelo en ambos scripts a `intfloat/multilingual-e5-small` y agregue los prefijos `"passage: "` al indexar y `"query: "` al consultar.
+
+## Errores frecuentes
+
+| Síntoma | Causa | Solución |
+|---|---|---|
+| `ModuleNotFoundError: utils` | Se ejecuta desde otra carpeta | Hacer `cd rag_nivel9` primero |
+| `Total de chunks: 0` | `documentos/` vacía o con extensiones no soportadas | Usar solo `.pdf`, `.txt`, `.md` |
+| `FileNotFoundError: chunks.json` | No se ejecutó `p1_embeddings.py` | Ejecutarlo antes que `p1_buscar.py` |
+| PDF sin texto | PDF escaneado (imagen) | Requiere OCR; use otro documento |
+
+Si ejecuta en Google Colab en lugar de local, `p1_buscar.py` no funcionará con `input()` en `!python`; avíseme y se lo adapto a una celda.

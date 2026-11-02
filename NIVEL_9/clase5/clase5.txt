@@ -1,0 +1,150 @@
+**BM25** (Okapi BM25) es un algoritmo de recuperación de información basado en **probabilidad y TF-IDF** (*Term Frequency-Inverse Document Frequency*). Es el estándar de la industria para la **búsqueda léxica (por palabras clave)** y constituye el motor de herramientas como Elasticsearch, OpenSearch y Lucene.
+
+A diferencia del cálculo TF-IDF tradicional, BM25 resuelve dos problemas críticos en la búsqueda de texto:
+
+1. **Saturación de frecuencia de términos:** Si una palabra clave aparece 20 veces en un documento, no significa que sea 20 veces más relevante que un documento donde aparece 5 veces. BM25 aplica una curva logarítmica que atenúa el impacto de la repetición masiva.
+2. **Normalización por longitud del documento:** Penaliza los documentos muy largos donde las palabras clave aparecen por puro azar y favorece a los documentos cortos y concisos que contienen las palabras clave exactas.
+
+---
+
+### La Fórmula de BM25
+
+Dada una consulta $Q$ compuesta por los términos $q_1, q_2, \dots, q_n$ y un documento $D$, la puntuación se calcula como:
+
+$$\text{Score}(D, Q) = \sum_{i=1}^{n} \text{IDF}(q_i) \cdot \frac{f(q_i, D) \cdot (k_1 + 1)}{f(q_i, D) + k_1 \cdot \left(1 - b + b \cdot \frac{\vert{}D\vert{}}{\text{avgdl}}\right)}$$
+
+* **$\text{IDF}(q_i)$:** Frecuencia inversa de documento del término. Mide qué tan rara o informativa es la palabra en todo el corpus.
+* **$f(q_i, D)$:** Frecuencia con la que el término $q_i$ aparece en el documento $D$.
+* **$\vert{}D\vert{}$ y $\text{avgdl}$:** Longitud del documento actual y la longitud promedio de todos los documentos del corpus, respectivamente.
+* **$k_1$ (parámetro de saturación, usualmente $1.2 - 2.0$):** Controla qué tan rápido se satura el peso de la frecuencia del término.
+* **$b$ (parámetro de normalización de longitud, usualmente $0.75$):** Controla qué tanto penaliza la longitud del documento ($b = 1$ aplica penalización completa; $b = 0$ ignora la longitud).
+
+---
+
+### BM25 vs. Búsqueda Vectorial (Embeddings)
+
+| Característica | BM25 (Léxica) | Embeddings / Búsqueda Semántica (Vectorial) |
+| --- | --- | --- |
+| **Mecanismo** | Coincidencia exacta de términos (*tokens*). | Proximidad en espacio vectorial denso (distancia coseno, producto punto). |
+| **Fortalezas** | Nombres propios, códigos de error, SKUs, acrónimos y términos raros. | Captura la intención, sinónimos y conceptos sin necesidad de usar las mismas palabras. |
+| **Debilidades** | Sensible a variación de vocabulario (sinónimos, conjugaciones). | Propenso a alucinar relevancia en códigos exactos o ID técnicos. |
+| **Recursos** | Bajo consumo computacional, índice invertido rápido. | Requiere modelos de cómputo (GPU/CPU) e índices vectoriales (HNSW, IVFFlat). |
+
+---
+
+### Uso en Sistemas RAG (Búsqueda Híbrida)
+
+En arquitecturas avanzadas de **RAG (Retrieval-Augmented Generation)**, BM25 no se reemplaza por vectores, sino que se combina con ellos mediante **Búsqueda Híbrida**:
+
+1. Se consulta el corpus con **BM25** (para capturar palabras clave exactas y nombres) y con **Embeddings** (para capturar contexto y semántica).
+2. Se combinan y reordenan las listas de resultados utilizando algoritmos como **RRF (Reciprocal Rank Fusion)** o un modelo de **Cross-Encoder / Re-ranker**.
+
+Diseñar una arquitectura de **búsqueda híbrida** robusta requiere combinar lo mejor de dos mundos: la precisión quirúrgica de la búsqueda léxica (BM25) para términos exactos, códigos y nombres propios, y la comprensión conceptual de los modelos vectoriales (*embeddings*) para la intención semántica.
+
+A continuación, te presento el diseño de una arquitectura modular paso a paso para implementar este sistema utilizando un enfoque de fusión moderno y eficiente.
+
+---
+
+## Diagrama de Flujo de la Arquitectura
+
+```text
+[ Documentos / Textos ] 
+        │
+        ├──> [ 1. Pipeline de Ingestión ] ──┬──> [ Índice Invertido BM25 ]
+        │                                  └──> [ Base de Datos Vectorial ]
+        │
+[ Consulta del Usuario ]
+        │
+        ├──> [ 2. Recuperación Paralela ] ──┬──> [ Resultados BM25 (Top-K) ]
+        │                                  └──> [ Resultados Vectoriales (Top-K) ]
+        │
+        └──> [ 3. Fusión RRF ] ──> [ 4. Re-ranking (Cross-Encoder) ] ──> [ Contexto Final para RAG ]
+
+```
+
+---
+
+## Paso 1: Pipeline de Ingestión y Procesamiento Dual
+
+Cuando ingresa un documento nuevo al sistema, este debe procesarse de manera uniforme para alimentar ambos índices simultáneamente.
+
+1. **Chunking (Fragmentación):** Divide los documentos en fragmentos manejables (por ejemplo, de 500 a 1000 tokens) manteniendo solapamientos (*overlap*) para no perder contexto en los bordes.
+2. **Generación de Embeddings (Vectores Densos):** Cada fragmento pasa por un modelo de embedding (como `text-embedding-3-small`, BGE o modelos locales open-source) para generar su representación vectorial.
+3. **Indexación Dual:**
+* **Índice Esparsivo (BM25):** Se almacenan los tokens limpios del texto en un motor de búsqueda basado en texto (como Elasticsearch, OpenSearch o una estructura local optimizada con `rank_bm25`).
+* **Índice Denso (Vectorial):** Los vectores resultantes se almacenan en una base de datos vectorial (como Qdrant, Milvus, ChromaDB o pgvector) configurada con un índice de búsqueda aproximada eficiente (como HNSW).
+
+
+
+---
+
+## Paso 2: Fase de Consulta en Paralelo
+
+Cuando el usuario envía una consulta, el sistema la procesa y ejecuta ambas búsquedas de forma concurrente para minimizar la latencia.
+
+1. **Búsqueda Léxica (BM25):** Se consulta el índice invertido utilizando los términos exactos de la consulta. Se extraen los **Top-K** documentos más relevantes (ej. $K = 50$).
+2. **Búsqueda Semántica (Vectorial):** La consulta se convierte en vector utilizando el mismo modelo de embedding. Se realiza una búsqueda por similitud (coseno o producto punto) en la base de datos vectorial, extrayendo también los **Top-K** documentos.
+
+---
+
+## Paso 3: Fusión de Resultados con Reciprocal Rank Fusion (RRF)
+
+El problema principal al mezclar BM25 y vectores es que **sus puntajes numéricos no son comparables** (BM25 da puntuaciones absolutas sin techo, mientras que la distancia coseno varía entre 0 y 1).
+
+Para solucionar esto sin requerir costosas normalizaciones estadísticas, se utiliza **RRF**, un algoritmo basado en las **posiciones de ranking** (orden) de cada documento en las listas devueltas, sin importar su puntaje original.
+
+La fórmula de RRF se define como:
+
+$$\text{RRF\_Score}(d) = \sum_{m \in M} \frac{1}{k + r_m(d)}$$
+
+* **$M$:** El conjunto de sistemas de recuperación (en este caso, BM25 y el buscador vectorial).
+* **$r_m(d)$:** La posición (ranking) del documento $d$ en la lista devuelta por el sistema $m$ (empezando en 1).
+* **$k$:** Una constante de suavizado (el valor estándar en la industria es **$60$**). Evita que los documentos con posiciones muy altas dominen desproporcionadamente y da estabilidad a los puestos inferiores.
+
+**Ventaja clave:** Si un documento aparece en el puesto #2 en BM25 y en el #3 en vectores, recibe un puntaje acumulado muy alto, incluso si no fue el #1 absoluto en ninguna de las dos listas individuales.
+
+---
+
+## Paso 4: Re-ranking Opcional (Cross-Encoder)
+
+Una vez aplicado RRF, obtienes un conjunto consolidado de candidatos (por ejemplo, los mejores 20 documentos).
+
+Para llevar la precisión al nivel óptimo:
+
+1. Pasa estos 20 documentos junto con la consulta original a un modelo de **Cross-Encoder** (como los modelos de *Cohere Rerank* o *BGE-Reranker*).
+2. A diferencia de los embeddings tradicionales (Bi-Encoders), el Cross-Encoder evalúa la consulta y el documento **de manera conjunta**, capturando interacciones profundas de lenguaje.
+3. Se seleccionan los **Top-N** definitivos (ej. los 4 o 5 mejores) para entregarlos como contexto al LLM en tu pipeline de RAG.
+
+---
+El equivalente directo de una base de datos vectorial para BM25 es un **Motor de Búsqueda de Texto Completo (*Full-Text Search Engine*)** basado en **Índices Invertidos**.
+
+Mientras que una base de datos vectorial almacena vectores densos (números flotantes) en un espacio multidimensional para calcular distancias geométricas, un motor de texto almacena un **índice invertido**: una estructura de datos ultra optimizada que mapea cada palabra única del corpus directamente a los documentos que la contienen, junto con su frecuencia y posición.
+
+---
+
+### Principales Tecnologías Equivalentes
+
+Dependiendo de la escala y la arquitectura, las herramientas que cumplen este rol en la industria son:
+
+1. **Los Gigantes de Búsqueda (Basados en Apache Lucene):**
+* **Elasticsearch / OpenSearch:** Los estándares de la industria para búsqueda empresarial. Utilizan BM25 por defecto y manejan volúmenes masivos de texto con latencias mínimas.
+* **Apache Solr:** Otro veterano robusto del ecosistema Apache, ampliamente utilizado para catálogos de comercio electrónico y búsquedas complejas.
+
+
+2. **Librerías de Alto Rendimiento y Embebidas:**
+* **Tantivy:** Escrito en Rust (inspirado en Lucene), es extremadamente rápido y eficiente para indexación local de texto con BM25.
+* **SQLite (FTS5):** Permite integrar capacidades de búsqueda de texto completo y BM25 directamente dentro de bases de datos locales o archivos ligeros.
+
+
+3. **Bases de Datos Relacionales Tradicionales:**
+* **PostgreSQL:** Cuenta nativamente con potentes capacidades de *Full-Text Search* (`tsvector` / `tsquery`). Además, extensiones modernas como `pg_search` permiten ejecutar BM25 puro directamente dentro de Postgres.
+
+
+
+---
+
+### La Tendencia Actual: Bases de Datos Híbridas
+
+Hoy en día, la línea entre una "base de datos vectorial" y un "motor de texto BM25" se ha vuelto difusa. La gran mayoría de las bases de datos modernas del ecosistema de IA ya **no operan de forma aislada**, sino que son **híbridas nativas**:
+
+* Plataformas como **Qdrant, Milvus, Weaviate y Elasticsearch** almacenan tanto los vectores densos (para búsqueda semántica) como los índices invertidos con BM25 (para búsqueda léxica) en el mismo motor, facilitando la implementación de consultas híbridas sin requerir infraestructura separada.
