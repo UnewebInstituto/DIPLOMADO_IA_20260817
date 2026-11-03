@@ -10,3 +10,4 @@ print("Forma de la matriz:", vectores.shape)   # (n_chunks, 384)
 np.save("embeddings.npy", vectores)
 json.dump(chunks, open("chunks.json", "w", encoding="utf-8"),
           ensure_ascii=False, indent=2)
+

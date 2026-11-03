@@ -1,0 +1,135 @@
+Estas son las alternativas más usadas para una interfaz de chat sobre su `rag.py`. Todas solo consumen `rag.responder()`, así que no cambian nada del pipeline.
+
+| Herramienta | Ideal para | Ventajas | Limitaciones |
+|---|---|---|---|
+| **Gradio** | Demos rápidas, **Google Colab** | Es la que usa el manual, `share=True` da enlace público temporal, `ChatInterface` en pocas líneas | Diseño menos personalizable |
+| **Chainlit** | Chat con IA | Interfaz tipo ChatGPT, muestra fuentes como elementos laterales, historial y streaming nativos | Pensada solo para chat |
+| **NiceGUI** | Interfaces propias con Python puro | Muy flexible, buena para paneles completos | Más código |
+| **FastAPI + HTML/JS** | Producción o integración en un sitio web | Control total, API reutilizable por otras apps (web, WhatsApp, n8n) | Requiere escribir front-end |
+| **Flask + HTML** | Lo mismo, con menos infraestructura | Simple y muy conocido | Sin soporte asíncrono nativo |
+| **Panel / Dash** | Tableros con gráficos | Excelentes para visualizar métricas de la P4 | Excesivo para un chat |
+
+Para la P5 recomiendo **Gradio** (funciona en Colab y local) o **Chainlit** (mejor experiencia de chat). Abajo van las dos adaptadas a su proyecto.
+
+## Opción 1: Gradio (`app_gradio.py`)
+
+```python
+import json, os, pathlib, time
+import gradio as gr
+
+RAIZ = pathlib.Path(__file__).resolve().parent
+os.chdir(RAIZ)
+
+from rag import RAG
+
+rag = RAG()
+if rag.col.count() == 0:
+    rag.indexar("documentos")
+
+
+def registrar(pregunta, salida, segundos, ruta="registro.jsonl"):
+    with open(ruta, "a", encoding="utf-8") as f:
+        f.write(json.dumps({
+            "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "pregunta": pregunta,
+            "fuentes": [f"{x['fuente']}:p{x['pagina']}" for x in salida["fragmentos"]],
+            "respuesta": salida["respuesta"],
+            "segundos": round(segundos, 2),
+        }, ensure_ascii=False) + "\n")
+
+
+def consultar(pregunta, historial, k):
+    try:
+        inicio = time.time()
+        salida = rag.responder(pregunta, k=int(k))
+        segundos = time.time() - inicio
+    except Exception as e:
+        return f"⚠️ No se pudo generar la respuesta: {e}"
+
+    registrar(pregunta, salida, segundos)
+    fuentes = "\n".join(
+        f"- [{n}] {f['fuente']} p.{f['pagina']} (distancia {f['distancia']:.3f})"
+        for n, f in enumerate(salida["fragmentos"], 1))
+    return f"{salida['respuesta']}\n\n**Fuentes consultadas:**\n{fuentes}"
+
+
+demo = gr.ChatInterface(
+    consultar,
+    title="📚 Asistente de conocimiento",
+    description="Responde solo con base en los documentos indexados.",
+    additional_inputs=[gr.Slider(1, 8, value=4, step=1, label="Fragmentos a recuperar (k)")],
+)
+
+if __name__ == "__main__":
+    demo.launch()            # En Colab: demo.launch(share=True)
+```
+
+```bash
+pip install gradio
+python app_gradio.py          # abre http://127.0.0.1:7860
+```
+
+Gradio no interpreta un `$` suelto como fórmula, así que los montos como "$60 USD" se ven bien sin escapar.
+
+## Opción 2: Chainlit (`app_chainlit.py`)
+
+```python
+import json, os, pathlib, time
+import chainlit as cl
+
+RAIZ = pathlib.Path(__file__).resolve().parent
+os.chdir(RAIZ)
+
+from rag import RAG
+
+rag = RAG()
+if rag.col.count() == 0:
+    rag.indexar("documentos")
+
+
+def registrar(pregunta, salida, segundos, ruta="registro.jsonl"):
+    with open(ruta, "a", encoding="utf-8") as f:
+        f.write(json.dumps({
+            "fecha": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "pregunta": pregunta,
+            "fuentes": [f"{x['fuente']}:p{x['pagina']}" for x in salida["fragmentos"]],
+            "respuesta": salida["respuesta"],
+            "segundos": round(segundos, 2),
+        }, ensure_ascii=False) + "\n")
+
+
+@cl.on_message
+async def main(mensaje: cl.Message):
+    inicio = time.time()
+    try:
+        # rag.responder es síncrono: se ejecuta en un hilo para no bloquear la interfaz
+        salida = await cl.make_async(rag.responder)(mensaje.content)
+    except Exception as e:
+        await cl.Message(content=f"⚠️ No se pudo generar la respuesta: {e}").send()
+        return
+    registrar(mensaje.content, salida, time.time() - inicio)
+
+    nombres, elementos = [], []
+    for n, f in enumerate(salida["fragmentos"], 1):
+        nombre = f"[{n}] {f['fuente']} p.{f['pagina']}"
+        nombres.append(nombre)
+        elementos.append(cl.Text(name=nombre, content=f["texto"], display="side"))
+
+    contenido = salida["respuesta"] + "\n\n**Fuentes:** " + ", ".join(nombres)
+    await cl.Message(content=contenido, elements=elementos).send()
+```
+
+```bash
+pip install chainlit
+chainlit run app_chainlit.py -w      # abre http://localhost:8000
+```
+
+Al hacer clic en cada fuente se abre el fragmento completo en un panel lateral.
+
+## Qué elegir
+
+- **Entrega de la P5 y demostración de 5 minutos:** Gradio o Chainlit. Ambas cumplen el requisito 8 (interfaz utilizable con visualización de fuentes).
+- **Colab:** solo Gradio (`share=True`).
+- **Integrar el asistente en la web de un cliente o conectarlo a n8n o WhatsApp:** FastAPI, con un endpoint `POST /preguntar` que llame a `rag.responder()`.
+
+Las limitaciones que mencioné para la versión Streamlit siguen aplicando a estas: no hay memoria conversacional real y falta `sincronizar()` para actualizar sin reindexar todo. Si quiere la versión FastAPI con una página HTML mínima, avíseme y se la armo.

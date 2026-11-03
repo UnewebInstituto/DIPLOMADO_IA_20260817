@@ -1,0 +1,8 @@
+cd rag_nivel9
+source venv/bin/activate
+
+pip install streamlit
+
+export GEMINI_API_KEY="su_clave"
+
+streamlit run app.py

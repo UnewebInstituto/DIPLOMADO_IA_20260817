@@ -1,0 +1,13 @@
+1) Acceder a Ollama
+https://ollama.com/
+
+2) Instalación de Ollama (Caso Windows)
+irm https://ollama.com/install.ps1 | iex
+
+Sobre el archivo que se haya dejado en la carpeta \descargas, 
+dar botón derecho del mouse, seleccionar instalar y dar siguiente
+hasta completar instalación
+
+3) Activación del servidor (Desde command prompt o powershell )
+ollama serve
+

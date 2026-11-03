@@ -1,220 +1,151 @@
-from flask import Flask, request, jsonify, render_template_string
-from pathlib import Path
+import os
+
 import chromadb
-from pypdf import PdfReader
+import streamlit as st
+from google import genai
+from google.genai import types
 from sentence_transformers import SentenceTransformer
 
-app = Flask(__name__)
-
-PDF_DIR = Path(r"C:\.Profesores\HENRY_DUQUE\DIPLOMADO_IA_20260817\NIVEL_9\Keyla")
-DB_PATH = PDF_DIR / "chroma_db"
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-
-modelo = None
-coleccion = None
+MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+PERSIST_DIR = "./chroma_db"
+COLLECTION_NAME = "manuales"
+DEFAULT_GEMINI_MODEL = "gemini-3.5-flash-lite"
 
 
-def get_model():
-    global modelo
-    if modelo is None:
-        print("Cargando modelo...")
-        modelo = SentenceTransformer(MODEL_NAME)
-    return modelo
+@st.cache_resource
+def load_embedding_model():
+    return SentenceTransformer(MODEL_NAME)
 
 
-def get_collection():
-    global coleccion
-    if coleccion is None:
-        cliente = chromadb.PersistentClient(path=str(DB_PATH))
-        coleccion = cliente.get_or_create_collection(
-            name="manuales",
-            metadata={"hnsw:space": "cosine"}
-        )
-    return coleccion
-
-
-def extraer_texto_pdf(archivo_pdf: Path) -> str:
-    lector = PdfReader(str(archivo_pdf))
-    textos = []
-    for pagina_num, pagina in enumerate(lector.pages, start=1):
-        texto = pagina.extract_text() or ""
-        texto = " ".join(texto.split())
-        if texto:
-            textos.append(f"[Página {pagina_num}] {texto}")
-    return "\n".join(textos)
-
-
-def dividir_texto(texto: str, chunk_size: int = 500, overlap: int = 80):
-    if not texto:
-        return []
-    chunks = []
-    inicio = 0
-    longitud = len(texto)
-    while inicio < longitud:
-        fin = min(inicio + chunk_size, longitud)
-        chunk = texto[inicio:fin].strip()
-        if chunk:
-            chunks.append(chunk)
-        if fin == longitud:
-            break
-        inicio += chunk_size - overlap
-    return chunks
-
-
-def indexar_si_hace_falta():
-    col = get_collection()
-    ids_actuales = col.get()["ids"]
-    if ids_actuales:
-        return col
-
-    ids = []
-    documentos = []
-    metadatos = []
-
-    for pdf_path in sorted(PDF_DIR.glob("*.pdf")):
-        texto = extraer_texto_pdf(pdf_path)
-        chunks = dividir_texto(texto)
-        for idx, chunk in enumerate(chunks):
-            ids.append(f"{pdf_path.stem}_{idx:03d}")
-            documentos.append(chunk)
-            metadatos.append({
-                "fuente": pdf_path.name,
-                "archivo": pdf_path.stem,
-                "chunk": idx
-            })
-
-    if documentos:
-        embeddings = get_model().encode(documentos, normalize_embeddings=True).tolist()
-        col.upsert(
-            ids=ids,
-            documents=documentos,
-            metadatas=metadatos,
-            embeddings=embeddings
-        )
-
-    return col
-
-
-HTML = """
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>Buscador de manuales</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f7fb; }
-    .card { max-width: 900px; margin: 0 auto; background: white; padding: 24px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    form { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-    input { flex: 1 1 420px; padding: 10px 14px; font-size: 16px; }
-    button { background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; padding: 10px 14px; font-size: 16px; }
-    .result { margin-top: 20px; border-top: 1px solid #ddd; padding-top: 16px; }
-    .meta { color: #4b5563; font-size: 13px; }
-    .status { color: #4b5563; margin-bottom: 12px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h2>Buscador de manuales</h2>
-    <form id="searchForm">
-      <input id="pregunta" type="text" placeholder="Ejemplo: ¿Cómo recupero mi contraseña?" />
-      <button type="submit">Buscar</button>
-    </form>
-    <div class="status" id="status">Listo para consultar.</div>
-    <div id="resultado"></div>
-  </div>
-
-  <script>
-    const form = document.getElementById('searchForm');
-    const preguntaInput = document.getElementById('pregunta');
-    const status = document.getElementById('status');
-    const cont = document.getElementById('resultado');
-
-    form.addEventListener('submit', async function (event) {
-      event.preventDefault();
-      const pregunta = preguntaInput.value.trim();
-      if (!pregunta) {
-        cont.innerHTML = '<p>Escribe una pregunta para buscar.</p>';
-        return;
-      }
-
-      status.textContent = 'Consultando...';
-      cont.innerHTML = '';
-
-      try {
-        const res = await fetch('/buscar', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pregunta })
-        });
-
-        if (!res.ok) {
-          throw new Error('Respuesta no válida');
-        }
-
-        const data = await res.json();
-
-        if (!data.resultados || data.resultados.length === 0) {
-          cont.innerHTML = '<p>No se encontraron coincidencias.</p>';
-          status.textContent = 'Consulta finalizada.';
-          return;
-        }
-
-        data.resultados.forEach((item, idx) => {
-          const div = document.createElement('div');
-          div.className = 'result';
-          div.innerHTML = `
-            <div class="meta">Resultado ${idx + 1} · ${item.fuente} · Distancia: ${item.distancia.toFixed(4)}</div>
-            <p>${item.texto}</p>
-          `;
-          cont.appendChild(div);
-        });
-
-        status.textContent = 'Consulta finalizada.';
-      } catch (error) {
-        status.textContent = 'Hubo un error al consultar.';
-        cont.innerHTML = '<p>Verifica que el backend esté ejecutándose.</p>';
-      }
-    });
-  </script>
-</body>
-</html>
-"""
-
-
-@app.route("/")
-def index():
-    return render_template_string(HTML)
-
-
-@app.route("/health")
-def health():
-    return jsonify({"status": "ok"})
-
-
-@app.route("/buscar", methods=["POST"])
-def buscar():
-    data = request.get_json(force=True) or {}
-    pregunta = data.get("pregunta", "")
-
-    model = get_model()
-    col = indexar_si_hace_falta()
-
-    embedding = model.encode([pregunta], normalize_embeddings=True).tolist()
-    resultado = col.query(
-        query_embeddings=embedding,
-        n_results=3
+@st.cache_resource
+def load_collection():
+    client = chromadb.PersistentClient(path=PERSIST_DIR)
+    return client.get_or_create_collection(
+        name=COLLECTION_NAME,
+        metadata={"hnsw:space": "cosine"},
     )
 
-    items = []
-    for doc, dist, meta in zip(resultado["documents"][0], resultado["distances"][0], resultado["metadatas"][0]):
-        items.append({
-            "fuente": meta.get("fuente", "Desconocida"),
-            "texto": doc,
-            "distancia": float(dist)
-        })
 
-    return jsonify({"pregunta": pregunta, "resultados": items})
+@st.cache_data
+def query_documents(question: str, n_results: int = 5):
+    model = load_embedding_model()
+    collection = load_collection()
+    query_vector = model.encode([question], normalize_embeddings=True).tolist()
+    result = collection.query(
+        query_embeddings=query_vector,
+        n_results=n_results,
+    )
+
+    documents = result.get("documents", [[]])[0]
+    metadatas = result.get("metadatas", [[]])[0]
+    distances = result.get("distances", [[]])[0]
+
+    evidence = []
+    for doc, meta, distance in zip(documents, metadatas, distances):
+        metadata = meta if isinstance(meta, dict) else {}
+        evidence.append(
+            {
+                "fuente": metadata.get("fuente", "Desconocida"),
+                "pagina": metadata.get("pagina", "?"),
+                "chunk": metadata.get("chunk", "?"),
+                "documento": doc,
+                "distancia": float(distance),
+            }
+        )
+
+    return evidence
+
+
+def build_prompt(question: str, evidence: list[dict]):
+    context = "\n\n".join(
+        f"[Fuente: {item['fuente']} | Página: {item['pagina']}]\n{item['documento']}"
+        for item in evidence
+    )
+
+    return f"""
+Eres un asistente que responde únicamente con base en el contexto proporcionado.
+No inventes información. Si no se encuentra evidencia suficiente, dilo con honestidad.
+Incluye una respuesta breve, clara y con citas de fuente y página.
+
+CONTEXTO:
+{context}
+
+PREGUNTA:
+{question}
+
+RESPUESTA:
+""".strip()
+
+
+def answer_question(question: str, evidence: list[dict], model_name: str):
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("Falta la variable GEMINI_API_KEY. Defínela antes de usar la aplicación.")
+
+    client = genai.Client(api_key=api_key)
+    prompt = build_prompt(question, evidence)
+    response = client.models.generate_content(
+        model=model_name,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            temperature=0.2,
+            top_p=0.95,
+            max_output_tokens=700,
+        ),
+    )
+    return getattr(response, "text", str(response))
+
+
+def main():
+    st.set_page_config(page_title="Asistente RAG", page_icon="🧠", layout="wide")
+    st.title("Asistente documental con RAG")
+    st.caption("Consulta tus PDFs indexados con ChromaDB y responde con evidencia de fuente")
+
+    with st.sidebar:
+        st.header("Configuración")
+        model_name = st.selectbox(
+            "Modelo Gemini",
+            ["gemini-3.5-flash-lite"],
+            index=0,
+        )
+        n_results = st.slider("Resultados a recuperar", min_value=1, max_value=8, value=3)
+        st.info(
+            "Para usar esta app define la variable de entorno GEMINI_API_KEY antes de arrancar Streamlit."
+        )
+
+    question = st.text_area(
+        "Escribe tu consulta",
+        value="¿Cómo se solicita una constancia laboral?",
+        height=120,
+    )
+
+    if st.button("Consultar", type="primary"):
+        if not question.strip():
+            st.warning("Escribe una pregunta antes de continuar.")
+            return
+
+        try:
+            with st.spinner("Recuperando evidencia y generando respuesta..."):
+                evidence = query_documents(question, n_results=n_results)
+                if not evidence:
+                    st.warning("No se encontró evidencia relevante en la base vectorial.")
+                    return
+
+                answer = answer_question(question, evidence, model_name)
+
+            st.success("Respuesta generada")
+            st.markdown("### Respuesta")
+            st.write(answer)
+
+            st.markdown("### Evidencia recuperada")
+            for idx, item in enumerate(evidence, start=1):
+                st.markdown(f"**{idx}. {item['fuente']} | Página {item['pagina']}**")
+                st.write(item["documento"])
+                st.caption(f"Distancia: {item['distancia']:.4f}")
+
+        except Exception as exc:
+            st.error(f"No se pudo completar la consulta: {exc}")
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+    main()

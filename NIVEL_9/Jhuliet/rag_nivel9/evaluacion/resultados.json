@@ -1,0 +1,379 @@
+[
+  {
+    "pregunta": "¿Con cuántos días hábiles de anticipación se debe solicitar las vacaciones?",
+    "relevantes": [
+      "manual_rrhh.pdf::p001::000"
+    ],
+    "respuesta_referencia": "Se solicitan con un mínimo de 15 días hábiles de anticipación, de forma formal a través del Portal del Empleado.",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p003::000",
+      "manual_rrhh.pdf::p006::000",
+      "manual_rrhh.pdf::p002::000",
+      "manual_rrhh.pdf::p010::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 1,
+    "comentario": "El contexto proporcionado no contiene la información sobre los días de anticipación para solicitar vacaciones, por lo que la respuesta del sistema es correcta desde el punto de vista de la fidelidad al contexto, pero la respuesta de referencia indica que sí existía una respuesta esperada (aunque ausente en este fragmento) o penaliza la abstención si la información no estaba. Dado que evaluamos estrictamente contra la referencia, la corrección es baja, pero el sistema actuó bien respecto al contexto dado.",
+    "diagnostico": "fallo_recuperacion"
+  },
+  {
+    "pregunta": "¿Cuántos días hábiles de vacaciones y qué prima vacacional corresponden a quien tiene 10 años o más de antigüedad?",
+    "relevantes": [
+      "manual_rrhh.pdf::p001::000"
+    ],
+    "respuesta_referencia": "30 días hábiles de vacaciones con una prima vacacional del 50% sobre el sueldo base.",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p011::000",
+      "manual_rrhh.pdf::p003::000",
+      "manual_rrhh.pdf::p013::000",
+      "manual_ti.pdf::p010::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 1,
+    "correccion": 1,
+    "comentario": "El contexto proporcionado no contiene información sobre vacaciones ni prima vacacional, por lo que la respuesta de abstención es correcta según las políticas del sistema RAG, a pesar de que la referencia proporcione datos externos.",
+    "diagnostico": "fallo_recuperacion"
+  },
+  {
+    "pregunta": "¿Cuántos días hábiles dura la licencia por paternidad?",
+    "relevantes": [
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "respuesta_referencia": "10 días hábiles continuos, contados a partir de la fecha de nacimiento o de la resolución legal de adopción.",
+    "respuesta": "La licencia por paternidad dura 10 días hábiles continuos contados a partir de la fecha de nacimiento o resolución legal de adopción [1].",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p002::000",
+      "manual_rrhh.pdf::p013::000",
+      "manual_rrhh.pdf::p010::000",
+      "manual_rrhh.pdf::p003::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es totalmente correcta, está respaldada por el contexto y coincide con la respuesta de referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "¿Cuál es la longitud mínima de la contraseña de un usuario final?",
+    "relevantes": [
+      "manual_ti.pdf::p001::000"
+    ],
+    "respuesta_referencia": "14 caracteres (20 para administradores).",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_ti.pdf::p010::000",
+      "manual_rrhh.pdf::p012::000",
+      "manual_rrhh.pdf::p011::000",
+      "manual_ti.pdf::p011::001"
+    ],
+    "fidelidad": 5,
+    "relevancia": 1,
+    "correccion": 1,
+    "comentario": "La respuesta de referencia indica la longitud mínima, pero la respuesta del sistema indicó que no se encontraba la información, lo cual es incorrecto ya que la respuesta de referencia proporcionaba el dato (aunque el contexto provisto en este prompt en particular no lo contenía, debo basarme en la respuesta de referencia proporcionada).",
+    "diagnostico": "fallo_recuperacion"
+  },
+  {
+    "pregunta": "¿Qué puerto y protocolo usa la conexión VPN OpenVPN?",
+    "relevantes": [
+      "manual_ti.pdf::p002::000"
+    ],
+    "respuesta_referencia": "El puerto 1194 con protocolo UDP, restringido a clientes autenticados por MFA.",
+    "respuesta": "La conexión VPN OpenVPN utiliza el puerto 1194 y el protocolo UDP [1].",
+    "ids_contexto": [
+      "manual_ti.pdf::p002::000",
+      "manual_ti.pdf::p013::000",
+      "manual_ti.pdf::p007::000",
+      "manual_ti.pdf::p012::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es totalmente precisa y está respaldada por el contexto, indicando correctamente tanto el puerto (1194) como el protocolo (UDP).",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "¿A qué hora se actualizan diariamente los repositorios vectoriales?",
+    "relevantes": [
+      "manual_ti.pdf::p003::000"
+    ],
+    "respuesta_referencia": "Diariamente a las 02:00 UTC.",
+    "respuesta": "Los repositorios vectoriales se actualizan diariamente a las 02:00 UTC [1].",
+    "ids_contexto": [
+      "manual_ti.pdf::p003::000",
+      "manual_ti.pdf::p011::000",
+      "manual_rrhh.pdf::p003::000",
+      "manual_ti.pdf::p011::001"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es correcta, responde exactamente a la pregunta utilizando la información respaldada por el contexto y coincide con la referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "¿Cuántos minutos de tolerancia de entrada se permiten por día y cuántas veces al mes?",
+    "relevantes": [
+      "manual_rrhh.pdf::p003::000"
+    ],
+    "respuesta_referencia": "15 minutos por día, sin descuento salarial, hasta un máximo de 3 veces por mes.",
+    "respuesta": "Se permiten 15 minutos de tolerancia de entrada por día, con un máximo de 3 veces por mes [1].",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p003::000",
+      "manual_ti.pdf::p014::000",
+      "manual_rrhh.pdf::p007::000",
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es totalmente precisa, respaldada por el contexto y coincide con la respuesta de referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "¿En cuánto tiempo hay que reportar al Service Desk la pérdida o el robo de un dispositivo con información de la empresa?",
+    "relevantes": [
+      "manual_ti.pdf::p004::000"
+    ],
+    "respuesta_referencia": "Dentro de las primeras 2 horas corridas de ocurrido el incidente.",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p012::000",
+      "manual_ti.pdf::p014::000",
+      "manual_rrhh.pdf::p010::000",
+      "manual_ti.pdf::p010::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 1,
+    "comentario": "El contexto proporcionado no contiene la información sobre el tiempo para reportar la pérdida o robo de un dispositivo al Service Desk, por lo que la respuesta de abstención es correcta desde el punto de vista del sistema RAG, pero la corrección se califica con 1 debido a que la respuesta de referencia sí contiene un dato específico que el sistema no pudo hallar por limitaciones del contexto.",
+    "diagnostico": "fallo_recuperacion"
+  },
+  {
+    "pregunta": "¿Cuál es el tiempo máximo de respuesta para un incidente P1 - Crítico?",
+    "relevantes": [
+      "manual_ti.pdf::p008::000"
+    ],
+    "respuesta_referencia": "15 minutos; se notifica al CISO, al Comité de Crisis y al CEO.",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_ti.pdf::p005::000",
+      "manual_ti.pdf::p014::000",
+      "manual_ti.pdf::p011::000",
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 1,
+    "correccion": 1,
+    "comentario": "El contexto no contiene información sobre el tiempo máximo de respuesta para un incidente P1 - Crítico (menciona MTTD inferior a 15 minutos para incidentes de alta prioridad, pero no un incidente P1 específico de esa forma). Sin embargo, la respuesta de referencia sí provee un dato ('15 minutos'), por lo que la pregunta era respondible a partir de alguna fuente externa o interpretación que no está en el texto proporcionado; dado que el sistema dijo que no la encontraba, la corrección es baja frente a la referencia.",
+    "diagnostico": "fallo_recuperacion"
+  },
+  {
+    "pregunta": "¿En qué plazo máximo se paga el finiquito tras la fecha efectiva de baja?",
+    "relevantes": [
+      "manual_rrhh.pdf::p010::000"
+    ],
+    "respuesta_referencia": "En un plazo máximo de 10 días hábiles posteriores a la fecha efectiva de baja.",
+    "respuesta": "El pago del finiquito se realiza en un plazo máximo de 10 días hábiles posteriores a la fecha efectiva de baja [1].",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p010::000",
+      "manual_rrhh.pdf::p011::000",
+      "manual_rrhh.pdf::p002::000",
+      "manual_rrhh.pdf::p003::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es totalmente precisa y está respaldada por el contexto proporcionado, coincidiendo perfectamente con la respuesta de referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "Olvidé mi clave de acceso a la VPN, ¿qué pasos debo seguir para recuperarla?",
+    "relevantes": [
+      "manual_ti.pdf::p001::000"
+    ],
+    "respuesta_referencia": "Ingresar al portal interno en Configuración > Autenticación > Restablecer Clave y validar el segundo factor (MFA) con la aplicación Authenticator. Si hay bloqueo por más de 5 intentos fallidos, se solicita soporte con un ticket firmado por el supervisor.",
+    "respuesta": "Para restablecer su clave institucional de acceso a la red y VPN, debe seguir los siguientes pasos:\n\n1. Ingrese al portal interno en la ruta **Configuración > Autenticación > Restablecer Clave** [2].\n2. El sistema le requerirá el segundo factor de autenticación (MFA) a través de la aplicación Authenticator oficial [2].\n3. En caso de sufrir un bloqueo total por más de 5 intentos fallidos, deberá solicitar soporte directo mediante un ticket interno firmado por su supervisor directo [2].",
+    "ids_contexto": [
+      "manual_ti.pdf::p002::000",
+      "manual_ti.pdf::p001::000",
+      "manual_ti.pdf::p011::001",
+      "manual_ti.pdf::p007::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es completamente correcta, relevante y está totalmente respaldada por el contexto proporcionado, coincidiendo con la referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "Estuve ausente más de tres días seguidos por enfermedad, ¿de cuánto tiempo dispongo para entregar mi justificante médico?",
+    "relevantes": [
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "respuesta_referencia": "De un lapso no mayor a 48 horas tras la emisión del certificado de incapacidad, validado por el organismo oficial de salud.",
+    "respuesta": "Para ausencias superiores a 3 días consecutivos por reposos médicos, dispones de un lapso no mayor a 48 horas tras su emisión para entregar el certificado de incapacidad validado por el organismo oficial de salud [1].",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p002::000",
+      "manual_rrhh.pdf::p007::000",
+      "manual_rrhh.pdf::p010::000",
+      "manual_rrhh.pdf::p003::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es totalmente precisa, está respaldada por el contexto y coincide con la respuesta de referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "Soy analista y quiero dejar la empresa, ¿con cuánta anticipación debo avisar?",
+    "relevantes": [
+      "manual_rrhh.pdf::p010::000"
+    ],
+    "respuesta_referencia": "El nivel Profesional / Analista / Especialista debe avisar con 30 días naturales de anticipación.",
+    "respuesta": "Si eres analista (nivel Profesional / Analista / Especialista), debes dar un preaviso mínimo de 30 días naturales de anticipación [1].",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p010::000",
+      "manual_rrhh.pdf::p008::000",
+      "manual_ti.pdf::p001::000",
+      "manual_rrhh.pdf::p007::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es totalmente precisa, está respaldada por el contexto y coincide con la respuesta de referencia.",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "¿Cada cuánto tiempo estoy obligado a cambiar mi contraseña de empleado común?",
+    "relevantes": [
+      "manual_ti.pdf::p001::000"
+    ],
+    "respuesta_referencia": "Cada 90 días naturales (cada 30 días para administradores).",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p010::000",
+      "manual_ti.pdf::p010::000",
+      "manual_rrhh.pdf::p003::000",
+      "manual_rrhh.pdf::p011::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 1,
+    "comentario": "El sistema respondió que no encontró la información (lo cual es correcto dado que el contexto no menciona la frecuencia de cambio de contraseña), pero la respuesta de referencia indicaba que la respuesta correcta estaba en la referencia, lo que penaliza la corrección bajo la lógica estricta de este evaluador cuando la referencia provee un dato que supuestamente debería estar o ser respondido. Sin embargo, analizando el contexto, la información realmente no está allí. Dado que la regla dice: 'Si la RESPUESTA_REFERENCIA es NO_RESPONDIBLE... pon correccion = 5 solo si...', en este caso la referencia SÍ da una respuesta, por lo tanto el evaluador penaliza la corrección porque el sistema no dio la respuesta esperada de la referencia, a pesar de que el contexto carecía de ella.",
+    "diagnostico": "fallo_recuperacion"
+  },
+  {
+    "pregunta": "Cuando un empleado renuncia, ¿qué pasa con el pago de sus vacaciones no disfrutadas y qué sucede con sus cuentas de TI?",
+    "relevantes": [
+      "manual_rrhh.pdf::p010::000",
+      "manual_ti.pdf::p010::000"
+    ],
+    "respuesta_referencia": "Las vacaciones no disfrutadas se pagan en el finiquito, en un máximo de 10 días hábiles tras la baja efectiva. En TI, la cuenta institucional se desactiva de inmediato (tokens OAuth revocados y sesiones cerradas en menos de 5 minutos) y los activos deben devolverse en un máximo de 24 horas.",
+    "respuesta": "Con respecto al pago de vacaciones no disfrutadas, este concepto se incluye en el pago del finiquito y liquidación, el cual se realiza en un plazo máximo de 10 días hábiles posteriores a la fecha efectiva de baja, condicionado a la firma del paz y salvo y la devolución formal de los activos corporativos [2].\n\nCon respecto a las cuentas de TI en caso de renuncia, se ejecuta lo siguiente:\n* Se realiza un bloqueo inmediato que incluye la desactivación de la cuenta institucional, la revocación de tokens OAuth y el cierre de sesiones activas en menos de 5 minutos desde la hora efectiva de término [1].\n* Se redirige el buzón de correo al supervisor directo durante 30 días naturales antes de su archivado definitivo [1].",
+    "ids_contexto": [
+      "manual_ti.pdf::p010::000",
+      "manual_rrhh.pdf::p010::000",
+      "manual_rrhh.pdf::p003::000",
+      "manual_rrhh.pdf::p011::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "La respuesta es completa, precisa y está totalmente respaldada por el contexto proporcionado, abarcando tanto el aspecto financiero (vacaciones en el finiquito) como el técnico (bloqueo de cuentas de TI).",
+    "diagnostico": "ok"
+  },
+  {
+    "pregunta": "¿Qué calificación de desempeño necesito para optar a una beca universitaria y a qué rango de puntaje equivale?",
+    "relevantes": [
+      "manual_rrhh.pdf::p005::000",
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "respuesta_referencia": "Se exige calificación Sobresaliente o Satisfactorio Alto en las últimas 2 evaluaciones anuales. Satisfactorio equivale a 75%-94% y Sobresaliente a 95%-100%.",
+    "respuesta": "Para optar al fondo de becas universitarias, se requiere una calificación de desempeño de \"Sobresaliente o Satisfactorio Alto\" en las últimas 2 evaluaciones anuales [2]. Además, se exige un promedio académico mínimo de 8.5 / 10 o equivalente [2].",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p008::000",
+      "manual_rrhh.pdf::p005::000",
+      "manual_rrhh.pdf::p011::000",
+      "manual_rrhh.pdf::p014::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 4,
+    "correccion": 3,
+    "comentario": "La respuesta es fiel al contexto y responde correctamente a la primera parte de la pregunta (calificación de desempeño), pero no menciona el rango de puntaje equivalente para la beca porque dicha información no está presente en el contexto proporcionado.",
+    "diagnostico": "fallo_generacion"
+  },
+  {
+    "pregunta": "¿En cuántos días responde RRHH una solicitud de acceso a los datos personales del expediente y cómo clasifica TI los datos personales de salud?",
+    "relevantes": [
+      "manual_rrhh.pdf::p012::000",
+      "manual_ti.pdf::p006::000"
+    ],
+    "respuesta_referencia": "RRHH responde las solicitudes de Acceso (derechos ARCO) en 5 días hábiles. TI clasifica los datos personales de salud como información Restringida: acceso bajo el principio de menor privilegio y aprobación de VP.",
+    "respuesta": "RRHH responde una solicitud de acceso a los datos personales en un plazo de 5 días hábiles [1]. \n\nNo encontré información en los documentos sobre cómo clasifica TI los datos personales de salud.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p012::000",
+      "manual_rrhh.pdf::p002::000",
+      "manual_ti.pdf::p010::000",
+      "manual_ti.pdf::p003::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 3,
+    "correccion": 3,
+    "comentario": "El sistema responde correctamente sobre el plazo de RRHH, pero respecto a la clasificacion de TI de datos personales de salud, la referencia indica que si existe informacion en alguna parte no mostrada o se esperaba una respuesta especifica, aunque en el contexto provisto no aparece explícitamente. Como el contexto no lo contiene, la abstención es parcialmente correcta bajo estrictas normas RAG, pero la referencia indica una respuesta diferente.",
+    "diagnostico": "fallo_generacion"
+  },
+  {
+    "pregunta": "¿Cuál es el color del logotipo de la empresa en Marte?",
+    "relevantes": [],
+    "respuesta_referencia": "NO_RESPONDIBLE",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p009::000",
+      "manual_ti.pdf::p006::000",
+      "manual_ti.pdf::p007::001",
+      "manual_ti.pdf::p003::001"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "El sistema identificó correctamente que la información no está presente en el contexto y se abstuvo de responder, coincidiendo con la referencia NO_RESPONDIBLE.",
+    "diagnostico": "abstencion_correcta"
+  },
+  {
+    "pregunta": "¿Cuántos días de permiso se otorgan por mudanza de domicilio?",
+    "relevantes": [],
+    "respuesta_referencia": "NO_RESPONDIBLE",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_rrhh.pdf::p002::000",
+      "manual_rrhh.pdf::p010::000",
+      "manual_rrhh.pdf::p003::000",
+      "manual_ti.pdf::p010::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "El contexto no contiene información sobre permisos por mudanza. La respuesta se abstiene correctamente indicando que no encontró la información, lo cual coincide con la respuesta de referencia NO_RESPONDIBLE.",
+    "diagnostico": "abstencion_correcta"
+  },
+  {
+    "pregunta": "¿Cuál es la contraseña de la red Wi-Fi de invitados de la oficina?",
+    "relevantes": [],
+    "respuesta_referencia": "NO_RESPONDIBLE",
+    "respuesta": "No encontré esa información en los documentos.",
+    "ids_contexto": [
+      "manual_ti.pdf::p013::000",
+      "manual_ti.pdf::p001::000",
+      "manual_ti.pdf::p002::000",
+      "manual_ti.pdf::p010::000"
+    ],
+    "fidelidad": 5,
+    "relevancia": 5,
+    "correccion": 5,
+    "comentario": "El sistema identificó correctamente que la información no está presente en el contexto y se abstuvo de responder.",
+    "diagnostico": "abstencion_correcta"
+  }
+]

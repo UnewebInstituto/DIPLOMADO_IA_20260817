@@ -1,18 +1,16 @@
-import json, numpy as np
+import chromadb
 from sentence_transformers import SentenceTransformer
 from utils import preparar_chunks
-
-chunks = preparar_chunks("documentos")
-print(f"Total de chunks: {len(chunks)}")
-
 modelo = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
-vectores = modelo.encode([c["texto"] for c in chunks],
-                         normalize_embeddings=True, show_progress_bar=True)
+cliente = chromadb.PersistentClient(path="./chroma_db")
+# Recrear la colección desde cero para la práctica
+try:
+    cliente.delete_collection("conocimiento")
+except Exception:
+    pass
+col = cliente.create_collection("conocimiento", metadata={"hnsw:space": 
+"cosine"})
 
-print("Forma de la matriz:", vectores.shape)   # (n_chunks, 384)
-np.save("embeddings.npy", vectores)
-json.dump(chunks, open("chunks.json", "w", encoding="utf-8"),
-          ensure_ascii=False, indent=2)
 chunks = preparar_chunks("documentos")
 vectores = modelo.encode([c["texto"] for c in chunks],
                          normalize_embeddings=True).tolist()
@@ -21,7 +19,8 @@ col.add(
     documents=[c["texto"] for c in chunks],
     embeddings=vectores,
     metadatas=[{"fuente": c["fuente"], "pagina": c["pagina"]} for c in 
-chunks],)
+chunks],
+)
 print("Chunks indexados:", col.count())
 
 # Continúa en la misma sesión del Paso 1: usa las variables modelo y col
@@ -35,6 +34,7 @@ r["distances"][0]):
         print(doc[:250].replace("\n", " "), "...\n")
 consultar("¿Cómo se solicita una devolución?")
 consultar("¿Cómo se solicita una devolución?", fuente="politicas.pdf")
+
 # Continúa en la misma sesión: usa col, modelo y chunks del Paso 1
 # Actualizar el texto de un chunk (hay que recalcular su vector)
 nuevo = "Texto corregido del fragmento..."
@@ -47,3 +47,4 @@ print(col.get(ids=[chunks[0]["id"]]))
 # si no hay chunks con ese nombre, no ocurre nada)
 col.delete(where={"fuente": "documento_obsoleto.pdf"})
 print("Quedan:", col.count())
+

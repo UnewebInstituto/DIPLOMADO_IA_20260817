@@ -1,0 +1,139 @@
+[
+  {
+    "pregunta": "¿Con cuántos días hábiles de anticipación se debe solicitar las vacaciones?",
+    "relevantes": [
+      "manual_rrhh.pdf::p001::000"
+    ],
+    "respuesta_referencia": "Se solicitan con un mínimo de 15 días hábiles de anticipación, de forma formal a través del Portal del Empleado."
+  },
+  {
+    "pregunta": "¿Cuántos días hábiles de vacaciones y qué prima vacacional corresponden a quien tiene 10 años o más de antigüedad?",
+    "relevantes": [
+      "manual_rrhh.pdf::p001::000"
+    ],
+    "respuesta_referencia": "30 días hábiles de vacaciones con una prima vacacional del 50% sobre el sueldo base."
+  },
+  {
+    "pregunta": "¿Cuántos días hábiles dura la licencia por paternidad?",
+    "relevantes": [
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "respuesta_referencia": "10 días hábiles continuos, contados a partir de la fecha de nacimiento o de la resolución legal de adopción."
+  },
+  {
+    "pregunta": "¿Cuál es la longitud mínima de la contraseña de un usuario final?",
+    "relevantes": [
+      "manual_ti.pdf::p001::000"
+    ],
+    "respuesta_referencia": "14 caracteres (20 para administradores)."
+  },
+  {
+    "pregunta": "¿Qué puerto y protocolo usa la conexión VPN OpenVPN?",
+    "relevantes": [
+      "manual_ti.pdf::p002::000"
+    ],
+    "respuesta_referencia": "El puerto 1194 con protocolo UDP, restringido a clientes autenticados por MFA."
+  },
+  {
+    "pregunta": "¿A qué hora se actualizan diariamente los repositorios vectoriales?",
+    "relevantes": [
+      "manual_ti.pdf::p003::000"
+    ],
+    "respuesta_referencia": "Diariamente a las 02:00 UTC."
+  },
+  {
+    "pregunta": "¿Cuántos minutos de tolerancia de entrada se permiten por día y cuántas veces al mes?",
+    "relevantes": [
+      "manual_rrhh.pdf::p003::000"
+    ],
+    "respuesta_referencia": "15 minutos por día, sin descuento salarial, hasta un máximo de 3 veces por mes."
+  },
+  {
+    "pregunta": "¿En cuánto tiempo hay que reportar al Service Desk la pérdida o el robo de un dispositivo con información de la empresa?",
+    "relevantes": [
+      "manual_ti.pdf::p004::000"
+    ],
+    "respuesta_referencia": "Dentro de las primeras 2 horas corridas de ocurrido el incidente."
+  },
+  {
+    "pregunta": "¿Cuál es el tiempo máximo de respuesta para un incidente P1 - Crítico?",
+    "relevantes": [
+      "manual_ti.pdf::p008::000"
+    ],
+    "respuesta_referencia": "15 minutos; se notifica al CISO, al Comité de Crisis y al CEO."
+  },
+  {
+    "pregunta": "¿En qué plazo máximo se paga el finiquito tras la fecha efectiva de baja?",
+    "relevantes": [
+      "manual_rrhh.pdf::p010::000"
+    ],
+    "respuesta_referencia": "En un plazo máximo de 10 días hábiles posteriores a la fecha efectiva de baja."
+  },
+  {
+    "pregunta": "Olvidé mi clave de acceso a la VPN, ¿qué pasos debo seguir para recuperarla?",
+    "relevantes": [
+      "manual_ti.pdf::p001::000"
+    ],
+    "respuesta_referencia": "Ingresar al portal interno en Configuración > Autenticación > Restablecer Clave y validar el segundo factor (MFA) con la aplicación Authenticator. Si hay bloqueo por más de 5 intentos fallidos, se solicita soporte con un ticket firmado por el supervisor."
+  },
+  {
+    "pregunta": "Estuve ausente más de tres días seguidos por enfermedad, ¿de cuánto tiempo dispongo para entregar mi justificante médico?",
+    "relevantes": [
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "respuesta_referencia": "De un lapso no mayor a 48 horas tras la emisión del certificado de incapacidad, validado por el organismo oficial de salud."
+  },
+  {
+    "pregunta": "Soy analista y quiero dejar la empresa, ¿con cuánta anticipación debo avisar?",
+    "relevantes": [
+      "manual_rrhh.pdf::p010::000"
+    ],
+    "respuesta_referencia": "El nivel Profesional / Analista / Especialista debe avisar con 30 días naturales de anticipación."
+  },
+  {
+    "pregunta": "¿Cada cuánto tiempo estoy obligado a cambiar mi contraseña de empleado común?",
+    "relevantes": [
+      "manual_ti.pdf::p001::000"
+    ],
+    "respuesta_referencia": "Cada 90 días naturales (cada 30 días para administradores)."
+  },
+  {
+    "pregunta": "Cuando un empleado renuncia, ¿qué pasa con el pago de sus vacaciones no disfrutadas y qué sucede con sus cuentas de TI?",
+    "relevantes": [
+      "manual_rrhh.pdf::p010::000",
+      "manual_ti.pdf::p010::000"
+    ],
+    "respuesta_referencia": "Las vacaciones no disfrutadas se pagan en el finiquito, en un máximo de 10 días hábiles tras la baja efectiva. En TI, la cuenta institucional se desactiva de inmediato (tokens OAuth revocados y sesiones cerradas en menos de 5 minutos) y los activos deben devolverse en un máximo de 24 horas."
+  },
+  {
+    "pregunta": "¿Qué calificación de desempeño necesito para optar a una beca universitaria y a qué rango de puntaje equivale?",
+    "relevantes": [
+      "manual_rrhh.pdf::p005::000",
+      "manual_rrhh.pdf::p002::000"
+    ],
+    "respuesta_referencia": "Se exige calificación Sobresaliente o Satisfactorio Alto en las últimas 2 evaluaciones anuales. Satisfactorio equivale a 75%-94% y Sobresaliente a 95%-100%."
+  },
+  {
+    "pregunta": "¿En cuántos días responde RRHH una solicitud de acceso a los datos personales del expediente y cómo clasifica TI los datos personales de salud?",
+    "relevantes": [
+      "manual_rrhh.pdf::p012::000",
+      "manual_ti.pdf::p006::000"
+    ],
+    "respuesta_referencia": "RRHH responde las solicitudes de Acceso (derechos ARCO) en 5 días hábiles. TI clasifica los datos personales de salud como información Restringida: acceso bajo el principio de menor privilegio y aprobación de VP."
+  },
+  {
+    "pregunta": "¿Cuál es el color del logotipo de la empresa en Marte?",
+    "relevantes": [],
+    "respuesta_referencia": "NO_RESPONDIBLE"
+  },
+  {
+    "pregunta": "¿Cuántos días de permiso se otorgan por mudanza de domicilio?",
+    "relevantes": [],
+    "respuesta_referencia": "NO_RESPONDIBLE"
+  },
+  {
+    "pregunta": "¿Cuál es la contraseña de la red Wi-Fi de invitados de la oficina?",
+    "relevantes": [],
+    "respuesta_referencia": "NO_RESPONDIBLE"
+  }
+]

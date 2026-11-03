@@ -1,0 +1,30 @@
+[
+  {
+    "k": 1,
+    "precision": 0.529,
+    "recall": 0.471,
+    "hit_rate": 0.529,
+    "MRR": 0.529
+  },
+  {
+    "k": 3,
+    "precision": 0.235,
+    "recall": 0.588,
+    "hit_rate": 0.647,
+    "MRR": 0.588
+  },
+  {
+    "k": 5,
+    "precision": 0.165,
+    "recall": 0.706,
+    "hit_rate": 0.765,
+    "MRR": 0.615
+  },
+  {
+    "k": 8,
+    "precision": 0.118,
+    "recall": 0.794,
+    "hit_rate": 0.824,
+    "MRR": 0.623
+  }
+]

@@ -1,0 +1,2 @@
+python evaluacion/eval_recuperacion.py
+python evaluacion/eval_generacion.py
