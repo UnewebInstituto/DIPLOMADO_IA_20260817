@@ -1,0 +1,44 @@
+-- DESDE COMMAND PROMPT O POWER SHELL
+-- INTALACIÓN DEL ENTORNO VIRTUAL
+python -m venv venv
+
+-- ACTIVACIÓN DEL ENTRONO VIRTUAL
+venv\scripts\activate
+
+-- INSTALACIÓN DE DEPENDENCIAS
+pip install -r requirements.txt
+
+-- VERIFICACIÓN DE LA INSTALACIÓN
+pip list
+
+-- 1er. PROGRAMA A EJECUTAR 
+python ingesta.py
+
+-- 2do. PROGRAMA A EJECUTAR 
+-- Deben existir config.py y env.example (ver contenido)
+python chunking.py
+
+-- 3er. PROGRAMA A EJECUTAR
+python embedder.py
+
+-- 4to. PROGRAMA A EJECUTAR
+python almacen.py
+
+-- 5to. PROGRAMA A EJECUTAR
+python sincronizacion.py
+
+-- 6to. PROGRAMA A EJECUTAR
+python recuperacion.py
+
+-- 7mo. PROGRAMA A EJECUTAR
+python generacion.py
+
+-- 8vo. PROGRAMA A EJECUTAR
+-- Orquestación, línea de comandos y registro de consultas
+-- Línea de comandos: python cli.py {sincronizar|reindexar|estado|preguntar|chat}
+cli.py 
+-- motor.py 
+-- registro.py
+
+-- 9no. Aplicación 
+streamlit run app.py

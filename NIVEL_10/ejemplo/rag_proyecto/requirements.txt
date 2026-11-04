@@ -1,0 +1,9 @@
+sentence-transformers
+chromadb
+rank-bm25
+pypdf
+numpy
+streamlit>=1.35
+ollama            # generación local con Llama 3
+google-genai      # opcional: solo si usa LLM_PROVEEDOR=gemini
+pytest            # opcional: pruebas automáticas
