@@ -36,7 +36,7 @@ python generacion.py
 -- 8vo. PROGRAMA A EJECUTAR
 -- Orquestación, línea de comandos y registro de consultas
 -- Línea de comandos: python cli.py {sincronizar|reindexar|estado|preguntar|chat}
-cli.py 
+python cli.py reindexar
 -- motor.py 
 -- registro.py
 

@@ -1,0 +1,61 @@
+https://huggingface.co/
+
+https://lmstudio.ai/
+
+EJECUTAR DESDE GIT BASH
+
+curl http://localhost:11434/api/generate -d '{"model": "llama3","prompt": "Explica qué es la cuantización en dos frases.","stream": false}'
+
+
+Esta instrucción se refiere a la creación de un **modelo personalizado (o alineado)** en Ollama mediante un archivo de configuración llamado **`Modelfile`**.
+
+No modifica los pesos internos del modelo (no realiza un entrenamiento ni *fine-tuning*), sino que define la **configuración predeterminada** con la que responderá el modelo cada vez que interactúes con él.
+
+---
+
+### Desglose de cada directiva
+
+* **`FROM llama3.2`**
+Especifica el modelo base a partir del cual se construirá la variante (en este caso, Llama 3.2).
+* **`PARAMETER temperature 0.3`**
+Ajusta el nivel de creatividad del modelo. Un valor bajo (0.3) hace que las respuestas sean más consistentes, directas y menos aleatorias (ideal para soporte técnico).
+* **`PARAMETER num_ctx 4096`**
+Establece el tamaño del contexto de memoria en 4.096 tokens (la cantidad máxima de texto que procesa entre la conversación y la respuesta).
+* **`SYSTEM "..."`**
+Define el **Prompt de Sistema** (*System Prompt*), que actúa como la instrucción de comportamiento fija y el rol que tomará la IA ("asistente de soporte técnico", "breve y precisa", "siempre en español").
+
+---
+
+### ¿Cómo se aplica en Ollama?
+
+Para empaquetar y usar esta configuración en tu terminal de PowerShell, debes seguir estos pasos:
+
+1. **Crear el archivo Modelfile:** Paso 1.
+Crea un archivo de texto plano sin extensión llamado `Modelfile` en una carpeta y pega las instrucciones indicadas.
+
+Contenido:
+FROM llama3
+PARAMETER temperature 0.3
+PARAMETER num_ctx 4096
+SYSTEM "Eres un asistente de soporte técnico. Responde siempre en español, de forma breve y precisa."
+
+
+
+2. **Construir el nuevo modelo:** Paso 2.
+Abre tu terminal en esa carpeta y ejecuta el comando de compilación de Ollama asignándole un nombre a tu variante (por ejemplo, `soporte-tech`):
+
+```powershell
+ollama create soporte-tech -f ./Modelfile
+
+```
+
+*Verification:* Ollama procesará el archivo y mostrará el mensaje `success` al finalizar.
+
+
+3. **Probar el modelo personalizado:** Paso 3.
+Ejecuta el modelo recién creado desde la consola o a través de la API REST:
+
+```powershell
+ollama run soporte-tech
+
+```

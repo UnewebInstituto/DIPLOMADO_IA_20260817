@@ -21,15 +21,18 @@ def main():
     sub.add_parser("sincronizar", help="agrega/actualiza/elimina según la carpeta de documentos")
     sub.add_parser("reindexar", help="reconstruye todo el índice desde cero")
     sub.add_parser("estado", help="muestra chunks y fuentes indexadas")
+    
     for nombre in ("preguntar", "chat"):
         p = sub.add_parser(nombre)
         if nombre == "preguntar":
-            p.add_argument("pregunta")
+            # Usamos nargs="?" y default="" para que la consulta sea opcional en la terminal
+            p.add_argument("consulta", nargs="?", default="", help="Texto de la pregunta a realizar")
         p.add_argument("--k", type=int)
         p.add_argument("--modo", choices=["hibrida", "vectorial"])
         g = p.add_mutually_exclusive_group()
         g.add_argument("--rerank", dest="rerank", action="store_true", default=None)
         g.add_argument("--no-rerank", dest="rerank", action="store_false")
+        
     a = ap.parse_args()
 
     rag = RAG()
@@ -40,15 +43,23 @@ def main():
     elif a.cmd == "estado":
         print(json.dumps(rag.estado(), ensure_ascii=False, indent=2))
     elif a.cmd == "preguntar":
-        s = rag.responder(a.pregunta, k=a.k, modo=a.modo, rerank=a.rerank)
-        registrar(a.pregunta, s)
-        _imprimir(s)
+        # Si no se pasó la consulta por la terminal, la solicitamos mediante input()
+        consulta_texto = a.consulta
+        if not consulta_texto:
+            consulta_texto = input("\nEscribe tu pregunta: ").strip()
+            
+        if consulta_texto:
+            s = rag.responder(consulta_texto, k=a.k, modo=a.modo, rerank=a.rerank)
+            registrar(consulta_texto, s)
+            _imprimir(s)
+        else:
+            print("No se ingresó ninguna pregunta.")
     elif a.cmd == "chat":
         if rag.almacen.contar() == 0:
             print("Índice vacío; sincronizando...", rag.sincronizar())
         historial = []
         while True:
-            p = input("\nPregunta (vacío para salir): ").strip()
+            p = input("\nPreguntar (vacío para salir): ").strip()
             if not p:
                 break
             s = rag.responder(p, k=a.k, modo=a.modo, rerank=a.rerank, historial=historial, reescribir=True)
