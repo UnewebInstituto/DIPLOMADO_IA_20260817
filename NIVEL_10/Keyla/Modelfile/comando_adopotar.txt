@@ -1,0 +1,1 @@
+ollama create soporte-keyla -f Modelfile

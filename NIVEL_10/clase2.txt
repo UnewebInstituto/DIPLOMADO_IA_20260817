@@ -42,3 +42,12 @@ python cli.py reindexar
 
 -- 9no. Aplicación 
 streamlit run app.py
+
+-- Crear el directorio evalaucion
+md evaluacion
+
+-- Crear la carpeta logs
+md logs
+md tests
+
+python -m pytest tests -q        # 17 pruebas offline

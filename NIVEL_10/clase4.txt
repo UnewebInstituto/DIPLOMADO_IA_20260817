@@ -1,0 +1,46 @@
+curl http://localhost:11434/api/generate -d '{"model": "phi3","prompt": "Cuál es la ubicación geográfica de Venezuela", "stream": false}'
+
+
+https://lmstudio.ai/download
+
+# Recomendación para LM Studio con 16 GB de RAM
+
+Como regla práctica, con 16 GB puedes usar modelos cuantizados en **Q4_K_M** que pesen **hasta ~9-10 GB**. El resto de la memoria queda para el sistema, el contexto (KV cache) y LM Studio. Eso significa que el techo realista son los modelos de **~12-14B parámetros**.
+
+| Familia | Modelo recomendado | Tamaño aprox. (Q4_K_M) | Veredicto |
+|---|---|---|---|
+| **Gemma** | Gemma 3 12B | ~7-8 GB | ⭐ Mejor equilibrio calidad/español |
+| | Gemma 3 4B / Gemma 3n E4B | ~2.5-3 GB | Muy rápido, ideal si hay poca RAM libre |
+| **Mistral** | Mistral Nemo 12B o Ministral 8B/14B | ~5-8 GB | ⭐ Muy buen español y seguimiento de instrucciones |
+| | Mistral 7B | ~4.5 GB | Funciona, pero ya está superado |
+| **Phi** | Phi-4 (14B) | ~9 GB | Muy bueno en razonamiento y código, pero justo de memoria |
+| | Phi-4-mini (3.8B) | ~2.5 GB | Ligero y sorprendentemente capaz |
+| **Kimi** | Kimi-VL-A3B (MoE) | ~10 GB | Posible, pero es de nicho (visión) y tiene menos soporte |
+
+## Notas por familia
+
+- **Gemma:** es la opción más segura para tu caso. Responde bien en español y es estable. Puedes subir el contexto sin ahogar la RAM.
+- **Mistral:** es excelente para asistentes conversacionales y soporte técnico, con buen manejo del idioma. Los modelos de 12-14B caben cómodos.
+- **Phi:** destaca en lógica, matemáticas y código. Su punto débil es el **español**, que es menos sólido que en Gemma o Mistral. Para un asistente que responde siempre en español, no sería mi primera opción.
+- **Kimi:** la línea principal (Kimi K2) tiene cientos de miles de millones de parámetros y **no es viable** en 16 GB. Solo las variantes pequeñas tipo MoE (como Kimi-VL-A3B) caben, y suelen tener menos soporte en LM Studio.
+
+## Mi recomendación
+
+1. **Gemma 3 12B Q4_K_M** como modelo principal.
+2. **Mistral Nemo 12B** como alternativa para comparar.
+3. **Phi-4-mini** si necesitas rapidez o tareas de código y lógica.
+
+**Consejos prácticos:**
+- Mantén el contexto en **4096-8192 tokens**. Cada duplicación consume varios GB extra.
+- Activa la descarga de capas a GPU si tienes tarjeta dedicada; en CPU pura espera ~3-8 tokens/s con modelos de 12B.
+- Cierra el navegador y otras apps pesadas mientras corre el modelo.
+
+Las versiones cambian rápido, así que revisa en el catálogo de LM Studio si hay una más reciente de cada familia. Si me dices tu CPU/GPU, te ajusto la recomendación y los parámetros.
+
+Creé la hoja de cálculo `modelos_lm_studio_16gb.xlsx` con tres pestañas:
+
+- **Modelos:** la tabla comparativa con tamaños mínimo y máximo en Q4_K_M, el promedio y el veredicto de cada modelo. Hay dos celdas amarillas editables, la RAM total y la reserva para el sistema, y la columna "¿Cabe en el presupuesto?" se recalcula sola al cambiarlas.
+- **Notas por familia:** los comentarios sobre Gemma, Mistral, Phi y Kimi.
+- **Recomendación:** el orden de prioridad (Gemma 3 12B, Mistral Nemo 12B y Phi-4-mini) y los consejos prácticos.
+
+La reserva de 6 GB es un supuesto mío. Con ella, el presupuesto para el modelo queda en 10 GB, y por eso Kimi-VL-A3B y Phi-4 salen como "Sí" aunque estén al límite. Si subes la reserva, por ejemplo a 8 GB, verás cuáles dejan de caber.

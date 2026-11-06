@@ -1,0 +1,2 @@
+ollama create soporte-manuel -f Modelfile
+ 

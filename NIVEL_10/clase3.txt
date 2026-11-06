@@ -47,6 +47,9 @@ Abre tu terminal en esa carpeta y ejecuta el comando de compilación de Ollama a
 ```powershell
 ollama create soporte-tech -f ./Modelfile
 
+ollama create soporte-es -f Modelfile
+ollama run soporte-es
+
 ```
 
 *Verification:* Ollama procesará el archivo y mostrará el mensaje `success` al finalizar.
@@ -59,3 +62,14 @@ Ejecuta el modelo recién creado desde la consola o a través de la API REST:
 ollama run soporte-tech
 
 ```
+
+La instrucción consta de dos comandos independientes que se usan para compilar y ejecutar un modelo personalizado en Ollama:
+
+1. **`ollama create soporte-es -f Modelfile`**
+Este comando lee el archivo de configuración llamado `Modelfile` ubicado en el directorio actual y crea un nuevo modelo local en tu sistema llamado **`soporte-es`**. Toma la base configurada en el archivo (por ejemplo, un modelo base como Llama) y le impregna las reglas, parámetros (como la temperatura o la ventana de contexto) y el prompt de sistema definidos allí.
+* *Verificación:* Ollama procesará la lectura de capas y mostrará el mensaje `success` al terminar la creación.
+
+
+2. **`ollama run soporte-es`**
+Este comando inicia una sesión interactiva en la terminal utilizando el modelo personalizado que acabas de crear (`soporte-es`). A partir de ese momento, cada mensaje que escribas interactuará directamente con la personalidad, el idioma y las restricciones técnicas configuradas en el archivo.
+* *Verificación:* Se abrirá la interfaz de chat en texto plano dentro de la consola, mostrando el indicador listo para recibir tu primer mensaje.

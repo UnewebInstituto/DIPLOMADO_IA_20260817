@@ -1,0 +1,1 @@
+curl http://localhost:11434/api/generate -d '{"model": "llama3","prompt": "Que se conmemora el 31 de diciembre", "stream": false}'
