@@ -1,0 +1,1 @@
+python benchmark_ollama_vs_gemini.py --pdf cien_anios_de_soledad.pdf --repeticiones 3

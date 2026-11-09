@@ -1,0 +1,67 @@
+﻿id,tarea,modelo,segundos,fragmento,repeticion,modelo_id,tokens_entrada,tokens_salida,tokens_razonamiento,tokens_por_seg,carga_s,temperatura_enviada,json_valido,respuesta
+1,resumen,local,149.28,1,1,llama3,1211,162,,1.1,0.0,0.2,,"Aquí te presento un resumen de 3 líneas del fragmento:
+
+Aureliano, un joven, se une a la oposición liberal después de que su suegro, don Apolinar, le explica que los soldados no devolvieron las armas porque se creían que los liberales se estaban preparando para la guerra. Aureliano visita al doctor Alirio Noguera, un farsante y terrorista, que se esconde detrás de una inocente fachada de médico. El doctor Noguera, que ha regresado de su exilio, se une a la lucha política y comienza a instigar a la juventud del pueblo a votar de manera falsa."
+1,resumen,nube,1.21,1,1,gemini-3.5-flash-lite,1088,95,0,78.4,,0.2,,"Ante el fraude electoral conservador y los abusos de autoridad, Aureliano se inclina ideológicamente hacia los liberales. 
+Esto coincide con las actividades subversivas del falso médico Alirio Noguera, quien conspira en secreto para promover la violencia armada. 
+Pese a su parentesco con el corregidor, los amigos de Aureliano, entusiasmados con la revuelta, guardan distancia por su carácter solitario."
+2,personajes,local,89.39,1,1,llama3,1230,136,,1.5,0.01,0.2,,"Aquí está la lista de personajes y su rol o relación con los demás:
+
+1. Aureliano - yerno de Don Apolinar, liberal y amigo de Gerineldo y Magnífico Visbal
+2. Don Apolinar Moscote - suegro de Aureliano, conservador y corregidor
+3. Gerineldo Márquez - amigo de Aureliano y Magnífico Visbal
+4. Magnífico Visbal - amigo de Aureliano y Gerineldo
+5. Doctor Alirio Noguera - farsante y terrorista, médico y amigo de Aureliano"
+2,personajes,nube,1.16,1,1,gemini-3.5-flash-lite,1106,145,0,124.6,,0.2,,"- Aureliano: Protagonista del fragmento, cuñado del corregidor y simpatizante liberal que cuestiona el fraude electoral.
+- Don Apolinar (o Don Apolinar Moscote): Corregidor del pueblo, suegro de Aureliano y autoridad conservadora.
+- Gerineldo Márquez: Amigo de Aureliano que discute con él sobre política y el incidente de los cuchillos.
+- Magnífico Visbal: Amigo de Aureliano que participa en las conversaciones sobre el incidente de los cuchillos.
+- Doctor Alirio Noguera: Falso médico y terrorista retirado que conspira en secreto para instigar a la juventud hacia la violencia."
+3,comprension,local,138.84,1,1,llama3,1223,93,,0.7,0.01,0.2,,"El evento principal que ocurre en este fragmento es la elección de los liberales, que según Aureliano, llevarían a la guerra. La consecuencia es que el doctor Alirio Noguera, un farsante y terrorista, se ve obligado a regresar a Macondo y a establecer contacto con la gente joven del pueblo, para instigar una campaña de violencia y subversión."
+3,comprension,nube,0.91,1,1,gemini-3.5-flash-lite,1099,82,0,90.1,,0.2,,"El evento principal es que Aureliano, indignado por las trampas electorales y el decomiso de armas por parte del gobierno conservador, declara abiertamente que sería liberal. Como consecuencia, sus amigos lo envían a visitar al doctor Alirio Noguera (un líder subversivo disfrazado de médico) para involucrarlo en los planes clandestinos de insurrección contra el régimen."
+4,estilo,local,159.64,1,1,llama3,1225,153,,1.0,0.0,0.2,,"El tono del fragmento es crítico y satírico, con un toque de ironía y humor negro. García Márquez utiliza recursos literarios como la ironía, la sarcasmo y la parodia para describir la situación política y social de Macondo. El autor también utiliza la técnica de la ""intrahistoria"", es decir, la inclusión de historias dentro de la historia principal, para describir la vida de personajes secundarios y crear un ambiente de complejidad y profundidad. La prosa es fluida y descriptiva, con un uso efectivo de la metáfora y la ironía para describir la situación política y social de Macondo."
+4,estilo,nube,1.09,1,1,gemini-3.5-flash-lite,1098,123,0,112.5,,0.2,,"El fragmento presenta un tono irónico, realista y ligeramente socarrón con el que se expone la corrupción política y la farsa electoral. En cuanto a los recursos literarios, destaca el **realismo mágico** característico de García Márquez en la caracterización hiperbólica y pintoresca del falso médico (con su diploma falso y glóbulos de azúcar), además del uso constante del **diálogo** ágil y la **metáfora** («el hilo que le permitió encontrar de nuevo la madeja de la subversión») para retratar la tensión social de Macondo."
+5,extraccion_json,local,125.77,1,1,llama3,1263,73,,0.6,0.01,0.2,True,"{
+""personajes"": [""Aureliano"", ""Don Apolinar"", ""Gerineldo Márquez"", ""Magnífico Visbal"", ""Doctor Alirio Noguera""],
+""lugares"": [""Macondo"", ""Curazao"", ""Riohacha"", ""Leipzig""],
+""tiempo"": null
+}"
+5,extraccion_json,nube,1.13,1,1,gemini-3.5-flash-lite,1137,106,0,93.9,,0.2,True,"{
+  ""personajes"": [
+    ""Aureliano"",
+    ""Don Apolinar"",
+    ""Gerineldo Márquez"",
+    ""Magnífico Visbal"",
+    ""Doctor Alirio Noguera""
+  ],
+  ""lugares"": [
+    ""Macondo"",
+    ""Curazao"",
+    ""Riohacha"",
+    ""Caribe"",
+    ""Universidad de Leipzig""
+  ],
+  ""tiempo"": ""Varios años""
+}"
+6,resumen,local,131.58,2,1,llama3,1189,139,,1.1,0.01,0.2,,"Aquí te presento un resumen de 3 líneas del fragmento:
+
+Fernanda, con su estilo peculiar, impone sus costumbres a la familia Buendía, lo que provoca un ambiente de tensión y hostilidad. La familia, liderada por Úrsula, se opone a las nuevas costumbres de Fernanda, que incluyen la obligación de comer a horas exactas y rezar el rosario antes de la cena. El coronel Aureliano Buendía, un personaje independiente y resistente a la rigidez social, se opone a los cambios y prevé las consecuencias."
+6,resumen,nube,1.27,2,1,gemini-3.5-flash-lite,1072,106,0,83.2,,0.2,,"Aquí tienes el resumen en tres líneas:
+
+Fernanda impuso sus estrictos y anticuados hábitos en la casa de los Buendía, generando rechazo y distanciamiento en varios miembros de la familia. 
+A pesar de la hostilidad inicial, logró modificar las costumbres cotidianas, como la hora de comer y las normas de convivencia.
+Finalmente, con la decadencia de Úrsula, Fernanda asumió el control total de la casa, cerrando sus puertas y transformando por completo la vida familiar."
+7,personajes,local,104.85,2,1,llama3,1208,193,,1.8,0.01,0.2,,"Here is the list of characters and their roles or relationships:
+
+1. Fernanda - tries to impose her own habits and customs on the family, causing tension and conflict.
+2. Úrsula - tries to convince Fernanda to adopt certain habits and customs, but ultimately loses her dominance and influence.
+3. Amaranta - speaks in a peculiar way, using eufemisms, which irritates Fernanda and leads to a rift between them.
+4. José Arcadio Segundo - is quiet and observant, and is the first to rebel against Fernanda's new customs.
+5. Santa Sofía de la Piedad - runs a repostería and animalitos de caramelo business, which Fernanda disapproves of and eventually liquidates.
+6. Coronel Aureliano Buendía - is an old man who is resistant to change and social rigidity, and is concerned about the changes Fernanda is bringing to the family."
+7,personajes,nube,4.74,2,1,gemini-3.5-flash-lite,1090,190,0,40.1,,0.2,,"- Fernanda: Esposa de un miembro de la familia Buendía que intenta imponer sus rígidos hábitos y costumbres señoriales en el hogar.
+- Úrsula: Matriarca de la familia Buendía que intenta integrar a Fernanda y mantener los antiguos hábitos del hogar.
+- Coronel Aureliano Buendía: Miembro de la familia Buendía, respetado por su independencia y resistencia a la rigidez impuesta por Fernanda.
+- Amaranta: Familiar que mantiene una hostilidad y enemistad recíproca con Fernanda, burlándose de su forma de hablar.
+- José Arcadio Segundo: Miembro de la familia Buendía que fue el primero en rebelarse contra la solemnidad en las comidas impuesta por Fernanda.
+- Santa Sofía de la Piedad: Persona encargada del negocio de repostería que fue liquidado por Fernanda por considerarlo indigno."

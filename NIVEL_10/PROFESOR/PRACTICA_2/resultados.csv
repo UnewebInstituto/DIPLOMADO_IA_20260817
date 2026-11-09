@@ -1,0 +1,30 @@
+﻿id,tarea,modelo,segundos,fragmento,repeticion,modelo_id,tokens_entrada,tokens_salida,tokens_razonamiento,tokens_por_seg,carga_s,temperatura_enviada,json_valido,respuesta
+1,resumen,local,183.02,1,1,llama3,1211,174,,1.0,0.0,0.2,,"Aquí te presento un resumen de 3 líneas del fragmento:
+
+Aureliano, un joven, se une a la oposición liberal después de que su suegro, don Apolinar, le explica que los soldados no devolvieron las armas porque se creían que los liberales se estaban preparando para la guerra. Aureliano visita al doctor Alirio Noguera, un farsante y terrorista, que se esconde detrás de una inocente fachada de médico. El doctor Noguera, que ha regresado de su destierro, se une a la campaña de instigación política y persuade a los jóvenes del pueblo a votar rojo para convencerlos de que las elecciones son una farsa."
+1,resumen,nube,1.33,1,1,gemini-3.5-flash-lite,1088,90,0,67.5,,0.2,,"Ante el evidente fraude electoral y el autoritarismo de los conservadores, Aureliano se inclina hacia el partido liberal. Indignado por las injusticias del régimen, establece contacto con el doctor Alirio Noguera, un falso médico y revolucionario exiliado. Así, Aureliano y un grupo de jóvenes descontentos comienzan a conspirar contra el orden establecido, convencidos de que la violencia es la única salida."
+2,personajes,local,140.95,1,1,llama3,1230,146,,1.0,0.01,0.2,,"Aquí está la lista de personajes y su rol o relación con los demás:
+
+1. Aureliano - yerno de Don Apolinar, liberal y amigo de Gerineldo Márquez y Magnífico Visbal
+2. Don Apolinar Moscote - suegro de Aureliano, conservador y corregidor
+3. Gerineldo Márquez - amigo de Aureliano y Magnífico Visbal
+4. Magnífico Visbal - amigo de Aureliano y Gerineldo Márquez
+5. Doctor Alirio Noguera - farsante y terrorista, médico sin prestigio y amigo de Aureliano"
+2,personajes,nube,1.26,1,1,gemini-3.5-flash-lite,1106,143,0,113.2,,0.2,,"- Aureliano: Protagonista del fragmento, yerno de don Apolinar y simpatizante liberal que es contactado por los rebeldes.
+- Don Apolinar (Apolinar Moscote): Corregidor conservador, suegro de Aureliano y autoridad del pueblo.
+- Gerineldo Márquez: Amigo de Aureliano y conspirador liberal que discute con él sobre política.
+- Magnífico Visbal: Amigo de Aureliano y parte del grupo que cuestiona su postura política.
+- Alirio Noguera: Falso médico y terrorista exiliado que lidera en secreto la campaña de subversión liberal en Macondo."
+3,comprension,local,151.44,1,1,llama3,1223,165,,1.1,0.0,0.2,,"El evento principal que ocurre es que el falso médico y terrorista, doctor Alirio Noguera, regresa a Macondo después de varios años de destierro y se esconde detrás de una fachada de médico sin prestigio, pero en realidad está trabajando en una campaña de instigación para convencer a la gente joven del pueblo de que las elecciones son una farsa y que la violencia es la única forma de cambiar el orden conservador.
+
+La consecuencia de este evento es que la gente joven del pueblo se entusiasma con la idea de liquidar el orden conservador y se unen a la campaña de Noguera, lo que puede llevar a conflictos y violencia en el futuro."
+3,comprension,nube,1.12,1,1,gemini-3.5-flash-lite,1099,87,0,77.3,,0.2,,"El evento principal es que Aureliano, indignado por las trampas electorales y el decomiso de armas por parte del gobierno conservador, declara públicamente que sería liberal. Como consecuencia, sus amigos lo envían a visitar al doctor Alirio Noguera (un agitador y terrorista encubierto), lo que lo introduce indirectamente en las conspiraciones y planes de subversión violenta contra el régimen."
+4,estilo,local,126.68,1,1,llama3,1225,172,,1.4,0.0,0.2,,"El tono del fragmento es crítico y satírico, con un toque de ironía y humor negro. El autor, Gabriel García Márquez, utiliza recursos literarios como la ironía, el sarcasmo y la parodia para describir la situación política y social en el pueblo de Macondo. El uso de personajes como el doctor Alirio Noguera, un farsante y terrorista disfrazado de médico, y don Apolinar Moscote, un conservador que se opone a la violencia, añade un toque de humor y crítica social. La descripción de la vida cotidiana en el pueblo, con sus detalles absurdos y cotidianos, también contribuye a crear un tono crítico y satírico."
+4,estilo,nube,1.11,1,1,gemini-3.5-flash-lite,1098,91,0,81.9,,0.2,,"El tono del fragmento combina la ironía, el realismo y el distanciamiento objetivo con el que se relata lo absurdo de la política local. Entre los recursos literarios destaca el uso del humor negro y la caracterización hiperbólica y pintoresca de los personajes (como el falso médico Alirio Noguera), apoyada por la concisión narrativa y el contraste cotidiano frente a la inminencia de la violencia armada."
+5,extraccion_json,local,89.9,1,1,llama3,1263,73,,0.8,0.0,0.2,True,"{
+""personajes"": [""Aureliano"", ""Don Apolinar"", ""Gerineldo Márquez"", ""Magnífico Visbal"", ""Doctor Alirio Noguera""],
+""lugares"": [""Macondo"", ""Curazao"", ""Riohacha"", ""Leipzig""],
+""tiempo"": null
+}"
+5,extraccion_json,nube,3.48,1,1,gemini-3.5-flash-lite,1137,93,0,26.7,,0.2,True,"{""personajes"": [""Aureliano"", ""Don Apolinar"", ""Gerineldo Márquez"", ""Magnífico Visbal"", ""Alirio Noguera"", ""Don Apolinar Moscote""], ""lugares"": [""Macondo"", ""Curazao"", ""Riohacha"", ""Universidad de Leipzig"", ""Caribe""], ""tiempo"": ""Poco antes de unas elecciones, abarcando varios años en el pasado de Alirio Noguera""}"
+"los dormitorios"", ""el taller""], ""tiempo"": null}"

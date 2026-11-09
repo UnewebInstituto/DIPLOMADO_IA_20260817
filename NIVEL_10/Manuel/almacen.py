@@ -47,3 +47,4 @@ class Almacen:
         except Exception:
             pass
         self.col = self._abrir()
+        

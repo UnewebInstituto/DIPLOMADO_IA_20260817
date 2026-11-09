@@ -1,0 +1,50 @@
+﻿id,tarea,modelo,segundos,fragmento,repeticion,modelo_id,tokens_entrada,tokens_salida,tokens_razonamiento,tokens_por_seg,carga_s,temperatura_enviada,json_valido,respuesta
+1,resumen,local,184.72,1,1,llama3,1189,150,,0.8,0.0,0.2,,"Aquí te presento un resumen de 3 líneas del fragmento:
+
+Fernanda, una mujer que se levantaba con una golilla de lana y tenía hábitos extraños, impuso sus costumbres en la familia Buendía, lo que generó tensión y hostilidad. La familia, liderada por Úrsula, había vivido de manera más relajada y espontánea, pero Fernanda quería imponer la rigidez y la solemnidad en sus hábitos. Esto llevó a cambios en la vida familiar, como la eliminación de la repostería y la limitación de la libertad de los miembros de la familia."
+1,resumen,nube,2.33,1,1,gemini-3.5-flash-lite,1072,116,0,49.8,,0.2,,"Aquí tienes el resumen en tres líneas:
+
+Fernanda impuso sus rígidos hábitos y su moral conservadora en la casa de los Buendía, generando rechazo y tensiones con varios miembros de la familia. 
+A pesar de la hostilidad inicial y las burlas, logró desplazar las antiguas costumbres cotidianas y transformar profundamente las dinámicas del hogar. 
+Finalmente, tras la decadencia de Úrsula, Fernanda asumió el control total de la casa, cerrándola al exterior y aislando a la familia bajo estrictas normas de decoro."
+2,personajes,local,135.81,1,1,llama3,1208,154,,1.1,0.01,0.2,,"Here is the list of characters and their roles or relationships:
+
+1. Fernanda - tries to impose her will on the family and change their habits
+2. Úrsula - tries to convince Fernanda to adopt certain habits and customs
+3. Amaranta - has a peculiar way of speaking and is the target of Fernanda's ire
+4. José Arcadio Segundo - is quiet and observant, and is the first to resist Fernanda's changes
+5. Santa Sofía de la Piedad - runs a repostería and animalitos de caramelo business, which Fernanda disapproves of
+6. Coronel Aureliano Buendía - is an old man who is resistant to change and has a strong sense of independence"
+2,personajes,nube,1.49,1,1,gemini-3.5-flash-lite,1090,193,0,129.9,,0.2,,"- Fernanda: Esposa o nuera llegada a la casa que intenta imponer sus rígidos hábitos y su autoridad sobre el resto de la familia.
+- Úrsula: Anciana matriarca de la familia que intenta en vano integrar a Fernanda y mantener los antiguos hábitos del hogar.
+- Coronel Aureliano Buendía: Miembro de la familia de espíritu independiente y crítico con los cambios de Fernanda, a quien ella evita.
+- Amaranta: Cuñada o familiar que se burla abiertamente de la dicción y los eufemismos de Fernanda mediante la jerigonza y los insultos.
+- José Arcadio Segundo: Miembro callado de la familia que fue el primero en rebelarse contra la solemnidad en las comidas impuesta por Fernanda.
+- Santa Sofía de la Piedad: Familiar encargada de mantener el negocio de repostería que Fernanda terminó liquidando por considerarlo indigno."
+3,comprension,local,97.06,1,1,llama3,1201,111,,1.1,0.01,0.2,,"El evento principal que ocurre es que Fernanda impone sus hábitos y costumbres en la familia Buendía, lo que provoca un cambio en la dinámica familiar y la creación de un ambiente de rigidez y formalidad. La consecuencia es que la familia pierde su espontaneidad y naturalidad, y se vuelve más formal y convencional, lo que provoca la exasperación de algunos miembros de la familia, como el coronel Aureliano Buendía."
+3,comprension,nube,1.01,1,1,gemini-3.5-flash-lite,1083,70,0,69.4,,0.2,,"El evento principal es que Fernanda impone gradualmente sus rígidos hábitos y costumbres formales en la casa de los Buendía, a pesar de la resistencia inicial. Como consecuencia, la dinámica familiar y el ambiente de la casa cambian por completo, eliminando las antiguas tradiciones y convirtiendo el hogar en un espacio cerrado y estricto."
+4,estilo,local,83.26,1,1,llama3,1203,186,,2.2,0.0,0.2,,"El tono del fragmento es crítico y satírico, con un toque de ironía y humor. García Márquez utiliza recursos literarios como la ironía, la parodia y la crítica social para describir la transformación de la familia Buendía y la imposición de Fernanda sobre la familia. El autor utiliza un lenguaje juguetón y desenfadado para describir los cambios que ocurren en la familia, como la imposición de la costumbre de comer en la mesa grande del comedor y la eliminación de la repostería y los animalitos de caramelo. El tono es también crítico con la rigidez social y la conservadora que impone Fernanda, y se burla de la idea de que la familia Buendía se está volviendo ""gente fina""."
+4,estilo,nube,1.28,1,1,gemini-3.5-flash-lite,1082,132,0,103.1,,0.2,,"El fragmento posee un tono irónico, costumbrista y ligeramente socarrón que retrata el choque cultural entre la rigidez conservadora de Fernanda y la naturalidad excéntrica de los Buendía. Entre sus recursos literarios destaca el **realismo mágico** (en elementos como la bacinilla de oro para hacer pescaditos), la **hipérbole** (que exagera los modales y la suficiencia de Fernanda hasta transformar una comida en una ""misa mayor"") y la **caracterización por contraste**, evidente en el enfrentamiento dialogado entre el eufemismo cursi y la crudeza popular."
+5,extraccion_json,local,96.5,1,1,llama3,1241,85,,0.9,0.0,0.2,True,"{
+""personajes"": [""Fernanda"", ""Úrsula"", ""Amaranta"", ""José Arcadio Segundo"", ""Santa Sofía de la Piedad"", ""Aureliano Buendía""],
+""lugares"": [""la cocina"", ""la mesa grande del comedor"", ""el rincón"", ""la casa"", ""el dintel""],
+""tiempo"": null
+}"
+5,extraccion_json,nube,1.6,1,1,gemini-3.5-flash-lite,1121,130,0,81.5,,0.2,True,"{
+  ""personajes"": [
+    ""Fernanda"",
+    ""Úrsula"",
+    ""coronel Aureliano Buendía"",
+    ""Amaranta"",
+    ""José Arcadio Segundo"",
+    ""Santa Sofía de la Piedad""
+  ],
+  ""lugares"": [
+    ""cocina"",
+    ""comedor"",
+    ""puerta de la calle"",
+    ""dormitorios"",
+    ""taller""
+  ],
+  ""tiempo"": ""un día (durante varios años y etapas de la familia Buendía)""
+}"

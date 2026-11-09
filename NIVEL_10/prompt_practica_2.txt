@@ -1,0 +1,110 @@
+Vamos a desarrollar la siguiente practica: tenemos un archivo pdf que corresponde a la novela "100 años de soledad", queremos realizar la comparitiva de rendimiento entre ollama con el modelo Llama3 y Gemini con el modelo Gemini-3.8-flash-lite. Misma temperatura: 0.2 y el mismo prompt. El script de medición que voy a utilizar es el siguiente:
+import time, csv, ollama
+casos = [
+    {"id": 1, "tarea": "resumen", "prompt": "Resume en 3 líneas: ..."},
+    # ... más casos
+]
+def consultar_local(prompt):
+    t0 = time.time()
+    r = ollama.chat(model="llama3.2",
+                    messages=[{"role": "user", "content": prompt}],
+                    options={"temperature": 0.2})
+    return r["message"]["content"], time.time() - t0
+def consultar_nube(prompt):
+    # Reemplace por el SDK del proveedor elegido.
+    # Devuelva (texto, segundos).
+    ...
+with open("resultados.csv", "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["id", "tarea", "modelo", "segundos", "respuesta"])
+    for c in casos:
+        for nombre, fn in (("local", consultar_local), ("nube", 
+consultar_nube)):
+            texto, seg = fn(c["prompt"])
+            w.writerow([c["id"], c["tarea"], nombre, round(seg, 2), texto])
+Dame la versión adaptada del mismo para ambos motores IA, que procesen el pdf en cuestión, con sus respectivos modelos. Describe proceso de instalación y ejecución.
+
+
+/***/
+Voy a verificar el ID del modelo de Gemini y cómo controlar su "razonamiento" antes de escribir el script, porque afecta la medición de tiempos.
+
+Le dejé el script listo en `benchmark_ollama_vs_gemini.py`. Lo probé con motores simulados sobre un PDF real, y el reintento sin `temperature` también. No pude ejecutarlo contra Ollama ni Gemini desde este entorno, así que la primera corrida real es suya.
+
+## Dos puntos a revisar antes de ejecutar
+
+**1. El modelo `gemini-3.8-flash-lite` no pude confirmarlo como modelo de texto.** En la documentación encontré `gemini-3.8-flash` (el Flash normal) y, de la serie 3.8 Flash-Lite, solo la variante de texto a voz (TTS), que no sirve para generar texto. Sí existe `gemini-3.5-flash-lite`. Por eso el script usa `gemini-3.5-flash-lite` por defecto y el modelo se cambia con `--modelo-nube`. Para ver qué modelos admite su clave:
+
+```powershell
+python -c "from google import genai; [print(m.name) for m in genai.Client().models.list()]"
+```
+
+**2. Es posible que Gemini no respete la temperatura 0.2.** La documentación de Google indica que, desde Gemini 3.6 Flash y 3.5 Flash-Lite, la API ignora temperature, top_p y top_k y podría devolver error en el futuro. El script envía `temperature=0.2` a ambos motores. Si Gemini la rechaza, reintenta sin ella, lo anota en la columna `temperatura_enviada` y avisa al final del resumen. En ese caso, "misma temperatura" solo se cumple en Llama 3, y conviene decirlo en el informe.
+
+## Qué hace el script
+
+- **PDF:** extrae el texto y toma varios fragmentos de unos 4.000 caracteres, repartidos entre el 10 % y el 90 % del libro, para saltarse portada e índice.
+- **Por qué fragmentos y no la novela completa:** la novela no cabe en la ventana de Llama 3 (8.192 tokens en el script), así que ambos motores reciben los mismos fragmentos.
+- **Tareas por fragmento (5):** `resumen`, `personajes`, `comprension`, `estilo` y `extraccion_json`. Con los 3 fragmentos por defecto son 15 casos, que se envían a los dos motores.
+- **Mismo prompt para ambos:** un único mensaje de usuario, con el mismo tope de tokens de salida.
+- **Calentamiento:** antes de medir hace una llamada de prueba a cada motor, para que la carga inicial de Llama 3 en memoria no contamine el primer resultado.
+- **Fallos:** si una llamada falla, queda como `ERROR` en el CSV y la corrida continúa. Cada fila se guarda al terminar, así que no se pierde nada si interrumpe.
+
+El CSV conserva sus columnas originales (`id, tarea, modelo, segundos, respuesta`) y agrega tokens de entrada, de salida y de razonamiento, tokens por segundo, tiempo de carga del modelo local y si el JSON es válido. Se guarda con codificación `utf-8-sig`, que Excel abre con las tildes bien.
+
+## Instalación
+
+```powershell
+cd C:\ruta\a\su\carpeta
+python -m venv venv
+venv\Scripts\Activate.ps1
+pip install ollama google-genai pypdf
+```
+
+**Ollama:** instálelo desde `ollama.com/download`, luego:
+
+```powershell
+ollama pull llama3
+ollama list
+```
+
+**Clave de Gemini:** créela en Google AI Studio y defínala en la misma terminal (solo dura mientras no la cierre):
+
+```powershell
+$env:GEMINI_API_KEY="su_clave"
+
+COMSULTAR:
+$env:GEMINI_API_KEY
+
+```
+
+Copie el script y el PDF de la novela a la misma carpeta.
+
+## Ejecución
+
+```powershell
+# 1) Prueba rápida (1 fragmento, 5 tareas por motor)
+python benchmark_ollama_vs_gemini.py --pdf cien_anios_de_soledad.pdf --fragmentos 1
+
+# 2) Corrida completa (3 fragmentos)
+python benchmark_ollama_vs_gemini.py --pdf cien_anios_de_soledad.pdf
+
+# 3) Más rigor estadístico: repetir cada caso 3 veces
+python benchmark_ollama_vs_gemini.py --pdf cien_anios_de_soledad.pdf --repeticiones 3
+```
+
+Opciones útiles: `--modelo-nube gemini-3.8-flash`, `--modelo-local llama3.2`, `--max-tokens 400`, `--chars 2500` y `--salida otra.csv`.
+
+Al final imprime un resumen: media y mediana de segundos, tokens por segundo, JSON válidos y el tiempo por tarea de cada motor.
+
+Si el PDF es una imagen escaneada, el script se detiene porque no hay texto que extraer.
+
+## Cómo interpretar los resultados
+
+- **No son del mismo tipo de medición.** Gemini incluye latencia de red y cola del servicio. Llama 3 depende de su hardware. Ejecute `ollama ps` durante una prueba: si dice `100% CPU` en vez de GPU, espere tiempos mucho mayores.
+- **El razonamiento interno de Gemini** consume tokens y tiempo. Están en `tokens_razonamiento`, y si es alto, pruebe `--pensamiento minimal`. En 3.5 Flash-Lite, minimal es el valor por defecto de `thinking_level`, así que probablemente ya esté en ese nivel.
+- **Calidad.** Este script mide velocidad, no acierto. La columna `respuesta` le permite revisar a mano al menos algunos casos por tarea. Para evaluar con LLM como juez podemos reutilizar el patrón de la Práctica 4.
+- **Reproducibilidad.** Con `--repeticiones 3` o más y las medianas, el efecto de variaciones puntuales de la red se reduce.
+
+
+
+/***/
