@@ -1,0 +1,12 @@
+Se require desarrollar una practica, basada en las siguientes pautas:
+Objetivo: construir un dataset limpio, anonimizado y validado para una tarea concreta.
+Casos de uso será: Redactor de respuestas a preguntas frecuentes de un área de RRHH.
+Pasos:
+1. Definir la tarea en una frase y especificar el formato de salida esperado.
+2. Recolectar al menos 100 ejemplos a partir de material simulado.
+3. Anonimizar: reemplace datos personales por marcadores ( [NOMBRE] ,  [CORREO] , [TELÉFONO] ).  Describe reglas aplicadas.
+4. Redactar las respuestas ideales y una guía de estilo breve (5 reglas) que todas deben cumplir.
+5. Incluir al menos 10 casos difíciles (fuera de alcance, ambiguos, mal escritos).
+6. Convertir a JSONL en formato de chat.
+7. Ejecutar el script de validación y división de la sección 10.2.2: Preparación de un dataset de entrenamiento para fine-tuning (80/10/10).
+Entregable: archivos  train.jsonl ,  val.jsonl ,  test.jsonl ; documento de 1 página con la definición de la tarea, la guía de estilo y las reglas de anonimización.
