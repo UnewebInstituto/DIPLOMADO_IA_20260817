@@ -1,0 +1,11 @@
+Ejemplos leídos: 123
+Validación: OK (estructura, guía de estilo, privacidad, duplicados)
+
+split      n      %   normal  fuera_alcance  ambigua  mal_escrita
+train     99  80.5%       85              6        4            4
+val       12   9.8%        9              1        1            1
+test      12   9.8%        9              1        1            1
+
+Marcadores en preguntas: {'[NOMBRE]': 45, '[TELÉFONO]': 18, '[CORREO]': 11, '[ID_EMPLEADO]': 6, '[DOCUMENTO]': 3}
+Palabras por respuesta: media 26.8, máx. 49
+Categorías distintas: 26 | semilla: 42

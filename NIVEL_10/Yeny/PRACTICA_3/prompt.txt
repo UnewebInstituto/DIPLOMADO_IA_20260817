@@ -1,0 +1,115 @@
+Se require desarrollar una practica, basada en las siguientes pautas:
+Objetivo: construir un dataset limpio, anonimizado y validado para una tarea concreta.
+Casos de uso será: Redactor de respuestas a preguntas frecuentes de un área de RRHH.
+Pasos:
+1. Definir la tarea en una frase y especificar el formato de salida esperado.
+2. Recolectar al menos 100 ejemplos a partir de material simulado.
+3. Anonimizar: reemplace datos personales por marcadores ( [NOMBRE] ,  [CORREO] , [TELÉFONO] ).  Describe reglas aplicadas.
+4. Redactar las respuestas ideales y una guía de estilo breve (5 reglas) que todas deben cumplir.
+5. Incluir al menos 10 casos difíciles (fuera de alcance, ambiguos, mal escritos).
+6. Convertir a JSONL en formato de chat.
+7. Ejecutar el script de validación y división de la sección 10.2.2: Preparación de un dataset de entrenamiento para fine-tuning (80/10/10).
+Entregable: archivos  train.jsonl ,  val.jsonl ,  test.jsonl ; documento de 1 página con la definición de la tarea, la guía de estilo y las reglas de anonimización.
+
+
+
+EJECUCIÓN:
+**********
+Los tres scripts usan solo la biblioteca estándar de Python, así que no hay que instalar nada. Estos son los pasos en Windows (PowerShell).
+
+## 1. Preparar la carpeta
+
+1. Descargue `practica_dataset_rrhh.zip` y extráigalo, por ejemplo en `C:\NIVEL_10\practica_dataset_rrhh`.
+2. Abra PowerShell dentro de esa carpeta. En el Explorador: clic derecho dentro de la carpeta, "Abrir en Terminal".
+3. Compruebe que hay Python 3.10 o superior:
+
+```powershell
+python --version
+```
+
+Si dice que no reconoce el comando, pruebe `py --version` y use `py` en lugar de `python` en todo lo demás.
+
+4. Confirme que está en la carpeta correcta:
+
+```powershell
+dir *.py
+```
+
+Debe listar `datos_simulados.py`, `anonimizar.py` y `validar_y_dividir.py`.
+
+Si en pantalla ve caracteres extraños en las tildes, ejecute antes `$env:PYTHONUTF8="1"`. Los archivos se guardan siempre en UTF-8.
+
+## 2. Ejecutar los tres scripts, en este orden
+
+Cada script usa el resultado del anterior, así que no se pueden saltar ni invertir.
+
+**Paso A: generar el material simulado**
+
+```powershell
+python datos_simulados.py
+```
+
+Debe mostrar:
+
+```
+123 ejemplos (103 normales + 20 difíciles) -> crudo.jsonl; 48 con datos personales sintéticos
+```
+
+Crea `crudo.jsonl`, que son las preguntas con datos personales ficticios.
+
+**Paso B: anonimizar**
+
+```powershell
+python anonimizar.py
+```
+
+Debe mostrar el conteo de marcadores, la línea `eliminados: 83 (100.0%)` y varios ejemplos "ANTES / DESPUÉS". Crea `anonimizado.jsonl`.
+
+**Paso C: validar y dividir 80/10/10**
+
+```powershell
+python validar_y_dividir.py
+```
+
+Debe mostrar `Validación: OK` y esta tabla:
+
+```
+split      n      %   normal  fuera_alcance  ambigua  mal_escrita
+train     99  80.5%       85              6        4            4
+val       12   9.8%        9              1        1            1
+test      12   9.8%        9              1        1            1
+```
+
+Crea `train.jsonl`, `val.jsonl`, `test.jsonl`, `split_manifest.csv` y `reporte_validacion.txt`.
+
+## 3. Verificar el resultado
+
+```powershell
+# número de ejemplos por archivo
+(Get-Content train.jsonl).Count; (Get-Content val.jsonl).Count; (Get-Content test.jsonl).Count
+
+# ver un ejemplo completo con formato legible
+Get-Content test.jsonl -First 1 | python -m json.tool
+
+# confirmar que no quedó ningún dato personal
+Select-String -Path train.jsonl,val.jsonl,test.jsonl -Pattern "@ejemplo.com","EMP-","0414"
+```
+
+Los conteos deben ser 99, 12 y 12. El último comando no debe devolver ninguna línea.
+
+## 4. Si algo falla
+
+| Síntoma | Causa y solución |
+|---|---|
+| `ModuleNotFoundError: No module named 'datos_simulados'` | Está en otra carpeta; use `cd` a la que contiene los `.py`. |
+| `FileNotFoundError: crudo.jsonl` o `anonimizado.jsonl` | Se saltó el paso A o B; ejecútelos en orden. |
+| `VALIDACIÓN FALLIDA: N error(es)` | El validador encontró un problema y no escribió los archivos; lea la lista, que indica el ID del ejemplo y el motivo. |
+| `python` no se reconoce | Use `py`, o instale Python marcando "Add to PATH". |
+
+## 5. Si quiere modificar el dataset
+
+- **Agregar o cambiar ejemplos:** edite las listas `NORMALES` o `DIFICILES` en `datos_simulados.py` y repita los pasos A, B y C. Cada respuesta debe cerrar con `Fuente: ...` o `Derivación: ...`, porque el validador lo exige.
+- **Cambiar la división:** en `validar_y_dividir.py`, el reparto sale de `round(0.10 * total)` en la función `dividir`, y la semilla (`SEMILLA = 42`) fija el orden.
+- **Resultados idénticos:** los scripts son deterministas, así que ejecutarlos de nuevo sin editar nada genera exactamente los mismos tres `.jsonl`.
+
+Si en algún paso le sale un mensaje distinto, péguelo y lo revisamos.
