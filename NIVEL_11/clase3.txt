@@ -1,0 +1,52 @@
+PRACTICA 2
+
+PROMPT, PARTE 1, PRACTICA 2.
+Se anexan los componenentes de una solución RAG. A partir de estos 
+genera el diagrama de componentes del mismo, indicando las dependencias y base de datos vectorizada.
+
+En el diagrama anexo, identifica puntos de envenenamiento de datos y ataques adversariales.
+Procede siguiendo estos Pasos:
+1. Dibujar el diagrama del flujo: origen de los datos, pasos intermedios, API de IA, destinos y servicios de terceros.2. Marcar en el diagrama las fronteras de confianza (dónde los datos salen de la organización o entran desde fuera).3. Completar la siguiente checklist (Sí / No / No aplica / Evidencia):
+Datos
+¿Se clasificó la información que atraviesa el flujo?¿Se envía solo lo mínimo necesario a la API?¿Se anonimizan o seudonimizan datos personales antes del envío?¿Se verificó la política de retención y de uso para entrenamiento del proveedor?
+Credenciales y accesos
+¿Las claves están en un gestor de credenciales y no en el código ni en el flujo visible?¿Las claves tienen permisos mínimos y límites de gasto?¿Existen claves distintas por entorno y hay un proceso de rotación?
+Entradas y salidas del modelo
+¿Se valida la entrada (tamaño, formato, contenido sospechoso)?¿Se trata la salida del modelo como no confiable (validación de esquema, escape
+antes de mostrar o ejecutar)?¿Las acciones sensibles requieren aprobación humana?
+Infraestructura y cadena de suministro
+¿La comunicación usa TLS?¿Se revisaron conectores, plugins y dependencias de terceros?¿Las versiones del modelo están fijadas y hay pruebas antes de actualizarlas?
+Operación
+¿Hay registro de eventos sin guardar datos sensibles innecesarios?¿Existen alertas por consumo anómalo o errores?¿Hay límites de tasa y manejo de fallos?¿Existe un plan de respuesta ante incidentes y un responsable?4. Calificar cada ítem incumplido por riesgo (alto, medio, bajo) y proponer una acción
+correctiva con responsable y plazo.5. Aplicar al menos dos correcciones al flujo.
+Entregable: diagrama del flujo con fronteras de confianza, checklist completada con
+evidencias y plan de corrección priorizado.
+
+PROMPT, PARTE 2, PRACTICA 2.
+Asume el rol de experto en envenenamiento de datos y ataques adversariales, en función de los archivo anexos, ejecuta el procedimientos que se indica según los siguientes pasos:
+Pasos:
+1. Dibujar el diagrama del flujo: origen de los datos, pasos intermedios, API de IA, destinos y servicios de terceros.
+2. Marcar en el diagrama las fronteras de confianza (dónde los datos salen de la organización o entran desde fuera).
+3. Completar la siguiente checklist (Sí / No / No aplica / Evidencia):
+Datos
+¿Se clasificó la información que atraviesa el flujo?
+¿Se envía solo lo mínimo necesario a la API?
+¿Se anonimizan o seudonimizan datos personales antes del envío?
+¿Se verificó la política de retención y de uso para entrenamiento del proveedor?
+Credenciales y accesos
+¿Las claves están en un gestor de credenciales y no en el código ni en el flujo visible?
+¿Las claves tienen permisos mínimos y límites de gasto?
+¿Existen claves distintas por entorno y hay un proceso de rotación?
+Entradas y salidas del modelo
+¿Se valida la entrada (tamaño, formato, contenido sospechoso)?
+¿Se trata la salida del modelo como no confiable (validación de esquema, escape antes de mostrar o ejecutar)?
+¿Las acciones sensibles requieren aprobación humana?
+Infraestructura y cadena de suministro
+¿La comunicación usa TLS?
+¿Se revisaron conectores, plugins y dependencias de terceros?
+¿Las versiones del modelo están fijadas y hay pruebas antes de actualizarlas?
+Operación
+¿Hay registro de eventos sin guardar datos sensibles innecesarios?¿Existen alertas por consumo anómalo o errores?
+¿Hay límites de tasa y manejo de fallos?
+¿Existe un plan de respuesta ante incidentes y un responsable?
+4. Calificar cada ítem incumplido por riesgo (alto, medio, bajo) y proponer una acción correctiva con responsable y plazo.5. Aplicar al menos dos correcciones al flujo. Entregable: diagrama del flujo con fronteras de confianza, checklist completada con evidencias y plan de corrección priorizado.

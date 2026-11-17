@@ -1,0 +1,46 @@
+flowchart TD
+    subgraph Inputs["Entradas y Origen de Datos"]
+        PDFs["Archivos PDF\n(Manuales / Documentos)"]
+        UserQuery["Consulta del Usuario\n(Texto / Pregunta)"]
+    end
+
+    subgraph CoreComponents["Componentes de la Solución RAG"]
+        CLI["CLI (Argument Parser)\n(pdf_vector_search.py / rag_gemini.py)"]
+        UI["Interfaz Web (Streamlit)\n(app.py)"]
+        
+        Extractor["Procesador de PDFs\n(pypdf: Extracción y Chunking)"]
+        Embedder["Modelo de Embeddings\n(SentenceTransformers:\nparaphrase-multilingual-MiniLM-L12-v2)"]
+        Retriever["Módulo de Recuperación\n(ChromaDB Client / Cosine Distance)"]
+        PromptBuilder["Constructor de Prompt RAG\n(Ensamblaje de Contexto + Pregunta)"]
+        GeminiClient["Cliente LLM / Generador\n(Google GenAI SDK: Gemini)"]
+    end
+
+    subgraph Database["Base de Datos Vectorizada"]
+        ChromaDB[("ChromaDB\n(Almacén Persistente / Colección: 'manuales')")]
+    end
+
+    %% Flujo de Indexación
+    PDFs --> Extractor
+    Extractor --> Embedder
+    Embedder --> ChromaDB
+    CLI --> Extractor
+
+    %% Flujo de Consulta / RAG
+    UserQuery --> UI
+    UserQuery --> CLI
+    UI --> Embedder
+    UI --> Retriever
+    CLI --> Retriever
+    
+    Embedder -->|Vector de Consulta| Retriever
+    Retriever <-->|Búsqueda Semántica Similitud Coseno| ChromaDB
+    
+    Retriever -->|Fragmentos + Metadatos / Evidencia| PromptBuilder
+    PromptBuilder -->|Prompt Enriquecido| GeminiClient
+    GeminiClient -->|Respuesta Final con Citas| UI
+    GeminiClient -->|Respuesta por Consola| CLI
+
+    %% Estilos
+    style ChromaDB fill:#f9f,stroke:#333,stroke-width:2px
+    style GeminiClient fill:#bbf,stroke:#333,stroke-width:1px
+    style Embedder fill:#bfb,stroke:#333,stroke-width:1px

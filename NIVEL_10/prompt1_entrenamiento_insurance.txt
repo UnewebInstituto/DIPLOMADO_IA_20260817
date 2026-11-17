@@ -1,0 +1,13 @@
+Actúa como un modelo de Machine Learning supervisado de Regresión Predictiva. Te
+adjunto el archivo insurance.csv. La variable objetivo es 
+charges (costo anual del
+seguro). Sigue estos pasos y presenta cada resultado de forma clara: (1) Revisa la
+calidad de los datos: valores faltantes, duplicados y tipos de variables. (2) Haz una
+exploración (EDA): estadísticas descriptivas, correlaciones con 
+charges y posibles
+valores atípicos. (3) Divide los datos en 80% entrenamiento y 20% prueba. (4)
+Entrena una regresión lineal y un árbol de decisión simulando el comportamiento de
+cada algoritmo. (5) Reporta MAE, RMSE y R² de cada modelo sobre los datos de
+prueba. (6) Indica qué variables influyen más en el costo y explícalo en lenguaje
+sencillo para alguien sin formación técnica. Confirma cuando el entrenamiento haya
+terminado

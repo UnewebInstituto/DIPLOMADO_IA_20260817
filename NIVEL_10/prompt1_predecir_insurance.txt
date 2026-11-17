@@ -1,0 +1,8 @@
+Con el modelo entrenado, estima 
+charges para estos 3 clientes nuevos que no
+estaban en el dataset: (a) mujer de 28 años, IMC 24, sin hijos, no fumadora, región
+suroeste; (b) hombre de 45 años, IMC 33, 2 hijos, fumador, región noreste; (c) hombre
+de 60 años, IMC 29, 1 hijo, no fumador, región noroeste. Para cada uno entrega: el valor
+estimado, un rango razonable (mínimo-máximo), el desglose de cuánto aporta cada
+variable a la estimación y tu nivel de confianza. Luego explica por qué las
+estimaciones difieren entre los tres perfiles.
