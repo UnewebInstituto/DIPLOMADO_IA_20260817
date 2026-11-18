@@ -1,0 +1,2 @@
+Calcular por grupo: tasa de resultado favorable, tasa de verdaderos positivos y tasa
+de falsos positivos

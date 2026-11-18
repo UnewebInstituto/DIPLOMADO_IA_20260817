@@ -1,0 +1,239 @@
+!pip install -q torch transformers datasets peft trl bitsandbytes accelerate
+
+
+
+¡Claro que sí! Vamos a estructurar tu guía paso a paso para que puedas configurar y ejecutar con éxito la **Práctica 4: Fine-tuning con LoRA/QLoRA** utilizando Google Colab o tu propio entorno con GPU.
+
+---
+
+### 📋 Hoja de Ruta para la Práctica 4
+
+* **Fase 1: Preparación del Entorno** (Instalación de librerías y carga del modelo en 4 bits).
+* **Fase 2: Generación de la Línea Base** (Prueba inicial con el modelo sin entrenar).
+* **Fase 3: Entrenamiento (Configuración 1)** ($r=16$, $\alpha=32$, $2$ épocas).
+* **Fase 4: Experimentación (Configuración 2)** (Modificación de hiperparámetros y comparación de pérdidas).
+* **Fase 5: Evaluación y Exportación** (Prueba del adaptador frente a la línea base y guardado de resultados).
+
+---
+
+### Paso 1: Configurar el Entorno en Google Colab
+
+1. Entra a [Google Colab](https://colab.research.google.com/) y crea un nuevo cuaderno (*Notebook*).
+2. Ve al menú superior **Entorno de ejecución** ➔ **Cambiar tipo de entorno de ejecución** y selecciona una **GPU** (por ejemplo, T4, que es gratuita y suficiente para modelos pequeños).
+3. En la primera celda, ejecuta la instalación de las dependencias necesarias:
+
+```python
+!pip install -q torch transformers datasets peft trl bitsandbytes accelerate
+
+```
+
+---
+
+### Paso 2: Cargar el Modelo Base Cuantizado (QLoRA)
+
+Cargaremos un modelo base eficiente (por ejemplo, `Qwen/Qwen2.5-1.5B-Instruct` o `unsloth/Llama-3.2-3B-Instruct`) aplicando compresión de 4 bits para que encaje perfectamente en la VRAM de la GPU:
+
+```python
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from peft import prepare_model_for_kbit_training
+
+model_id = "Qwen/Qwen2.5-1.5B-Instruct"
+
+# Configuración de cuantización en 4 bits
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.float16,
+    bnb_4bit_use_double_quant=True
+)
+
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+tokenizer.pad_token = tokenizer.eos_token
+
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    quantization_config=bnb_config,
+    device_map="auto"
+)
+
+model = prepare_model_for_kbit_training(model)
+print("¡Modelo cargado y preparado para QLoRA!")
+
+```
+
+---
+
+### Paso 3: Establecer la Línea Base (Baseline)
+
+Selecciona 10 ejemplos de prueba de tu dataset (el que preparaste en la Práctica 3) y registra las respuestas del modelo antes de entrenar:
+
+```python
+import json, os, torch
+
+# 1) Cargar el conjunto de prueba (ya está en /content, como se ve en el panel de archivos)
+with open("/content/test.jsonl", encoding="utf-8") as f:
+    test = [json.loads(l)["messages"] for l in f if l.strip()]
+ejemplos = test[:10]                      # los mismos 10 ejemplos se usarán después con el adaptador
+print(f"test.jsonl: {len(test)} ejemplos | línea base sobre {len(ejemplos)}")
+
+# 2) Generar la respuesta del modelo SIN entrenar
+model.eval()
+model.config.use_cache = True            # prepare_model_for_kbit_training lo deja en False
+
+respuestas_base = []
+for mensajes in ejemplos:
+    # prompt = system + user, más el encabezado que indica "ahora responde el asistente"
+    prompt = tokenizer.apply_chat_template(mensajes[:-1], tokenize=False, add_generation_prompt=True)
+    inputs = tokenizer(prompt, add_special_tokens=False, return_tensors="pt").to(model.device)
+
+    with torch.no_grad():
+        outputs = model.generate(**inputs, max_new_tokens=200, do_sample=False,
+                                 temperature=None, top_p=None,
+                                 pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id)
+
+    # decodificar solo lo NUEVO (sin repetir el prompt)
+    texto = tokenizer.decode(outputs[0, inputs["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+    respuestas_base.append({"pregunta": mensajes[1]["content"],
+                            "referencia": mensajes[2]["content"],
+                            "respuesta": texto})
+
+# 3) Guardar para compararla después con el adaptador
+os.makedirs("resultados", exist_ok=True)
+with open("resultados/respuestas_base.json", "w", encoding="utf-8") as f:
+    json.dump(respuestas_base, f, ensure_ascii=False, indent=2)
+
+print("Línea base generada para 10 ejemplos.\n")
+for r in respuestas_base[:2]:
+    print("PREGUNTA  :", r["pregunta"], "\nREFERENCIA:", r["referencia"], "\nBASE      :", r["respuesta"], "\n")
+
+```
+
+---
+
+### Paso 4: Configurar LoRA y Entrenar (Configuración 1)
+
+Aplicamos los parámetros requeridos: $r=16$, $\text{lora\_alpha}=32$, $\text{dropout}=0.05$, tasa de aprendizaje $2\times 10^{-4}$ y $2$ épocas:
+
+import json
+from datasets import Dataset
+from peft import LoraConfig
+from trl import SFTConfig, SFTTrainer
+
+def cargar_pc(ruta):
+    filas = [json.loads(l)["messages"] for l in open(ruta, encoding="utf-8") if l.strip()]
+    # prompt = system + user ; completion = respuesta del asistente
+    return Dataset.from_list([{"prompt": m[:-1], "completion": [m[-1]]} for m in filas])
+
+dataset_train = cargar_pc("/content/train.jsonl")
+dataset_val   = cargar_pc("/content/val.jsonl")
+
+peft_config = LoraConfig(
+    r=16, lora_alpha=32, lora_dropout=0.05, bias="none", task_type="CAUSAL_LM",
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+)
+
+training_args = SFTConfig(
+    output_dir="./resultados_config1",
+    num_train_epochs=2,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
+    gradient_accumulation_steps=2,          # lote efectivo 8 → ~13 pasos por época
+    learning_rate=2e-4,
+    lr_scheduler_type="cosine",
+    warmup_steps=2,
+    logging_steps=1,                        # una pérdida de entrenamiento por paso
+    eval_strategy="steps", eval_steps=3,    # pérdida de validación cada 3 pasos
+    save_strategy="no",
+    fp16=True,                              # T4 (si la GPU admite bf16, use bf16=True)
+    optim="paged_adamw_8bit",
+    gradient_checkpointing=True,
+    max_length=512,                         # antes: max_seq_length
+    seed=42,
+    report_to="none",
+)
+
+trainer = SFTTrainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset_train,
+    eval_dataset=dataset_val,
+    peft_config=peft_config,
+    processing_class=tokenizer,             # antes: tokenizer
+)
+
+trainer.evaluate()                          # pérdida de validación ANTES de entrenar (paso 0)
+trainer.train()
+trainer.evaluate()                          # evaluación final
+
+log_config1 = trainer.state.log_history     # ← de aquí salen las curvas
+json.dump(log_config1, open("log_config1.json", "w"), indent=2)
+
+trainer.model.save_pretrained("adaptadores/adaptador_A")
+tokenizer.save_pretrained("adaptadores/adaptador_A")
+---
+
+### Paso 5: Experimentar (Configuración 2) y Comparar Curvas
+
+Modifica los hiperparámetros (por ejemplo, probando $r=8$ y $3$ épocas) para contrastar el comportamiento del modelo y detectar posible **sobreajuste** (*overfitting*):
+
+```python
+peft_config_2 = LoraConfig(
+    r=8,
+    lora_alpha=16,
+    target_modules=["q_proj", "v_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM"
+)
+
+training_args_2 = TrainingArguments(
+    output_dir="./resultados_config2",
+    num_train_epochs=3, # Cambiamos a 3 épocas para ver el efecto
+    per_device_train_batch_size=4,
+    gradient_accumulation_steps=4,
+    learning_rate=2e-4,
+    logging_steps=10,
+    fp16=True,
+    optim="paged_adamw_8bit"
+)
+
+# Instancia un nuevo trainer y ejecuta trainer_2.train()
+
+```
+
+* **Visualización:** Usa `matplotlib` para graficar las métricas de pérdida (*loss*) de ambos entrenamientos y observar si en la Configuración 2 la pérdida de validación comienza a subir mientras la de entrenamiento baja.
+
+---
+
+### Paso 6: Probar el Adaptador y Exportar
+
+Carga el adaptador entrenado, genera respuestas para los mismos 10 ejemplos y compáralas con la línea base:
+
+```python
+from peft import PeftModel
+
+# Cargar adaptador final de la config elegida
+model_fine_tuned = PeftModel.from_pretrained(model, "./resultados_config1")
+
+# Guardar el adaptador en disco para los entregables
+model_fine_tuned.save_pretrained("adaptador_lora_final")
+tokenizer.save_pretrained("adaptador_lora_final")
+print("¡Adaptador guardado con éxito!")
+
+```
+
+---
+
+### 📦 Entregables que debes preparar:
+
+1. **El cuaderno de Colab (.ipynb)** ejecutado y comentado.
+2. **El adaptador guardado** (la carpeta con los archivos `adapter_config.json` y `adapter_model.safetensors`).
+3. **El gráfico de pérdidas** comparando ambas configuraciones.
+4. **El análisis de una página** donde expliques:
+* Las diferencias cualitativas entre las respuestas del modelo base y del modelo con fine-tuning.
+* El impacto de cambiar $r$ y las épocas en la curva de aprendizaje (evidencias de sobreajuste).
+
+
+
+¿Deseas profundizar en alguna de las líneas de código o tienes alguna duda específica con el formato de tu dataset de la Práctica 3?
