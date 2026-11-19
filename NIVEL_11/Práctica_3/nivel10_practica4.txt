@@ -115,10 +115,18 @@ for r in respuestas_base[:2]:
 
 Aplicamos los parámetros requeridos: $r=16$, $\text{lora\_alpha}=32$, $\text{dropout}=0.05$, tasa de aprendizaje $2\times 10^{-4}$ y $2$ épocas:
 
-import json
+import json, os, torch
 from datasets import Dataset
 from peft import LoraConfig
 from trl import SFTConfig, SFTTrainer
+
+# ── Configuración de esta corrida (para la configuración B: "B", 4 — recargando antes el modelo) ──
+NOMBRE, EPOCAS = "A", 2
+
+# ── Protección: este modelo no debe tener adaptadores de una corrida anterior ──
+if any("lora_" in n for n, _ in model.named_parameters()):
+    raise RuntimeError("El modelo ya tiene adaptadores LoRA de un entrenamiento anterior. "
+                       "Vuelva a ejecutar la celda que carga el modelo y luego esta.")
 
 def cargar_pc(ruta):
     filas = [json.loads(l)["messages"] for l in open(ruta, encoding="utf-8") if l.strip()]
@@ -134,8 +142,8 @@ peft_config = LoraConfig(
 )
 
 training_args = SFTConfig(
-    output_dir="./resultados_config1",
-    num_train_epochs=2,
+    output_dir=f"./resultados_config_{NOMBRE}",
+    num_train_epochs=EPOCAS,
     per_device_train_batch_size=4,
     per_device_eval_batch_size=4,
     gradient_accumulation_steps=2,          # lote efectivo 8 → ~13 pasos por época
@@ -145,10 +153,11 @@ training_args = SFTConfig(
     logging_steps=1,                        # una pérdida de entrenamiento por paso
     eval_strategy="steps", eval_steps=3,    # pérdida de validación cada 3 pasos
     save_strategy="no",
-    fp16=True,                              # T4 (si la GPU admite bf16, use bf16=True)
+    fp16=True,                              # T4
+    bf16=False,
     optim="paged_adamw_8bit",
     gradient_checkpointing=True,
-    max_length=512,                         # antes: max_seq_length
+    max_length=512,
     seed=42,
     report_to="none",
 )
@@ -159,44 +168,177 @@ trainer = SFTTrainer(
     train_dataset=dataset_train,
     eval_dataset=dataset_val,
     peft_config=peft_config,
-    processing_class=tokenizer,             # antes: tokenizer
+    processing_class=tokenizer,
 )
+
+# ───── PARCHE: SFTTrainer deja los adaptadores en bf16 (modelo cuantizado) y el escalador fp16 exige float32 ─────
+for p in trainer.model.parameters():
+    if p.requires_grad and p.dtype != torch.float32:
+        p.data = p.data.to(torch.float32)
+tipos = {p.dtype for p in trainer.model.parameters() if p.requires_grad}
+print("dtype de los parámetros entrenables:", tipos)
+assert tipos == {torch.float32}, f"Parámetros entrenables en {tipos}: el parche no se aplicó"
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 trainer.evaluate()                          # pérdida de validación ANTES de entrenar (paso 0)
 trainer.train()
 trainer.evaluate()                          # evaluación final
 
-log_config1 = trainer.state.log_history     # ← de aquí salen las curvas
-json.dump(log_config1, open("log_config1.json", "w"), indent=2)
+log_config = trainer.state.log_history      # ← de aquí salen las curvas
+os.makedirs("resultados", exist_ok=True)
+json.dump(log_config, open(f"resultados/log_config_{NOMBRE}.json", "w"), indent=2)
 
-trainer.model.save_pretrained("adaptadores/adaptador_A")
-tokenizer.save_pretrained("adaptadores/adaptador_A")
+trainer.model.save_pretrained(f"adaptadores/adaptador_{NOMBRE}")
+tokenizer.save_pretrained(f"adaptadores/adaptador_{NOMBRE}")
+print(f"Listo: adaptador guardado en adaptadores/adaptador_{NOMBRE}")
 ---
 
 ### Paso 5: Experimentar (Configuración 2) y Comparar Curvas
 
 Modifica los hiperparámetros (por ejemplo, probando $r=8$ y $3$ épocas) para contrastar el comportamiento del modelo y detectar posible **sobreajuste** (*overfitting*):
 
-```python
+###
+import os, gc, torch
+
+# Seguridad: la configuración A debe estar guardada antes de descartar el modelo
+for ruta in ("adaptadores/adaptador_A", "resultados/log_config_A.json"):
+    print(("OK      " if os.path.exists(ruta) else "FALTA   ") + ruta)
+
+try: del trainer
+except NameError: pass
+model = None
+gc.collect(); torch.cuda.empty_cache()
+print(f"VRAM en uso: {torch.cuda.memory_allocated()/1e9:.2f} GB")
+
+###
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from peft import prepare_model_for_kbit_training
+
+MODELO = "Qwen/Qwen2.5-1.5B-Instruct"        # ← el mismo id que usó en la configuración A
+bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
+                         bnb_4bit_compute_dtype=torch.float16)
+model = AutoModelForCausalLM.from_pretrained(MODELO, quantization_config=bnb,
+                                             device_map={"": 0}, dtype=torch.float16)
+model = prepare_model_for_kbit_training(model)
+print("Modelo cargado y preparado para QLoRA!")
+
+####
+
+print("¿Tiene adaptadores?", any("lora_" in n for n, _ in model.named_parameters()))
+
+####
+
+import json, os, torch
+from datasets import Dataset
+from peft import LoraConfig
+from trl import SFTConfig, SFTTrainer
+
+# ── Configuración 2: SOLO cambian r, alpha y épocas (todo lo demás igual que la configuración 1) ──
+NOMBRE, EPOCAS, R, ALPHA = "B", 3, 8, 16
+
+if any("lora_" in n for n, _ in model.named_parameters()):
+    raise RuntimeError("El modelo ya tiene adaptadores LoRA de un entrenamiento anterior. "
+                       "Vuelva a ejecutar la celda que carga el modelo y luego esta.")
+
+def cargar_pc(ruta):
+    filas = [json.loads(l)["messages"] for l in open(ruta, encoding="utf-8") if l.strip()]
+    return Dataset.from_list([{"prompt": m[:-1], "completion": [m[-1]]} for m in filas])
+
+dataset_train = cargar_pc("/content/train.jsonl")
+dataset_val   = cargar_pc("/content/val.jsonl")
+
 peft_config_2 = LoraConfig(
-    r=8,
-    lora_alpha=16,
-    target_modules=["q_proj", "v_proj"],
-    lora_dropout=0.05,
-    bias="none",
-    task_type="CAUSAL_LM"
+    r=R, lora_alpha=ALPHA, lora_dropout=0.05, bias="none", task_type="CAUSAL_LM",
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],  # los mismos 7 que la config. 1
 )
 
-training_args_2 = TrainingArguments(
-    output_dir="./resultados_config2",
-    num_train_epochs=3, # Cambiamos a 3 épocas para ver el efecto
+training_args_2 = SFTConfig(
+    output_dir=f"./resultados_config_{NOMBRE}",
+    num_train_epochs=EPOCAS,
     per_device_train_batch_size=4,
-    gradient_accumulation_steps=4,
+    per_device_eval_batch_size=4,
+    gradient_accumulation_steps=2,          # igual que la config. 1 (lote efectivo 8)
     learning_rate=2e-4,
-    logging_steps=10,
-    fp16=True,
-    optim="paged_adamw_8bit"
+    lr_scheduler_type="cosine",
+    warmup_steps=2,
+    logging_steps=1,                        # una pérdida de entrenamiento por paso
+    eval_strategy="steps", eval_steps=3,    # pérdida de validación cada 3 pasos
+    save_strategy="no",
+    fp16=True, bf16=False,
+    optim="paged_adamw_8bit",
+    gradient_checkpointing=True,
+    max_length=512,
+    seed=42,
+    report_to="none",
 )
+
+trainer = SFTTrainer(model=model, args=training_args_2, train_dataset=dataset_train,
+                     eval_dataset=dataset_val, peft_config=peft_config_2, processing_class=tokenizer)
+
+# ───── PARCHE: los adaptadores quedan en bf16 y el escalador fp16 exige float32 ─────
+for p in trainer.model.parameters():
+    if p.requires_grad and p.dtype != torch.float32:
+        p.data = p.data.to(torch.float32)
+tipos = {p.dtype for p in trainer.model.parameters() if p.requires_grad}
+print("dtype de los parámetros entrenables:", tipos)
+assert tipos == {torch.float32}, f"Parámetros entrenables en {tipos}: el parche no se aplicó"
+# ────────────────────────────────────────────────────────────────────────────────────
+
+trainer.evaluate()                          # paso 0
+trainer.train()
+trainer.evaluate()                          # evaluación final
+
+os.makedirs("resultados", exist_ok=True)
+json.dump(trainer.state.log_history, open(f"resultados/log_config_{NOMBRE}.json", "w"), indent=2)
+trainer.model.save_pretrained(f"adaptadores/adaptador_{NOMBRE}")
+tokenizer.save_pretrained(f"adaptadores/adaptador_{NOMBRE}")
+print(f"Listo: adaptador guardado en adaptadores/adaptador_{NOMBRE}")
+
+####
+
+import json, os
+import matplotlib.pyplot as plt
+
+def cargar_log(nombre):
+    ruta = f"resultados/log_config_{nombre}.json"
+    return json.load(open(ruta)) if os.path.exists(ruta) else None
+
+def serie(log, clave):
+    return [(e.get("epoch", 0.0), e["step"], e[clave]) for e in log if clave in e]
+
+def diagnostico(log):
+    ev, tr = serie(log, "eval_loss"), serie(log, "loss")
+    entrenados = [x for x in ev if x[1] > 0]                 # excluye el paso 0 (modelo sin entrenar)
+    mejor, final = min(entrenados, key=lambda x: x[2]), entrenados[-1]
+    ult = [x[2] for x in tr[-3:]]
+    train_final = sum(ult) / len(ult)
+    sube = (final[2] - mejor[2]) / mejor[2]
+    return {"val_inicial": ev[0][2], "val_min": mejor[2], "epoca_min": mejor[0], "val_final": final[2],
+            "train_final": train_final, "brecha": final[2] - train_final, "sube_pct": 100 * sube,
+            "sobreajuste": sube > 0.05 and tr[-1][2] < tr[len(tr) // 2][2]}
+
+CONFIGS = {"A": "r=16, 2 épocas", "B": "r=8, 3 épocas"}      # etiquetas de la leyenda (ajústelas si cambió algo)
+logs = {n: cargar_log(n) for n in CONFIGS}
+faltan = [n for n, l in logs.items() if l is None]
+assert not faltan, f"Falta resultados/log_config_{faltan}.json: ejecute primero esa configuración"
+
+fig, ax = plt.subplots(1, 2, figsize=(12, 4.2))
+for n, log in logs.items():
+    tr, ev = serie(log, "loss"), serie(log, "eval_loss")
+    ax[0].plot([x[0] for x in tr], [x[2] for x in tr], label=f"{n}: {CONFIGS[n]}")
+    ax[1].plot([x[0] for x in ev], [x[2] for x in ev], "o-", label=f"{n}: {CONFIGS[n]}")
+ax[0].set_title("Pérdida de entrenamiento"); ax[1].set_title("Pérdida de validación")
+for a in ax:
+    a.set_xlabel("época"); a.set_ylabel("pérdida"); a.grid(alpha=.3); a.legend()
+plt.tight_layout(); plt.savefig("resultados/curvas_perdida.png", dpi=150); plt.show()
+
+print(f"{'config':<8}{'val inicial':>12}{'val mínima':>12}{'(época)':>9}{'val final':>11}{'train final':>13}{'brecha':>9}{'final vs mín':>14}  sobreajuste")
+for n, log in logs.items():
+    d = diagnostico(log)
+    print(f"{n:<8}{d['val_inicial']:>12.3f}{d['val_min']:>12.3f}{d['epoca_min']:>9.2f}{d['val_final']:>11.3f}"
+          f"{d['train_final']:>13.3f}{d['brecha']:>+9.3f}{d['sube_pct']:>+13.1f}%  {'POSIBLE' if d['sobreajuste'] else 'sin evidencia clara'}")
+
+####
 
 # Instancia un nuevo trainer y ejecuta trainer_2.train()
 
