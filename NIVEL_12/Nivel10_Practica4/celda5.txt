@@ -1,0 +1,11 @@
+import os, gc, torch
+
+# Seguridad: la configuración A debe estar guardada antes de descartar el modelo
+for ruta in ("adaptadores/adaptador_A", "resultados/log_config_A.json"):
+    print(("OK      " if os.path.exists(ruta) else "FALTA   ") + ruta)
+
+try: del trainer
+except NameError: pass
+model = None
+gc.collect(); torch.cuda.empty_cache()
+print(f"VRAM en uso: {torch.cuda.memory_allocated()/1e9:.2f} GB")

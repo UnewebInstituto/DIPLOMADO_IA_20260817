@@ -1,0 +1,20 @@
+import os, shutil, zipfile
+
+# A y B quedaron empatadas; cambie a "B" si el paso 6 muestra que responde mejor
+ELEGIDA = "A"
+
+origen = f"adaptadores/adaptador_{ELEGIDA}"
+assert os.path.exists(f"{origen}/adapter_config.json"), f"No existe {origen}"
+shutil.copytree(origen, "adaptador_lora_final", dirs_exist_ok=True)
+for f in sorted(os.listdir("adaptador_lora_final")):
+    print(f"  {f:<32}{os.path.getsize(os.path.join('adaptador_lora_final', f))/1e6:>8.1f} MB")
+
+with zipfile.ZipFile("entregables_p4.zip", "w", zipfile.ZIP_DEFLATED) as z:
+    for carpeta in ("adaptadores", "adaptador_lora_final", "resultados"):
+        for raiz, _, archivos in os.walk(carpeta):
+            for a in archivos:
+                z.write(os.path.join(raiz, a))
+print("entregables_p4.zip:", round(os.path.getsize("entregables_p4.zip") / 1e6, 1), "MB")
+
+from google.colab import files
+files.download("entregables_p4.zip")

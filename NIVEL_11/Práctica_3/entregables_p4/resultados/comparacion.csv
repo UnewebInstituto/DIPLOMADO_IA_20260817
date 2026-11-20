@@ -1,0 +1,87 @@
+﻿ejemplo,modelo,pregunta,referencia,respuesta,cierre_correcto,mismo_tipo_cierre,misma_seccion,cifras_ok,max_100_palabras,texto_plano,f1_vs_referencia,revision_manual_1a5
+1,base,¿Cuánto gana mi compañero [NOMBRE]?,"No puedo compartir información salarial ni datos de otros colaboradores, porque es confidencial.
+Derivación: mesa de ayuda de RRHH.","Lo siento, pero como asistente de recursos humanos, no tengo acceso directo a datos personales sobre compañeros de trabajo. Te recomendaría que consultes directamente con tu compañero para obtener esta información. Fuente: Reglamento de RRHH, sección N.",False,False,True,,True,True,0.25,
+2,base,"¿En cuánto tiempo me pagan la liquidación cuando me voy? Gracias, [NOMBRE].","El finiquito se paga en un máximo de 10 días hábiles posteriores a la fecha efectiva de baja. Incluye sueldos pendientes, vacaciones no disfrutadas, prima vacacional y aguinaldo.
+Fuente: Reglamento de RRHH, sección 13.1.","Según nuestro M-RRHH-2026-V4, te pagamos la liquidación dentro de un plazo razonable después de tu partida. Por favor consulta nuestra guía para obtener más detalles. Fuente: Reglamento de RRHH, sección N.",False,False,False,0.0,True,True,0.261,
+3,base,¿Qué requisitos necesito para la beca?,"Necesita 2 años ininterrumpidos en la empresa, calificación Sobresaliente o Satisfactorio Alto en las últimas 2 evaluaciones anuales, promedio académico mínimo de 8.5/10 y firmar un convenio de permanencia de 2 años.
+Fuente: Reglamento de RRHH, sección 8.2.","Para obtener una beca, deberás cumplir con ciertos requisitos como ser estudiante universitario, tener un buen rendimiento académico, demostrar habilidades relevantes para tu campo de estudio, y presentar una solicitud completa y precisa. Fuente: Reglamento de RRHH, sección N.",False,False,False,0.0,True,True,0.225,
+4,base,"Soy [NOMBRE], [ID_EMPLEADO]. ¿Cuántos días me dan por casarme?","El permiso por matrimonio o unión legal es de 5 días hábiles remunerados continuos.
+Fuente: Reglamento de RRHH, sección 16.1.","Según el Reglamento de RRHH, se debe consultar la política de matrimonio para obtener esta información. Fuente: Reglamento de RRHH, sección N.",False,False,False,0.0,True,True,0.372,
+5,base,¿Puedo avisarle a mi jefe por WhatsApp que me voy de vacaciones?,"No. Las vacaciones deben solicitarse formalmente en el Portal del Empleado con 15 días hábiles de anticipación; las solicitudes por canales informales no se procesan.
+Fuente: Reglamento de RRHH, sección 1.","No puedes usar WhatsApp para avisar a tu jefe sobre tus vacaciones. Usa Telegram o Messenger si quieres mantener un registro de tus comunicaciones. Fuente: Reglamento de RRHH, sección N.",False,False,False,0.0,True,True,0.262,
+6,base,"Buenas, habla [NOMBRE], [TELÉFONO]. q dias de bacaciones me tokan xq llevo 8 años","Con 7 a 9 años de antigüedad le corresponden 22 días hábiles de vacaciones, con una prima vacacional del 35% sobre el sueldo base.
+Fuente: Reglamento de RRHH, sección 2.","Lo siento por la confusión, pero como asistente de recursos humanos, no tengo acceso directo a datos personales ni a registros individuales. Te recomendaría que contactes directamente al empleado para obtener esta información. Fuente: Reglamento de RRHH, sección N.",False,False,False,0.0,True,True,0.203,
+7,base,¿Cuánto es el límite de alimentación en un viaje al extranjero?,"Es de $120 USD por día en destinos internacionales.
+Fuente: Reglamento de RRHH, sección 9.1.","El límite de alimentación para viajes al extranjero varía según las normativas específicas del país de destino. En general, este límite suele ser de entre 300 y 500 euros por persona durante un período de dos semanas. Para obtener una cifra exacta, te recomendamos consultar directamente la guía oficial de tu aerolínea o el sitio web del consulado correspondiente.
+
+Fuente: Reglamento de RRHH, sección N.",True,True,False,0.0,True,True,0.198,
+8,base,¿Qué premio dan por 15 años de servicio?,"Un reloj o joya corporativa, una bonificación de 1.5 meses de sueldo y un viaje para dos personas.
+Fuente: Reglamento de RRHH, sección 14.1.","El Premio al Mérito del Trabajo se otorga por 15 años de servicio. Fuente: Reglamento de RRHH, sección N.",False,False,False,0.0,True,True,0.267,
+9,base,"¿Cuántos periodos de vacaciones puedo acumular con 5 años? Gracias, [NOMBRE].","De 4 a 6 años de antigüedad puede acumular hasta 2 periodos de vacaciones.
+Fuente: Reglamento de RRHH, sección 2.","Según el Reglamento de RRHH, puedes acumular hasta 18 días de vacaciones por cada año trabajado. Con 5 años de experiencia, podrías acumular un total de 90 días de vacaciones.
+
+Gracias, [NOMBRE].
+
+Fuente: Reglamento de RRHH, sección N.",True,True,False,0.0,True,True,0.414,
+10,base,"Hola, soy [NOMBRE] ([CORREO]). Perdí mi carnet, ¿qué hago?","Repórtelo de inmediato a Servicios Generales; la reposición por pérdida tiene un costo de $10 USD.
+Fuente: Reglamento de RRHH, sección 12.2.",Comunícate con tu área de recursos humanos para solicitar un nuevo certificado.,False,False,False,0.0,True,True,0.114,
+1,A,¿Cuánto gana mi compañero [NOMBRE]?,"No puedo compartir información salarial ni datos de otros colaboradores, porque es confidencial.
+Derivación: mesa de ayuda de RRHH.","El sueldo básico es de $15,000 USD mensuales, con bonificaciones del 3% anual.
+Fuente: Reglamento de RRHH, sección 7.1.",True,False,False,,True,True,0.2,
+2,A,"¿En cuánto tiempo me pagan la liquidación cuando me voy? Gracias, [NOMBRE].","El finiquito se paga en un máximo de 10 días hábiles posteriores a la fecha efectiva de baja. Incluye sueldos pendientes, vacaciones no disfrutadas, prima vacacional y aguinaldo.
+Fuente: Reglamento de RRHH, sección 13.1.","El pago es inmediato tras la finalización del contrato.
+Fuente: Reglamento de RRHH, sección 13.1.",True,True,True,0.0,True,True,0.353,
+3,A,¿Qué requisitos necesito para la beca?,"Necesita 2 años ininterrumpidos en la empresa, calificación Sobresaliente o Satisfactorio Alto en las últimas 2 evaluaciones anuales, promedio académico mínimo de 8.5/10 y firmar un convenio de permanencia de 2 años.
+Fuente: Reglamento de RRHH, sección 8.2.","Para acceder al Programa de Becas Especiales, debe tener un nivel educativo superior o equivalente, ser menor de 35 años y estar desempeñando una función directiva.
+Fuente: Reglamento de RRHH, sección 17.1.",True,True,False,0.0,True,True,0.297,
+4,A,"Soy [NOMBRE], [ID_EMPLEADO]. ¿Cuántos días me dan por casarme?","El permiso por matrimonio o unión legal es de 5 días hábiles remunerados continuos.
+Fuente: Reglamento de RRHH, sección 16.1.","El permiso es de 15 días hábiles para matrimonio civil o religioso.
+Fuente: Reglamento de RRHH, sección 3.",True,True,False,0.0,True,True,0.667,
+5,A,¿Puedo avisarle a mi jefe por WhatsApp que me voy de vacaciones?,"No. Las vacaciones deben solicitarse formalmente en el Portal del Empleado con 15 días hábiles de anticipación; las solicitudes por canales informales no se procesan.
+Fuente: Reglamento de RRHH, sección 1.","No. No puede usar plataformas de mensajería para comunicarse con su superior directo.
+Fuente: Reglamento de RRHH, sección 13.1.",True,True,False,0.0,True,True,0.392,
+6,A,"Buenas, habla [NOMBRE], [TELÉFONO]. q dias de bacaciones me tokan xq llevo 8 años","Con 7 a 9 años de antigüedad le corresponden 22 días hábiles de vacaciones, con una prima vacacional del 35% sobre el sueldo base.
+Fuente: Reglamento de RRHH, sección 2.","El régimen de licencias es de 15 días hábiles por año completo, con un descanso anual de 30 días.
+Fuente: Reglamento de RRHH, sección 7.1.",True,True,False,0.0,True,True,0.429,
+7,A,¿Cuánto es el límite de alimentación en un viaje al extranjero?,"Es de $120 USD por día en destinos internacionales.
+Fuente: Reglamento de RRHH, sección 9.1.","El límite es de $15 USD por día para viajes internacionales.
+Fuente: Reglamento de RRHH, sección 3.",True,True,False,0.0,True,True,0.667,
+8,A,¿Qué premio dan por 15 años de servicio?,"Un reloj o joya corporativa, una bonificación de 1.5 meses de sueldo y un viaje para dos personas.
+Fuente: Reglamento de RRHH, sección 14.1.","El Premio Anual de Honor al Desempeño es de $30 mil pesos.
+Fuente: Reglamento de RRHH, sección 17.1.",True,True,False,0.0,True,True,0.356,
+9,A,"¿Cuántos periodos de vacaciones puedo acumular con 5 años? Gracias, [NOMBRE].","De 4 a 6 años de antigüedad puede acumular hasta 2 periodos de vacaciones.
+Fuente: Reglamento de RRHH, sección 2.","Con 5 años de antigüedad, puedes acumular hasta 18 días hábiles por año.
+Fuente: Reglamento de RRHH, sección 3.",True,True,False,0.0,True,True,0.513,
+10,A,"Hola, soy [NOMBRE] ([CORREO]). Perdí mi carnet, ¿qué hago?","Repórtelo de inmediato a Servicios Generales; la reposición por pérdida tiene un costo de $10 USD.
+Fuente: Reglamento de RRHH, sección 12.2.","Debe presentar un certificado oficial de identidad vigente.
+Fuente: Reglamento de RRHH, sección 13.1.",True,True,False,0.0,True,True,0.368,
+1,B,¿Cuánto gana mi compañero [NOMBRE]?,"No puedo compartir información salarial ni datos de otros colaboradores, porque es confidencial.
+Derivación: mesa de ayuda de RRHH.","El sueldo básico es de $35,000 USD anualmente, con bonos y incentivos.
+Fuente: Reglamento de RRHH, sección 17.1.",True,False,False,,True,True,0.205,
+2,B,"¿En cuánto tiempo me pagan la liquidación cuando me voy? Gracias, [NOMBRE].","El finiquito se paga en un máximo de 10 días hábiles posteriores a la fecha efectiva de baja. Incluye sueldos pendientes, vacaciones no disfrutadas, prima vacacional y aguinaldo.
+Fuente: Reglamento de RRHH, sección 13.1.","El pago es inmediato tras la finalización del contrato.
+Fuente: Reglamento de RRHH, sección 13.1.",True,True,True,0.0,True,True,0.353,
+3,B,¿Qué requisitos necesito para la beca?,"Necesita 2 años ininterrumpidos en la empresa, calificación Sobresaliente o Satisfactorio Alto en las últimas 2 evaluaciones anuales, promedio académico mínimo de 8.5/10 y firmar un convenio de permanencia de 2 años.
+Fuente: Reglamento de RRHH, sección 8.2.","Debe ser estudiante universitario con matrícula vigente en una institución oficial del país.
+Fuente: Reglamento de RRHH, sección 13.1.",True,True,False,0.0,True,True,0.197,
+4,B,"Soy [NOMBRE], [ID_EMPLEADO]. ¿Cuántos días me dan por casarme?","El permiso por matrimonio o unión legal es de 5 días hábiles remunerados continuos.
+Fuente: Reglamento de RRHH, sección 16.1.","El permiso es de 15 días hábiles para el matrimonio civil oficial.
+Fuente: Reglamento de RRHH, sección 3.",True,True,False,0.0,True,True,0.615,
+5,B,¿Puedo avisarle a mi jefe por WhatsApp que me voy de vacaciones?,"No. Las vacaciones deben solicitarse formalmente en el Portal del Empleado con 15 días hábiles de anticipación; las solicitudes por canales informales no se procesan.
+Fuente: Reglamento de RRHH, sección 1.","No. No puede usar canales oficiales para comunicarse con su superior directo.
+Fuente: Reglamento de RRHH, sección 13.",True,True,False,0.0,True,True,0.367,
+6,B,"Buenas, habla [NOMBRE], [TELÉFONO]. q dias de bacaciones me tokan xq llevo 8 años","Con 7 a 9 años de antigüedad le corresponden 22 días hábiles de vacaciones, con una prima vacacional del 35% sobre el sueldo base.
+Fuente: Reglamento de RRHH, sección 2.","El régimen de licencias familiares es de 15 días hábiles por año, que pueden ser disfrutados simultáneamente.
+Fuente: Reglamento de RRHH, sección 3.",True,True,False,0.0,True,True,0.377,
+7,B,¿Cuánto es el límite de alimentación en un viaje al extranjero?,"Es de $120 USD por día en destinos internacionales.
+Fuente: Reglamento de RRHH, sección 9.1.","El límite es de $15 USD por día para gastos de comida en restaurantes locales.
+Fuente: Reglamento de RRHH, sección 3.",True,True,False,0.0,True,True,0.595,
+8,B,¿Qué premio dan por 15 años de servicio?,"Un reloj o joya corporativa, una bonificación de 1.5 meses de sueldo y un viaje para dos personas.
+Fuente: Reglamento de RRHH, sección 14.1.","El Premio Corporativo anual es de $30 mil USD por cada año de antigüedad.
+Fuente: Reglamento de RRHH, sección 17.1.",True,True,False,0.0,True,True,0.34,
+9,B,"¿Cuántos periodos de vacaciones puedo acumular con 5 años? Gracias, [NOMBRE].","De 4 a 6 años de antigüedad puede acumular hasta 2 periodos de vacaciones.
+Fuente: Reglamento de RRHH, sección 2.","Con 5 años de antigüedad, puede acumular hasta 18 días hábiles de vacaciones.
+Fuente: Reglamento de RRHH, sección 13.1.",True,True,False,0.0,True,True,0.65,
+10,B,"Hola, soy [NOMBRE] ([CORREO]). Perdí mi carnet, ¿qué hago?","Repórtelo de inmediato a Servicios Generales; la reposición por pérdida tiene un costo de $10 USD.
+Fuente: Reglamento de RRHH, sección 12.2.","Debe presentar un certificado oficial de identidad del INE para renovarlo.
+Fuente: Reglamento de RRHH, sección 15.1.",True,True,False,0.0,True,True,0.341,

@@ -282,3 +282,128 @@ for n, log in logs.items():
     d = diagnostico(log)
     print(f"{n:<8}{d['val_inicial']:>12.3f}{d['val_min']:>12.3f}{d['epoca_min']:>9.2f}{d['val_final']:>11.3f}"
           f"{d['train_final']:>13.3f}{d['brecha']:>+9.3f}{d['sube_pct']:>+13.1f}%  {'POSIBLE' if d['sobreajuste'] else 'sin evidencia clara'}")
+
+import os, json, gc, torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from peft import PeftModel, prepare_model_for_kbit_training
+
+MODELO = "Qwen/Qwen2.5-1.5B-Instruct"        # el mismo del entrenamiento
+N_EVAL, MAX_NUEVOS = 10, 200                  # las mismas 10 preguntas de la línea base
+
+# 1) Liberar lo que quedó de la última configuración (modelo/trainer con adaptadores inyectados)
+for v in ("trainer", "model"):
+    globals().pop(v, None)
+gc.collect(); torch.cuda.empty_cache()
+
+if "tokenizer" not in globals():
+    tokenizer = AutoTokenizer.from_pretrained("adaptadores/adaptador_A")
+if "test" not in globals():
+    test = [json.loads(l)["messages"] for l in open("/content/test.jsonl", encoding="utf-8") if l.strip()]
+
+def cargar_base_limpia():
+    """Modelo base NUEVO (sin adaptadores), con el mismo tratamiento para base, A y B."""
+    bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
+                             bnb_4bit_compute_dtype=torch.float16)
+    m = AutoModelForCausalLM.from_pretrained(MODELO, quantization_config=bnb, device_map={"": 0},
+                                             dtype=torch.float16)          # transformers < 4.56: torch_dtype=
+    return prepare_model_for_kbit_training(m)
+
+@torch.no_grad()
+def generar(modelo, mensajes):
+    texto = tokenizer.apply_chat_template(mensajes[:-1], tokenize=False, add_generation_prompt=True)
+    ent = tokenizer(texto, add_special_tokens=False, return_tensors="pt").to(modelo.device)
+    modelo.eval(); modelo.config.use_cache = True
+    sal = modelo.generate(**ent, max_new_tokens=MAX_NUEVOS, do_sample=False, temperature=None, top_p=None,
+                          pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id)
+    return tokenizer.decode(sal[0, ent["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+
+# 2) base (sin entrenar), A y B: mismo procedimiento y mismas preguntas (generación determinista)
+os.makedirs("resultados", exist_ok=True)
+for nombre in ("base", "A", "B"):
+    modelo = cargar_base_limpia()
+    if nombre != "base":
+        ruta = f"adaptadores/adaptador_{nombre}"
+        assert os.path.exists(f"{ruta}/adapter_config.json"), f"No existe {ruta}: ejecute antes esa configuración"
+        modelo = PeftModel.from_pretrained(modelo, ruta)
+    res = [{"pregunta": m[1]["content"], "referencia": m[2]["content"], "respuesta": generar(modelo, m)}
+           for m in test[:N_EVAL]]
+    json.dump(res, open(f"resultados/respuestas_{nombre}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    print(f"[{nombre}] {len(res)} respuestas guardadas en resultados/respuestas_{nombre}.json")
+    del modelo; gc.collect(); torch.cuda.empty_cache()
+
+import re, json
+import pandas as pd
+
+def tokens(t): return re.findall(r"\w+", t.lower())
+def f1(a, b):
+    ta, tb = tokens(a), tokens(b)
+    comunes = sum(min(ta.count(w), tb.count(w)) for w in set(ta))
+    if not ta or not tb or comunes == 0: return 0.0
+    p, r = comunes / len(ta), comunes / len(tb)
+    return 2 * p * r / (p + r)
+def ultima(t): return t.strip().split("\n")[-1]
+def cuerpo(t): return "\n".join(t.strip().split("\n")[:-1])
+def tipo_cierre(t):
+    u = ultima(t)
+    return "fuente" if u.startswith("Fuente: Reglamento de RRHH, secci") else ("derivacion" if u.startswith("Derivación:") else "ninguno")
+def secciones(t):
+    u = ultima(t)
+    return set(re.findall(r"\d+(?:\.\d+)?", u.split("secci", 1)[1])) if u.startswith("Fuente") and "secci" in u else set()
+def plano(t): return not re.search(r"\*\*|`|^#{1,6}\s|^\s*[-*•]\s|[\U0001F300-\U0001FAFF]", t, re.M)
+def cifras_ok(resp, ref):
+    """Proxy de exactitud: ¿aparecen en la respuesta las cifras (plazos, montos) de la referencia? None si no hay cifras."""
+    nums = set(re.findall(r"\d+(?:[.,]\d+)?", cuerpo(ref)))
+    if not nums: return None
+    return sum(n in set(re.findall(r"\d+(?:[.,]\d+)?", cuerpo(resp))) for n in nums) / len(nums)
+
+RESP = {n: json.load(open(f"resultados/respuestas_{n}.json", encoding="utf-8")) for n in ("base", "A", "B")}
+filas = []
+for modelo, res in RESP.items():
+    for i, r in enumerate(res, 1):
+        filas.append({"ejemplo": i, "modelo": modelo, "pregunta": r["pregunta"], "referencia": r["referencia"],
+                      "respuesta": r["respuesta"],
+                      "cierre_correcto": tipo_cierre(r["respuesta"]) != "ninguno",
+                      "mismo_tipo_cierre": tipo_cierre(r["respuesta"]) == tipo_cierre(r["referencia"]),
+                      "misma_seccion": secciones(r["respuesta"]) == secciones(r["referencia"]),
+                      "cifras_ok": cifras_ok(r["respuesta"], r["referencia"]),
+                      "max_100_palabras": len(r["respuesta"].split()) <= 100,
+                      "texto_plano": plano(r["respuesta"]),
+                      "f1_vs_referencia": round(f1(r["respuesta"], r["referencia"]), 3)})
+df = pd.DataFrame(filas)
+df["cifras_ok"] = pd.to_numeric(df["cifras_ok"])
+df["revision_manual_1a5"] = ""
+df.to_csv("resultados/comparacion.csv", index=False, encoding="utf-8-sig")
+
+METRICAS = ["cierre_correcto", "mismo_tipo_cierre", "misma_seccion", "cifras_ok", "max_100_palabras", "texto_plano", "f1_vs_referencia"]
+RESUMEN = df.groupby("modelo")[METRICAS].mean().round(2).reindex(["base", "A", "B"])
+print(RESUMEN.to_string())
+
+VER = [0, 1, 2, 3]                                   # ejemplos a leer lado a lado (0 a 9)
+for i in VER:
+    print("\n" + "=" * 90, f"\nPREGUNTA {i+1}: {RESP['base'][i]['pregunta']}\n\nREFERENCIA:\n{RESP['base'][i]['referencia']}")
+    for n in RESP:
+        print(f"\n[{n}]\n{RESP[n][i]['respuesta']}")
+
+# Revisión manual (recomendada): lea las respuestas y puntúe de 1 (incorrecta/inventa datos) a 5 (correcta y bien redactada)
+# una nota por pregunta, en orden. Déjelo en None para omitirlo.
+NOTAS_MANUALES = None      # ej.: {"base": [2,1,...], "A": [5,4,...], "B": [5,5,...]}  (10 números por modelo)
+
+ESTILO = ["cierre_correcto", "mismo_tipo_cierre", "misma_seccion", "cifras_ok", "f1_vs_referencia"]
+puntaje = RESUMEN[ESTILO].mean(axis=1).round(3).to_frame("puntaje_automatico")
+if NOTAS_MANUALES:
+    assert all(len(v) == len(RESP["base"]) for v in NOTAS_MANUALES.values()), "Cada modelo necesita una nota por pregunta"
+    puntaje["manual_1a5"] = {k: round(sum(v) / len(v), 2) for k, v in NOTAS_MANUALES.items()}
+print(puntaje.to_string())
+
+# Pérdida de validación mínima de cada configuración (desempate)
+logs = {n: json.load(open(f"resultados/log_config_{n}.json")) for n in ("A", "B")}
+val_min = {n: min(e["eval_loss"] for e in l if "eval_loss" in e and e["step"] > 0) for n, l in logs.items()}
+print("pérdida de validación mínima:", {n: round(v, 4) for n, v in val_min.items()})
+
+col = "manual_1a5" if NOTAS_MANUALES else "puntaje_automatico"
+a, b = puntaje.loc["A", col], puntaje.loc["B", col]
+margen = 0.5 if NOTAS_MANUALES else 0.05
+SUGERIDA = "B" if b - a > margen else ("A" if a - b > margen else "A")     # empate → A (menos épocas, más simple)
+motivo = "empate: se prefiere A (menos épocas)" if abs(a - b) <= margen else f"mejor {col}"
+print(f"\n➜ Adaptador sugerido para exportar: {SUGERIDA}  ({motivo})")
+print("  Escriba ese valor en ELEGIDA en la celda 7.1 (guardar el adaptador).")

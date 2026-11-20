@@ -1,0 +1,52 @@
+import re, json
+import pandas as pd
+
+def tokens(t): return re.findall(r"\w+", t.lower())
+def f1(a, b):
+    ta, tb = tokens(a), tokens(b)
+    comunes = sum(min(ta.count(w), tb.count(w)) for w in set(ta))
+    if not ta or not tb or comunes == 0: return 0.0
+    p, r = comunes / len(ta), comunes / len(tb)
+    return 2 * p * r / (p + r)
+def ultima(t): return t.strip().split("\n")[-1]
+def cuerpo(t): return "\n".join(t.strip().split("\n")[:-1])
+def tipo_cierre(t):
+    u = ultima(t)
+    return "fuente" if u.startswith("Fuente: Reglamento de RRHH, secci") else ("derivacion" if u.startswith("Derivación:") else "ninguno")
+def secciones(t):
+    u = ultima(t)
+    return set(re.findall(r"\d+(?:\.\d+)?", u.split("secci", 1)[1])) if u.startswith("Fuente") and "secci" in u else set()
+def plano(t): return not re.search(r"\*\*|`|^#{1,6}\s|^\s*[-*•]\s|[\U0001F300-\U0001FAFF]", t, re.M)
+def cifras_ok(resp, ref):
+    """Proxy de exactitud: ¿aparecen en la respuesta las cifras (plazos, montos) de la referencia? None si no hay cifras."""
+    nums = set(re.findall(r"\d+(?:[.,]\d+)?", cuerpo(ref)))
+    if not nums: return None
+    return sum(n in set(re.findall(r"\d+(?:[.,]\d+)?", cuerpo(resp))) for n in nums) / len(nums)
+
+RESP = {n: json.load(open(f"resultados/respuestas_{n}.json", encoding="utf-8")) for n in ("base", "A", "B")}
+filas = []
+for modelo, res in RESP.items():
+    for i, r in enumerate(res, 1):
+        filas.append({"ejemplo": i, "modelo": modelo, "pregunta": r["pregunta"], "referencia": r["referencia"],
+                      "respuesta": r["respuesta"],
+                      "cierre_correcto": tipo_cierre(r["respuesta"]) != "ninguno",
+                      "mismo_tipo_cierre": tipo_cierre(r["respuesta"]) == tipo_cierre(r["referencia"]),
+                      "misma_seccion": secciones(r["respuesta"]) == secciones(r["referencia"]),
+                      "cifras_ok": cifras_ok(r["respuesta"], r["referencia"]),
+                      "max_100_palabras": len(r["respuesta"].split()) <= 100,
+                      "texto_plano": plano(r["respuesta"]),
+                      "f1_vs_referencia": round(f1(r["respuesta"], r["referencia"]), 3)})
+df = pd.DataFrame(filas)
+df["cifras_ok"] = pd.to_numeric(df["cifras_ok"])
+df["revision_manual_1a5"] = ""
+df.to_csv("resultados/comparacion.csv", index=False, encoding="utf-8-sig")
+
+METRICAS = ["cierre_correcto", "mismo_tipo_cierre", "misma_seccion", "cifras_ok", "max_100_palabras", "texto_plano", "f1_vs_referencia"]
+RESUMEN = df.groupby("modelo")[METRICAS].mean().round(2).reindex(["base", "A", "B"])
+print(RESUMEN.to_string())
+
+VER = [0, 1, 2, 3]                                   # ejemplos a leer lado a lado (0 a 9)
+for i in VER:
+    print("\n" + "=" * 90, f"\nPREGUNTA {i+1}: {RESP['base'][i]['pregunta']}\n\nREFERENCIA:\n{RESP['base'][i]['referencia']}")
+    for n in RESP:
+        print(f"\n[{n}]\n{RESP[n][i]['respuesta']}")

@@ -1,0 +1,41 @@
+import json, os
+import matplotlib.pyplot as plt
+
+def cargar_log(nombre):
+    ruta = f"resultados/log_config_{nombre}.json"
+    return json.load(open(ruta)) if os.path.exists(ruta) else None
+
+def serie(log, clave):
+    return [(e.get("epoch", 0.0), e["step"], e[clave]) for e in log if clave in e]
+
+def diagnostico(log):
+    ev, tr = serie(log, "eval_loss"), serie(log, "loss")
+    entrenados = [x for x in ev if x[1] > 0]                 # excluye el paso 0 (modelo sin entrenar)
+    mejor, final = min(entrenados, key=lambda x: x[2]), entrenados[-1]
+    ult = [x[2] for x in tr[-3:]]
+    train_final = sum(ult) / len(ult)
+    sube = (final[2] - mejor[2]) / mejor[2]
+    return {"val_inicial": ev[0][2], "val_min": mejor[2], "epoca_min": mejor[0], "val_final": final[2],
+            "train_final": train_final, "brecha": final[2] - train_final, "sube_pct": 100 * sube,
+            "sobreajuste": sube > 0.05 and tr[-1][2] < tr[len(tr) // 2][2]}
+
+CONFIGS = {"A": "r=16, 2 épocas", "B": "r=8, 3 épocas"}      # etiquetas de la leyenda (ajústelas si cambió algo)
+logs = {n: cargar_log(n) for n in CONFIGS}
+faltan = [n for n, l in logs.items() if l is None]
+assert not faltan, f"Falta resultados/log_config_{faltan}.json: ejecute primero esa configuración"
+
+fig, ax = plt.subplots(1, 2, figsize=(12, 4.2))
+for n, log in logs.items():
+    tr, ev = serie(log, "loss"), serie(log, "eval_loss")
+    ax[0].plot([x[0] for x in tr], [x[2] for x in tr], label=f"{n}: {CONFIGS[n]}")
+    ax[1].plot([x[0] for x in ev], [x[2] for x in ev], "o-", label=f"{n}: {CONFIGS[n]}")
+ax[0].set_title("Pérdida de entrenamiento"); ax[1].set_title("Pérdida de validación")
+for a in ax:
+    a.set_xlabel("época"); a.set_ylabel("pérdida"); a.grid(alpha=.3); a.legend()
+plt.tight_layout(); plt.savefig("resultados/curvas_perdida.png", dpi=150); plt.show()
+
+print(f"{'config':<8}{'val inicial':>12}{'val mínima':>12}{'(época)':>9}{'val final':>11}{'train final':>13}{'brecha':>9}{'final vs mín':>14}  sobreajuste")
+for n, log in logs.items():
+    d = diagnostico(log)
+    print(f"{n:<8}{d['val_inicial']:>12.3f}{d['val_min']:>12.3f}{d['epoca_min']:>9.2f}{d['val_final']:>11.3f}"
+          f"{d['train_final']:>13.3f}{d['brecha']:>+9.3f}{d['sube_pct']:>+13.1f}%  {'POSIBLE' if d['sobreajuste'] else 'sin evidencia clara'}")

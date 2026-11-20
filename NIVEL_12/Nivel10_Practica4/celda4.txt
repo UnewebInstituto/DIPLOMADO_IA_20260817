@@ -1,0 +1,76 @@
+import json, os, torch
+from datasets import Dataset
+from peft import LoraConfig
+from trl import SFTConfig, SFTTrainer
+
+# ── Configuración de esta corrida (para la configuración B: "B", 4 — recargando antes el modelo) ──
+NOMBRE, EPOCAS = "A", 2
+
+# ── Protección: este modelo no debe tener adaptadores de una corrida anterior ──
+if any("lora_" in n for n, _ in model.named_parameters()):
+    raise RuntimeError("El modelo ya tiene adaptadores LoRA de un entrenamiento anterior. "
+                       "Vuelva a ejecutar la celda que carga el modelo y luego esta.")
+
+def cargar_pc(ruta):
+    filas = [json.loads(l)["messages"] for l in open(ruta, encoding="utf-8") if l.strip()]
+    # prompt = system + user ; completion = respuesta del asistente
+    return Dataset.from_list([{"prompt": m[:-1], "completion": [m[-1]]} for m in filas])
+
+dataset_train = cargar_pc("/content/train.jsonl")
+dataset_val   = cargar_pc("/content/val.jsonl")
+
+peft_config = LoraConfig(
+    r=16, lora_alpha=32, lora_dropout=0.05, bias="none", task_type="CAUSAL_LM",
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+)
+
+training_args = SFTConfig(
+    output_dir=f"./resultados_config_{NOMBRE}",
+    num_train_epochs=EPOCAS,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
+    gradient_accumulation_steps=2,          # lote efectivo 8 → ~13 pasos por época
+    learning_rate=2e-4,
+    lr_scheduler_type="cosine",
+    warmup_steps=2,
+    logging_steps=1,                        # una pérdida de entrenamiento por paso
+    eval_strategy="steps", eval_steps=3,    # pérdida de validación cada 3 pasos
+    save_strategy="no",
+    fp16=True,                              # T4
+    bf16=False,
+    optim="paged_adamw_8bit",
+    gradient_checkpointing=True,
+    max_length=512,
+    seed=42,
+    report_to="none",
+)
+
+trainer = SFTTrainer(
+    model=model,
+    args=training_args,
+    train_dataset=dataset_train,
+    eval_dataset=dataset_val,
+    peft_config=peft_config,
+    processing_class=tokenizer,
+)
+
+# ───── PARCHE: SFTTrainer deja los adaptadores en bf16 (modelo cuantizado) y el escalador fp16 exige float32 ─────
+for p in trainer.model.parameters():
+    if p.requires_grad and p.dtype != torch.float32:
+        p.data = p.data.to(torch.float32)
+tipos = {p.dtype for p in trainer.model.parameters() if p.requires_grad}
+print("dtype de los parámetros entrenables:", tipos)
+assert tipos == {torch.float32}, f"Parámetros entrenables en {tipos}: el parche no se aplicó"
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+trainer.evaluate()                          # pérdida de validación ANTES de entrenar (paso 0)
+trainer.train()
+trainer.evaluate()                          # evaluación final
+
+log_config = trainer.state.log_history      # ← de aquí salen las curvas
+os.makedirs("resultados", exist_ok=True)
+json.dump(log_config, open(f"resultados/log_config_{NOMBRE}.json", "w"), indent=2)
+
+trainer.model.save_pretrained(f"adaptadores/adaptador_{NOMBRE}")
+tokenizer.save_pretrained(f"adaptadores/adaptador_{NOMBRE}")
+print(f"Listo: adaptador guardado en adaptadores/adaptador_{NOMBRE}")

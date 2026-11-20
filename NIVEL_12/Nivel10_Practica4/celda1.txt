@@ -1,0 +1,1 @@
+!pip install -q torch transformers datasets peft trl bitsandbytes accelerate

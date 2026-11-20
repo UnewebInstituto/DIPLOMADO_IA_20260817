@@ -1,0 +1,23 @@
+# Revisión manual (recomendada): lea las respuestas y puntúe de 1 (incorrecta/inventa datos) a 5 (correcta y bien redactada)
+# una nota por pregunta, en orden. Déjelo en None para omitirlo.
+NOTAS_MANUALES = None      # ej.: {"base": [2,1,...], "A": [5,4,...], "B": [5,5,...]}  (10 números por modelo)
+
+ESTILO = ["cierre_correcto", "mismo_tipo_cierre", "misma_seccion", "cifras_ok", "f1_vs_referencia"]
+puntaje = RESUMEN[ESTILO].mean(axis=1).round(3).to_frame("puntaje_automatico")
+if NOTAS_MANUALES:
+    assert all(len(v) == len(RESP["base"]) for v in NOTAS_MANUALES.values()), "Cada modelo necesita una nota por pregunta"
+    puntaje["manual_1a5"] = {k: round(sum(v) / len(v), 2) for k, v in NOTAS_MANUALES.items()}
+print(puntaje.to_string())
+
+# Pérdida de validación mínima de cada configuración (desempate)
+logs = {n: json.load(open(f"resultados/log_config_{n}.json")) for n in ("A", "B")}
+val_min = {n: min(e["eval_loss"] for e in l if "eval_loss" in e and e["step"] > 0) for n, l in logs.items()}
+print("pérdida de validación mínima:", {n: round(v, 4) for n, v in val_min.items()})
+
+col = "manual_1a5" if NOTAS_MANUALES else "puntaje_automatico"
+a, b = puntaje.loc["A", col], puntaje.loc["B", col]
+margen = 0.5 if NOTAS_MANUALES else 0.05
+SUGERIDA = "B" if b - a > margen else ("A" if a - b > margen else "A")     # empate → A (menos épocas, más simple)
+motivo = "empate: se prefiere A (menos épocas)" if abs(a - b) <= margen else f"mejor {col}"
+print(f"\n➜ Adaptador sugerido para exportar: {SUGERIDA}  ({motivo})")
+print("  Escriba ese valor en ELEGIDA en la celda 7.1 (guardar el adaptador).")

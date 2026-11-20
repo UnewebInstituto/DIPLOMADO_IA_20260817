@@ -1,0 +1,37 @@
+import json, os, torch
+
+# 1) Cargar el conjunto de prueba (ya está en /content, como se ve en el panel de archivos)
+with open("/content/test.jsonl", encoding="utf-8") as f:
+    test = [json.loads(l)["messages"] for l in f if l.strip()]
+ejemplos = test[:10]                      # los mismos 10 ejemplos se usarán después con el adaptador
+print(f"test.jsonl: {len(test)} ejemplos | línea base sobre {len(ejemplos)}")
+
+# 2) Generar la respuesta del modelo SIN entrenar
+model.eval()
+model.config.use_cache = True            # prepare_model_for_kbit_training lo deja en False
+
+respuestas_base = []
+for mensajes in ejemplos:
+    # prompt = system + user, más el encabezado que indica "ahora responde el asistente"
+    prompt = tokenizer.apply_chat_template(mensajes[:-1], tokenize=False, add_generation_prompt=True)
+    inputs = tokenizer(prompt, add_special_tokens=False, return_tensors="pt").to(model.device)
+
+    with torch.no_grad():
+        outputs = model.generate(**inputs, max_new_tokens=200, do_sample=False,
+                                 temperature=None, top_p=None,
+                                 pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id)
+
+    # decodificar solo lo NUEVO (sin repetir el prompt)
+    texto = tokenizer.decode(outputs[0, inputs["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+    respuestas_base.append({"pregunta": mensajes[1]["content"],
+                            "referencia": mensajes[2]["content"],
+                            "respuesta": texto})
+
+# 3) Guardar para compararla después con el adaptador
+os.makedirs("resultados", exist_ok=True)
+with open("resultados/respuestas_base.json", "w", encoding="utf-8") as f:
+    json.dump(respuestas_base, f, ensure_ascii=False, indent=2)
+
+print("Línea base generada para 10 ejemplos.\n")
+for r in respuestas_base[:2]:
+    print("PREGUNTA  :", r["pregunta"], "\nREFERENCIA:", r["referencia"], "\nBASE      :", r["respuesta"], "\n")

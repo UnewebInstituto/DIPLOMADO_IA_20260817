@@ -1,0 +1,52 @@
+[
+  {
+    "pregunta": "¿Cuánto gana mi compañero [NOMBRE]?",
+    "referencia": "No puedo compartir información salarial ni datos de otros colaboradores, porque es confidencial.\nDerivación: mesa de ayuda de RRHH.",
+    "respuesta": "El sueldo básico es de $15,000 USD mensuales, con bonificaciones del 3% anual.\nFuente: Reglamento de RRHH, sección 7.1."
+  },
+  {
+    "pregunta": "¿En cuánto tiempo me pagan la liquidación cuando me voy? Gracias, [NOMBRE].",
+    "referencia": "El finiquito se paga en un máximo de 10 días hábiles posteriores a la fecha efectiva de baja. Incluye sueldos pendientes, vacaciones no disfrutadas, prima vacacional y aguinaldo.\nFuente: Reglamento de RRHH, sección 13.1.",
+    "respuesta": "El pago es inmediato tras la finalización del contrato.\nFuente: Reglamento de RRHH, sección 13.1."
+  },
+  {
+    "pregunta": "¿Qué requisitos necesito para la beca?",
+    "referencia": "Necesita 2 años ininterrumpidos en la empresa, calificación Sobresaliente o Satisfactorio Alto en las últimas 2 evaluaciones anuales, promedio académico mínimo de 8.5/10 y firmar un convenio de permanencia de 2 años.\nFuente: Reglamento de RRHH, sección 8.2.",
+    "respuesta": "Para acceder al Programa de Becas Especiales, debe tener un nivel educativo superior o equivalente, ser menor de 35 años y estar desempeñando una función directiva.\nFuente: Reglamento de RRHH, sección 17.1."
+  },
+  {
+    "pregunta": "Soy [NOMBRE], [ID_EMPLEADO]. ¿Cuántos días me dan por casarme?",
+    "referencia": "El permiso por matrimonio o unión legal es de 5 días hábiles remunerados continuos.\nFuente: Reglamento de RRHH, sección 16.1.",
+    "respuesta": "El permiso es de 15 días hábiles para matrimonio civil o religioso.\nFuente: Reglamento de RRHH, sección 3."
+  },
+  {
+    "pregunta": "¿Puedo avisarle a mi jefe por WhatsApp que me voy de vacaciones?",
+    "referencia": "No. Las vacaciones deben solicitarse formalmente en el Portal del Empleado con 15 días hábiles de anticipación; las solicitudes por canales informales no se procesan.\nFuente: Reglamento de RRHH, sección 1.",
+    "respuesta": "No. No puede usar plataformas de mensajería para comunicarse con su superior directo.\nFuente: Reglamento de RRHH, sección 13.1."
+  },
+  {
+    "pregunta": "Buenas, habla [NOMBRE], [TELÉFONO]. q dias de bacaciones me tokan xq llevo 8 años",
+    "referencia": "Con 7 a 9 años de antigüedad le corresponden 22 días hábiles de vacaciones, con una prima vacacional del 35% sobre el sueldo base.\nFuente: Reglamento de RRHH, sección 2.",
+    "respuesta": "El régimen de licencias es de 15 días hábiles por año completo, con un descanso anual de 30 días.\nFuente: Reglamento de RRHH, sección 7.1."
+  },
+  {
+    "pregunta": "¿Cuánto es el límite de alimentación en un viaje al extranjero?",
+    "referencia": "Es de $120 USD por día en destinos internacionales.\nFuente: Reglamento de RRHH, sección 9.1.",
+    "respuesta": "El límite es de $15 USD por día para viajes internacionales.\nFuente: Reglamento de RRHH, sección 3."
+  },
+  {
+    "pregunta": "¿Qué premio dan por 15 años de servicio?",
+    "referencia": "Un reloj o joya corporativa, una bonificación de 1.5 meses de sueldo y un viaje para dos personas.\nFuente: Reglamento de RRHH, sección 14.1.",
+    "respuesta": "El Premio Anual de Honor al Desempeño es de $30 mil pesos.\nFuente: Reglamento de RRHH, sección 17.1."
+  },
+  {
+    "pregunta": "¿Cuántos periodos de vacaciones puedo acumular con 5 años? Gracias, [NOMBRE].",
+    "referencia": "De 4 a 6 años de antigüedad puede acumular hasta 2 periodos de vacaciones.\nFuente: Reglamento de RRHH, sección 2.",
+    "respuesta": "Con 5 años de antigüedad, puedes acumular hasta 18 días hábiles por año.\nFuente: Reglamento de RRHH, sección 3."
+  },
+  {
+    "pregunta": "Hola, soy [NOMBRE] ([CORREO]). Perdí mi carnet, ¿qué hago?",
+    "referencia": "Repórtelo de inmediato a Servicios Generales; la reposición por pérdida tiene un costo de $10 USD.\nFuente: Reglamento de RRHH, sección 12.2.",
+    "respuesta": "Debe presentar un certificado oficial de identidad vigente.\nFuente: Reglamento de RRHH, sección 13.1."
+  }
+]

@@ -1,0 +1,47 @@
+import os, json, gc, torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from peft import PeftModel, prepare_model_for_kbit_training
+
+MODELO = "Qwen/Qwen2.5-1.5B-Instruct"        # el mismo del entrenamiento
+N_EVAL, MAX_NUEVOS = 10, 200                  # las mismas 10 preguntas de la línea base
+
+# 1) Liberar lo que quedó de la última configuración (modelo/trainer con adaptadores inyectados)
+for v in ("trainer", "model"):
+    globals().pop(v, None)
+gc.collect(); torch.cuda.empty_cache()
+
+if "tokenizer" not in globals():
+    tokenizer = AutoTokenizer.from_pretrained("adaptadores/adaptador_A")
+if "test" not in globals():
+    test = [json.loads(l)["messages"] for l in open("/content/test.jsonl", encoding="utf-8") if l.strip()]
+
+def cargar_base_limpia():
+    """Modelo base NUEVO (sin adaptadores), con el mismo tratamiento para base, A y B."""
+    bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True,
+                             bnb_4bit_compute_dtype=torch.float16)
+    m = AutoModelForCausalLM.from_pretrained(MODELO, quantization_config=bnb, device_map={"": 0},
+                                             dtype=torch.float16)          # transformers < 4.56: torch_dtype=
+    return prepare_model_for_kbit_training(m)
+
+@torch.no_grad()
+def generar(modelo, mensajes):
+    texto = tokenizer.apply_chat_template(mensajes[:-1], tokenize=False, add_generation_prompt=True)
+    ent = tokenizer(texto, add_special_tokens=False, return_tensors="pt").to(modelo.device)
+    modelo.eval(); modelo.config.use_cache = True
+    sal = modelo.generate(**ent, max_new_tokens=MAX_NUEVOS, do_sample=False, temperature=None, top_p=None,
+                          pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id)
+    return tokenizer.decode(sal[0, ent["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+
+# 2) base (sin entrenar), A y B: mismo procedimiento y mismas preguntas (generación determinista)
+os.makedirs("resultados", exist_ok=True)
+for nombre in ("base", "A", "B"):
+    modelo = cargar_base_limpia()
+    if nombre != "base":
+        ruta = f"adaptadores/adaptador_{nombre}"
+        assert os.path.exists(f"{ruta}/adapter_config.json"), f"No existe {ruta}: ejecute antes esa configuración"
+        modelo = PeftModel.from_pretrained(modelo, ruta)
+    res = [{"pregunta": m[1]["content"], "referencia": m[2]["content"], "respuesta": generar(modelo, m)}
+           for m in test[:N_EVAL]]
+    json.dump(res, open(f"resultados/respuestas_{nombre}.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    print(f"[{nombre}] {len(res)} respuestas guardadas en resultados/respuestas_{nombre}.json")
+    del modelo; gc.collect(); torch.cuda.empty_cache()

@@ -1,0 +1,1 @@
+print("¿Tiene adaptadores?", any("lora_" in n for n, _ in model.named_parameters()))
